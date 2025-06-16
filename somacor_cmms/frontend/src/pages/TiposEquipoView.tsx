@@ -1,27 +1,32 @@
 import React from 'react';
-import GenericCRUD from '../components/shared/GenericCRUD';
+import { GenericCRUD } from '@/components/shared/GenericCRUD';
+import { ColumnDefinition, FormField } from '@/types';
 
-const TiposEquipoView = () => {
-    // Define las columnas para la tabla
-    const columns = [
-        { header: 'ID', accessor: 'idtipoequipo' },
-        { header: 'Nombre del Tipo', accessor: 'nombretipo' },
-        { header: 'Descripción', accessor: 'descripciontipo' },
-    ];
+interface TipoEquipo {
+    idtipoequipo: number;
+    nombretipo: string;
+    descripcion: string | null;
+}
 
-    // Define los campos para el formulario
-    const formFields = [
-        { name: 'nombretipo', label: 'Nombre del Tipo de Equipo' },
-        { name: 'descripciontipo', label: 'Descripción', required: false },
-    ];
+const columns: ColumnDefinition<TipoEquipo>[] = [
+    { header: 'ID', accessor: 'idtipoequipo' },
+    { header: 'Nombre del Tipo', accessor: 'nombretipo' },
+    { header: 'Descripción', accessor: 'descripcion' },
+];
 
+const formFields: FormField<TipoEquipo>[] = [
+    { name: 'nombretipo', label: 'Nombre del Tipo', type: 'text' },
+    { name: 'descripcion', label: 'Descripción', type: 'textarea' },
+];
+
+const TiposEquipoView: React.FC = () => {
     return (
-        <GenericCRUD
+        <GenericCRUD<TipoEquipo>
             title="Gestión de Tipos de Equipo"
-            apiEndpoint="/tipos-equipo/"
+            endpoint="tipos-equipo"
             columns={columns}
             formFields={formFields}
-            idAccessor="idtipoequipo"
+            pkField="idtipoequipo"
         />
     );
 };

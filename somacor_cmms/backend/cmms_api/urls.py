@@ -2,12 +2,14 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
-# El router de Django REST Framework se encarga de generar
-# automáticamente las URLs para cada ViewSet.
+# --- Router de Django REST Framework ---
+# El router se encarga de generar automáticamente las URLs para cada ViewSet.
+# Esto simplifica enormemente la configuración de las rutas CRUD estándar.
 router = DefaultRouter()
 
-# Registra una ruta para cada modelo de la aplicación.
-router.register(r'users', views.UserViewSet)
+# --- Registro de rutas para catálogos y modelos principales ---
+# Cada ViewSet se registra con un prefijo de URL (ej. 'roles') y la clase de la vista.
+router.register(r'users', views.UserViewSet, basename='user')
 router.register(r'roles', views.RolViewSet)
 router.register(r'especialidades', views.EspecialidadViewSet)
 router.register(r'faenas', views.FaenaViewSet)
@@ -30,11 +32,18 @@ router.register(r'documentos', views.DocumentoAdjuntoViewSet)
 router.register(r'notificaciones', views.NotificacionViewSet)
 
 
-# Las URLs de la API son determinadas automáticamente por el router.
-# Además, se incluyen las rutas para login, logout y registro.
+# --- URLs de la API ---
+# Se combinan las URLs generadas por el router con las rutas personalizadas
+# para autenticación.
+
 urlpatterns = [
+    # Incluye todas las URLs generadas por el router bajo el prefijo 'api/'.
+    # Ejemplo: /api/roles/, /api/equipos/, etc.
     path('', include(router.urls)),
-    path('login/', views.CustomAuthToken.as_view(), name='auth_token'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
-    path('register/', views.RegisterView.as_view(), name='register'),
+
+    # MEJORA: Se añaden rutas específicas para login, logout y registro.
+    # Estas rutas apuntan a las vistas que creamos para manejar la autenticación.
+    path('auth/login/', views.CustomAuthToken.as_view(), name='auth-login'),
+    path('auth/logout/', views.LogoutView.as_view(), name='auth-logout'),
+    path('auth/register/', views.RegisterView.as_view(), name='auth-register'),
 ]
