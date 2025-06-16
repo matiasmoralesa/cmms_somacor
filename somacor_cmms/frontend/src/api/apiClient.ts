@@ -1,18 +1,49 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+// CORRECCIÓN: Se eliminó la importación de 'InternalAxiosRequestConfig' que causaba el error.
 
-// Se crea una instancia de Axios para centralizar la configuración de la API.
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
+
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8000/api', // La URL base de tu backend de Django.
+    baseURL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
-// Se usa un interceptor para añadir el token de autenticación a cada petición.
-// Esta es la forma correcta de asegurar las llamadas a la API.
-apiClient.interceptors.request.use(config => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-        config.headers.Authorization = `Token ${token}`;
+// Interceptor de Peticiones
+apiClient.interceptors.request.use(
+    // CORRECCIÓN: Se eliminó el tipado explícito "(config: InternalAxiosRequestConfig)".
+    // Ahora dejamos que TypeScript infiera el tipo de 'config' automáticamente,
+    // lo que es más seguro y compatible entre versiones de Axios.
+    (config) => {
+        const token = localStorage.getItem('authToken');
+        
+        if (token) {
+            config.headers.Authorization = `Token ${token}`;
+        }
+        
+        return config;
+    },
+    (error: AxiosError) => {
+        return Promise.reject(error);
     }
-    return config;
-}, error => Promise.reject(error));
+);
+
+// Interceptor de Respuestas
+apiClient.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+        if (error.response) {
+            if (error.response.status === 401) {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('user');
+                if (window.location.pathname !== '/login') {
+                    window.location.href = '/login'; 
+                }
+            }
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default apiClient;
