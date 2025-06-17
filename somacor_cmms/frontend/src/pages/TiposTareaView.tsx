@@ -1,29 +1,27 @@
 import React from 'react';
-import { GenericCRUD } from '@/components/shared/GenericCRUD';
-import { ColumnDefinition, FormField } from '@/types';
+import GenericCRUD from '../components/shared/GenericCRUD';
 
-interface TipoTarea {
-    idtipotarea: number;
-    nombretipotarea: string;
-}
+const TiposTareaView = () => {
+    // Define las columnas para la tabla
+    const columns = [
+        { header: 'ID', accessor: 'idtipotarea' },
+        { header: 'Nombre del Tipo de Tarea', accessor: 'nombretipotarea' },
+        { header: 'Descripción', accessor: 'descripcion' },
+    ];
 
-const columns: ColumnDefinition<TipoTarea>[] = [
-    { header: 'ID', accessor: 'idtipotarea' },
-    { header: 'Nombre del Tipo de Tarea', accessor: 'nombretipotarea' },
-];
+    // Define los campos para el formulario
+    const formFields = [
+        { name: 'nombretipotarea', label: 'Nombre del Tipo de Tarea' },
+        { name: 'descripcion', label: 'Descripción', required: false },
+    ];
 
-const formFields: FormField<TipoTarea>[] = [
-    { name: 'nombretipotarea', label: 'Nombre del Tipo de Tarea', type: 'text' },
-];
-
-const TiposTareaView: React.FC = () => {
     return (
-        <GenericCRUD<TipoTarea>
+        <GenericCRUD
             title="Gestión de Tipos de Tarea"
-            endpoint="tipos-tarea"
+            apiEndpoint="/tipos-tarea/"
             columns={columns}
             formFields={formFields}
-            pkField="idtipotarea"
+            idAccessor="idtipotarea"
         />
     );
 };

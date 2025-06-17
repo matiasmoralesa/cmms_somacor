@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'cmms_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmms_db',
+        'NAME': 'cmms_somacor',
         'USER': 'root', # Tu usuario de MySQL
         'PASSWORD': '21534', # La contraseña que definiste para MySQL
         'HOST': 'localhost',
