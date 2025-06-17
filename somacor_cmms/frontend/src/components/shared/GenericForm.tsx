@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react';
-import { FormField, SelectOption } from '@/types';
+import type { FormField, SelectOption } from '../../../src/types/index.ts';
+
 
 type OptionsMap = { [key: string]: SelectOption[] };
 

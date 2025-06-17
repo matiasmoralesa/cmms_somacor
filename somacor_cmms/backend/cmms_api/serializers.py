@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAuthenticated
 from .models import (
     Roles, Especialidades, Faenas, TiposEquipo, EstadosEquipo, TiposTarea,
     TiposMantenimientoOT, EstadosOrdenTrabajo, Repuestos, Usuarios, Equipos,
@@ -10,8 +12,18 @@ from .models import (
     Notificaciones
 )
 
+
 # --- Serializers de Catálogos (Simples) ---
 # Estos serializers se usan para los "mantenedores".
+
+
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 
 class RolSerializer(serializers.ModelSerializer):
     class Meta:

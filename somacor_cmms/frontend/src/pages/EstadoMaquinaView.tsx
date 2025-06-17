@@ -1,6 +1,6 @@
 import React from 'react';
-import { GenericCRUD } from '@/components/shared/GenericCRUD';
-import { ColumnDefinition, FormField } from '@/types';
+import { GenericCRUD } from '../shared/GenericCRUD.tsx';
+import { ColumnDefinition, FormField } from '../types/index.ts';
 
 interface EstadoEquipo {
     idestatus: number;
