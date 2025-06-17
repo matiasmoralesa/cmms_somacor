@@ -1,105 +1,34 @@
-import React, { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
-import apiClient from '@/api/apiClient';
-import { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect } from 'react';
+import apiClient from '../api/apiClient';
+import { useAuth } from '../context/AuthContext';
 
-// La interfaz User debería coincidir con la que se define en el AuthContext
-interface User {
-    id: number;
-    username: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-    perfil: any; 
-}
-
-interface LoginResponse {
-    token: string;
-    user: User;
-}
-
-const AuthPage: React.FC = () => {
+const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    
+    const [error, setError] = useState('');
     const { login } = useAuth();
-    const navigate = useNavigate();
+    const handleLogin = async (e) => { e.preventDefault(); setError(''); try { await login(username, password); } catch (err) { setError('Usuario o contraseña incorrectos.'); } };
+    return (<form className="space-y-6" onSubmit={handleLogin}><input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Usuario" className="w-full px-4 py-2 border rounded-md" required /><input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Contraseña" className="w-full px-4 py-2 border rounded-md" required />{error && <p className="text-red-500 text-sm text-center">{error}</p>}<button type="submit" className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">Ingresar</button></form>);
+};
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsSubmitting(true);
+const RegisterForm = () => {
+    const [formData, setFormData] = useState({ username: '', password: '', nombre_completo: '', email: '', rol_id: '' });
+    const [roles, setRoles] = useState([]);
+    const [error, setError] = useState('');
+    useEffect(() => { apiClient.get('/roles/').then(res => setRoles(res.data)).catch(err => console.error(err)); }, []);
+    const handleChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const handleRegister = async (e) => { e.preventDefault(); setError(''); try { await apiClient.post('/register/', formData); alert('¡Usuario creado con éxito! Por favor, inicia sesión.'); } catch (err) { setError('Error al crear el usuario.'); } };
+    return (<form className="space-y-4" onSubmit={handleRegister}><input name="username" onChange={handleChange} placeholder="Nombre de Usuario" className="w-full px-4 py-2 border rounded-md" required /><input type="password" name="password" onChange={handleChange} placeholder="Contraseña" className="w-full px-4 py-2 border rounded-md" required /><input name="nombre_completo" onChange={handleChange} placeholder="Nombre Completo" className="w-full px-4 py-2 border rounded-md" required /><input type="email" name="email" onChange={handleChange} placeholder="Email" className="w-full px-4 py-2 border rounded-md" required/><select name="rol_id" onChange={handleChange} className="w-full px-4 py-2 border rounded-md" required><option value="">-- Seleccione un Rol --</option>{roles.map(r => <option key={r.idrol} value={r.idrol}>{r.nombrerol}</option>)}</select>{error && <p className="text-red-500 text-sm text-center">{error}</p>}<button type="submit" className="w-full px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700">Crear Cuenta</button></form>);
+};
 
-        try {
-            const response = await apiClient.post<LoginResponse>('/auth/login/', {
-                username,
-                password,
-            });
-            login(response.data.user, response.data.token);
-            navigate('/dashboard', { replace: true });
-            toast.success(`¡Bienvenido, ${response.data.user.first_name}!`);
-        } catch (err) {
-            const axiosError = err as AxiosError;
-            console.error("Error de autenticación:", axiosError.response?.data);
-            if (axiosError.response && axiosError.response.status === 400) {
-                 toast.error('Nombre de usuario o contraseña incorrectos.');
-            } else {
-                 toast.error('Ocurrió un error en el servidor. Por favor, inténtelo de nuevo.');
-            }
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
+const AuthPage = () => {
+    const [isLoginView, setIsLoginView] = useState(true);
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-md space-y-8">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                        Iniciar sesión en SOMACOR
-                    </h2>
-                </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <input
-                                id="username"
-                                name="username"
-                                type="text"
-                                autoComplete="username"
-                                required
-                                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                placeholder="Nombre de usuario"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
-                                required
-                                className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                placeholder="Contraseña"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-indigo-400 disabled:cursor-not-allowed"
-                        >
-                            {isSubmitting ? 'Ingresando...' : 'Ingresar'}
-                        </button>
-                    </div>
-                </form>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+                <div className="text-center"><h2 className="text-2xl font-bold text-gray-800">{isLoginView ? 'Iniciar Sesión' : 'Crear Cuenta'} - Somacor CMMS</h2></div>
+                {isLoginView ? <LoginForm /> : <RegisterForm />}
+                <div className="text-center"><button onClick={() => setIsLoginView(!isLoginView)} className="text-sm text-blue-600 hover:underline">{isLoginView ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes una cuenta? Inicia Sesión'}</button></div>
             </div>
         </div>
     );

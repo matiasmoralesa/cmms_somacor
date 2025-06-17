@@ -1,32 +1,32 @@
 import React from 'react';
-import { GenericCRUD } from '@/components/shared/GenericCRUD';
-import { ColumnDefinition, FormField } from '@/types';
+import GenericCRUD from '../components/shared/GenericCRUD';
 
-interface Faena {
-    idfaena: number;
-    nombrefaena: string;
-    ubicacion: string | null;
-}
+const FaenasView = () => {
+    // Define las columnas que se mostrarán en la tabla de faenas
+    const columns = [
+        { header: 'ID', accessor: 'idfaena' },
+        { header: 'Nombre', accessor: 'nombrefaena' },
+        { header: 'Ubicación', accessor: 'ubicacion' },
+        { header: 'Contacto', accessor: 'contacto' },
+        { header: 'Activa', accessor: 'activa' },
+    ];
 
-const columns: ColumnDefinition<Faena>[] = [
-    { header: 'ID', accessor: 'idfaena' },
-    { header: 'Nombre Faena', accessor: 'nombrefaena' },
-    { header: 'Ubicación', accessor: 'ubicacion' },
-];
+    // Define los campos que aparecerán en el formulario de creación/edición
+    const formFields = [
+        { name: 'nombrefaena', label: 'Nombre de la Faena' },
+        { name: 'ubicacion', label: 'Ubicación', required: false },
+        { name: 'contacto', label: 'Contacto', required: false },
+        { name: 'telefono', label: 'Teléfono', required: false },
+        { name: 'activa', label: 'Activa', type: 'checkbox', defaultValue: true },
+    ];
 
-const formFields: FormField<Faena>[] = [
-    { name: 'nombrefaena', label: 'Nombre de la Faena', type: 'text' },
-    { name: 'ubicacion', label: 'Ubicación', type: 'text' },
-];
-
-const FaenasView: React.FC = () => {
     return (
-        <GenericCRUD<Faena>
+        <GenericCRUD
             title="Gestión de Faenas"
-            endpoint="faenas"
+            apiEndpoint="/faenas/"
             columns={columns}
             formFields={formFields}
-            pkField="idfaena"
+            idAccessor="idfaena"
         />
     );
 };

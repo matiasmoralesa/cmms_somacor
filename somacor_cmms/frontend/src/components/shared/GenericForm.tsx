@@ -1,76 +1,107 @@
-import React, { useState, useEffect, FormEvent } from 'react';
-import type { FormField, SelectOption } from '../../../src/types/index.ts';
+import React, { useState, useEffect } from 'react';
+import apiClient from '../../api/apiClient';
 
-
-type OptionsMap = { [key: string]: SelectOption[] };
-
-interface GenericFormProps<T> {
-    fields: FormField<T>[];
-    initialData: Partial<T> | null;
-    selectOptions: OptionsMap;
-    onSubmit: (data: Partial<T>) => void;
-    onCancel: () => void;
-}
-
-export default function GenericForm<T>({ fields, initialData, selectOptions, onSubmit, onCancel }: GenericFormProps<T>) {
-    const [formData, setFormData] = useState<Partial<T>>({});
+/**
+ * Componente de formulario reutilizable para crear y editar registros.
+ */
+const GenericForm = ({ fields, currentItem, onSave, onCancel }) => {
+    const [formData, setFormData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        const initialFormState = fields.reduce((acc, field) => {
-            acc[field.name] = initialData?.[field.name] ?? '';
+        // Inicializa el estado del formulario.
+        // Si `currentItem` existe (modo edición), rellena el formulario con sus datos.
+        // Si no (modo creación), usa los valores por defecto definidos en `fields`.
+        const initialData = fields.reduce((acc, field) => {
+            if (currentItem) {
+                // [CORREGIDO] Maneja correctamente los campos de relación (ej: idfaenaactual).
+                // Si el valor es un objeto (como {idfaena: 1, nombrefaena: '...'}),
+                // extrae solo el ID para el campo del formulario.
+                const value = currentItem[field.name];
+                if (field.type === 'select' && typeof value === 'object' && value !== null) {
+                    // Busca la clave primaria en el objeto anidado (ej: 'idfaena' en el objeto de 'idfaenaactual')
+                    const primaryKey = Object.keys(value).find(k => k.startsWith('id'));
+                    acc[field.name] = primaryKey ? value[primaryKey] : null;
+                } else {
+                    acc[field.name] = value;
+                }
+            } else {
+                // Para creación, usa el valor por defecto o un valor vacío.
+                acc[field.name] = field.defaultValue ?? (field.type === 'checkbox' ? false : '');
+            }
             return acc;
-        }, {} as Partial<T>);
-        setFormData(initialFormState);
-    }, [initialData, fields]);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        }, {});
+        setFormData(initialData);
+        setLoading(false);
+    }, [fields, currentItem]);
+    
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
     };
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        setError('');
+        // Limpia los valores vacíos para que no se envíen a la API si no son requeridos
+        const cleanedData = Object.fromEntries(
+            Object.entries(formData).filter(([_, v]) => v !== null && v !== '')
+        );
+        onSave(cleanedData);
     };
+
+    if (loading) return <p>Cargando formulario...</p>;
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            {fields.map((field) => (
-                <div key={String(field.name)}>
-                    <label htmlFor={String(field.name)} className="block text-sm font-medium text-gray-700">{field.label}</label>
-                    <div className="mt-1">
-                        {field.type === 'select' ? (
-                            <select
-                                id={String(field.name)}
-                                name={String(field.name)}
-                                value={(formData[field.name] as string | number) || ''}
-                                onChange={handleChange}
-                                required
-                                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            >
-                                <option value="" disabled>Seleccione una opción</option>
-                                {selectOptions[field.name as string]?.map(option => (
-                                    <option key={option.value} value={option.value}>{option.label}</option>
-                                ))}
-                            </select>
-                        ) : (
-                            <input
-                                type={field.type}
-                                id={String(field.name)}
-                                name={String(field.name)}
-                                value={(formData[field.name] as string | number) || ''}
-                                onChange={handleChange}
-                                required
-                                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            />
-                        )}
-                    </div>
+            {fields.map(field => (
+                <div key={field.name}>
+                    <label htmlFor={field.name} className="block text-sm font-medium text-gray-700">{field.label}</label>
+                    {field.type === 'select' ? (
+                        <select
+                            name={field.name}
+                            id={field.name}
+                            value={formData[field.name] || ''}
+                            onChange={handleChange}
+                            required={field.required !== false}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                        >
+                            <option value="">-- Seleccione --</option>
+                            {field.options?.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                        </select>
+                    ) : field.type === 'checkbox' ? (
+                        <input
+                            type="checkbox"
+                            name={field.name}
+                            id={field.name}
+                            checked={formData[field.name] || false}
+                            onChange={handleChange}
+                            className="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                        />
+                    ) : (
+                        <input
+                            type={field.type || 'text'}
+                            name={field.name}
+                            id={field.name}
+                            value={formData[field.name] || ''}
+                            onChange={handleChange}
+                            required={field.required !== false}
+                            placeholder={field.placeholder || ''}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                        />
+                    )}
                 </div>
             ))}
-            <div className="flex justify-end space-x-4 pt-4">
-                <button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Cancelar</button>
-                <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Guardar</button>
+            <div className="flex justify-end pt-6 space-x-3">
+                <button type="button" onClick={onCancel} className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300">Cancelar</button>
+                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Guardar</button>
             </div>
         </form>
     );
-}
+};
+
+export default GenericForm;
