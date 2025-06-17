@@ -4,7 +4,9 @@ import apiClient from '@/api/apiClient';
 import Modal from '@/components/ui/Modal';
 import ConfirmationModal from '@/components/ui/ConfirmationModal';
 import GenericForm from '@/components/shared/GenericForm';
-import { ColumnDefinition, FormField, SelectOption } from '@/types';
+import type { ColumnDefinition, FormField, SelectOption } from '../../../src/types/index.ts';
+
+
 
 type OptionsMap = { [key: string]: SelectOption[] };
 

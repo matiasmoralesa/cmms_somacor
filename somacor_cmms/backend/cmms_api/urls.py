@@ -46,4 +46,5 @@ urlpatterns = [
     path('auth/login/', views.CustomAuthToken.as_view(), name='auth-login'),
     path('auth/logout/', views.LogoutView.as_view(), name='auth-logout'),
     path('auth/register/', views.RegisterView.as_view(), name='auth-register'),
+    path('users/me/', views.CurrentUserView.as_view(), name='current-user'),
 ]

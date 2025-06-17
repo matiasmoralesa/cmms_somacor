@@ -338,11 +338,9 @@ class Agendas(models.Model):
 class DocumentosAdjuntos(models.Model):
     iddocumentoadjunto = models.AutoField(db_column='IDDocumentoAdjunto', primary_key=True)
     nombredocumento = models.CharField(db_column='NombreDocumento', max_length=255)
-    # MEJORA: Se usa FileField para un manejo de archivos más robusto por parte de Django.
     archivodocumento = models.FileField(db_column='ArchivoDocumento', upload_to='documentos/%Y/%m/%d/')
     fechacarga = models.DateTimeField(db_column='FechaCarga', auto_now_add=True)
     descripcion = models.CharField(db_column='Descripcion', max_length=255, blank=True, null=True)
-    # MEJORA: Esta es una forma de relación genérica. La lógica de borrado debe manejarse a nivel de aplicación.
     entidadasociada = models.CharField(db_column='EntidadAsociada', max_length=50) # p. ej. 'OrdenTrabajo', 'Equipo'
     identidadasociada = models.IntegerField(db_column='IDEntidadAsociada')
 
