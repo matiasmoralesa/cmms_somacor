@@ -45,7 +45,7 @@ const EjecucionOTView: React.FC = () => {
         
         // Cargar actividades
         const actividadesResponse = await actividadesOTService.getAll({ idordentrabajo: Number(id) });
-        setActividades(actividadesResponse.results || actividadesResponse);
+        setActividades(Array.isArray(actividadesResponse) ? actividadesResponse : actividadesResponse.results || []);
       } catch (err: any) {
         setError(err.message || 'Error al cargar la orden de trabajo');
       } finally {
@@ -84,7 +84,7 @@ const EjecucionOTView: React.FC = () => {
 
       // Recargar actividades
       const actividadesResponse = await actividadesOTService.getAll({ idordentrabajo: Number(id) });
-      setActividades(actividadesResponse.results || actividadesResponse);
+      setActividades(Array.isArray(actividadesResponse) ? actividadesResponse : actividadesResponse.results || []);
       
       setActividadEnProceso(null);
       setTiempoInicio(null);

@@ -394,8 +394,7 @@ const ChecklistView: React.FC = () => {
                         <div className="flex-1">
                           <div className="flex items-center">
                             <span className="font-medium text-gray-900">{item.nombre}</span>
-                            {item.es_critico && (
-                              <AlertTriangle size={16} className="ml-2 text-red-500" title="Elemento crítico" />
+                            {item.es_critico && (                               <AlertTriangle size={16} className="ml-2 text-red-500" />
                             )}
                           </div>
                           {item.descripcion && (
