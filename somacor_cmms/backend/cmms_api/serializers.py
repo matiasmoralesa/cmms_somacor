@@ -22,13 +22,13 @@ class UsuariosSerializer(serializers.ModelSerializer):
         fields = ('idrol', 'nombrerol', 'departamento')
         
 class UserSerializer(serializers.ModelSerializer):
-    # Make 'usuarios' writable for creation, but read-only for updates
     usuarios = UsuariosSerializer(required=False, allow_null=True)
     idrol = serializers.PrimaryKeyRelatedField(queryset=Roles.objects.all(), write_only=True, required=False, allow_null=True)
+    nombrerol = serializers.CharField(source='usuarios.idrol.nombrerol', read_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'usuarios', 'idrol')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'usuarios', 'idrol', 'nombrerol')
         extra_kwargs = {'password': {'write_only': True, 'required': False}}
 
     def create(self, validated_data):
@@ -41,18 +41,19 @@ class UserSerializer(serializers.ModelSerializer):
             user.set_password(password)
             user.save()
 
-        # Determine the role to assign
         assigned_role = None
-        if idrol: # If a role is explicitly provided, use it
+        if idrol: 
             assigned_role = idrol
-        else: # Otherwise, try to assign a default role
+        elif 'idrol' in usuarios_data and usuarios_data['idrol']:
+            assigned_role = usuarios_data['idrol']
+        else:
             try:
-                assigned_role = Roles.objects.get(nombrerol='Operador') # Or choose another default role name
+                assigned_role = Roles.objects.get(nombrerol='Operador')
             except Roles.DoesNotExist:
-                assigned_role = Roles.objects.first() # Fallback to the first role if 'Operador' doesn't exist
+                assigned_role = Roles.objects.first()
             
         if assigned_role:
-            Usuarios.objects.create(user=user, idrol=assigned_role, **usuarios_data)
+            Usuarios.objects.create(user=user, idrol=assigned_role, departamento=usuarios_data.get('departamento', ''))
         else:
             print("Advertencia: No se pudo asignar un rol al nuevo usuario. No hay roles definidos.")
 
@@ -72,14 +73,17 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
 
-        if usuarios_data is not None or idrol is not None:
-            usuarios_instance, created = Usuarios.objects.get_or_create(user=instance)
-            if idrol:
-                usuarios_instance.idrol = idrol
-            if usuarios_data:
-                for attr, value in usuarios_data.items():
-                    setattr(usuarios_instance, attr, value)
-            usuarios_instance.save()
+        # Ensure Usuarios profile exists or create it
+        usuarios_instance, created = Usuarios.objects.get_or_create(user=instance)
+
+        if idrol:
+            usuarios_instance.idrol = idrol
+        
+        # Update departamento if provided in usuarios_data
+        if usuarios_data and 'departamento' in usuarios_data:
+            usuarios_instance.departamento = usuarios_data['departamento']
+        
+        usuarios_instance.save()
 
         return instance
 
@@ -187,15 +191,13 @@ class TareaEstandarSerializer(serializers.ModelSerializer):
 class PlanMantenimientoSerializer(serializers.ModelSerializer):
     tipo_equipo_nombre = serializers.CharField(source='idtipoequipo.nombretipo', read_only=True)
     class Meta:
-        model = PlanesMantenimiento
-        fields = '__all__'
+        model = PlanesMantenimiento; fields = '__all__'
 
 class DetallesPlanMantenimientoSerializer(serializers.ModelSerializer):
     plan_nombre = serializers.CharField(source='idplanmantenimiento.nombreplan', read_only=True)
     tarea_nombre = serializers.CharField(source='idtareaestandar.nombretarea', read_only=True)
     class Meta:
-        model = DetallesPlanMantenimiento
-        fields = '__all__'
+        model = DetallesPlanMantenimiento; fields = '__all__'
 
 class TipoMantenimientoOTSerializer(serializers.ModelSerializer):
     class Meta: model = TiposMantenimientoOT; fields = '__all__'
@@ -211,8 +213,7 @@ class ActividadOrdenTrabajoSerializer(serializers.ModelSerializer):
     tecnico_nombre = serializers.CharField(source='idtecnicoejecutor.get_full_name', read_only=True)
     
     class Meta:
-        model = ActividadesOrdenTrabajo
-        fields = '__all__'
+        model = ActividadesOrdenTrabajo; fields = '__all__'
 
 class OrdenTrabajoSerializer(serializers.ModelSerializer):
     equipo_nombre = serializers.CharField(source='idequipo.nombreequipo', read_only=True)
@@ -226,8 +227,7 @@ class OrdenTrabajoSerializer(serializers.ModelSerializer):
     actividades = ActividadOrdenTrabajoSerializer(source='actividadesordentrabajo_set', many=True, read_only=True)
     
     class Meta:
-        model = OrdenesTrabajo
-        fields = '__all__'
+        model = OrdenesTrabajo; fields = '__all__'
 
 class AgendaSerializer(serializers.ModelSerializer):
     equipo_nombre = serializers.CharField(source='idequipo.nombreequipo', read_only=True)
@@ -237,8 +237,6 @@ class AgendaSerializer(serializers.ModelSerializer):
     usuario_creador_nombre = serializers.CharField(source='idusuariocreador.get_full_name', read_only=True)
     
     class Meta:
-        model = Agendas
-        fields = '__all__'
-
+        model = Agendas; fields = '__all__'
 
 

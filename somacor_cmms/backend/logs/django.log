@@ -85,3 +85,46 @@ INFO 2025-06-23 16:40:49,266 basehttp 63961 140293126673984 "GET /api/users/ HTT
 INFO 2025-06-23 16:40:49,281 basehttp 63961 140293126673984 "GET /api/estados-equipo/ HTTP/1.1" 200 312
 INFO 2025-06-23 16:40:49,290 basehttp 63961 140293109888576 "GET /api/faenas/ HTTP/1.1" 200 442
 INFO 2025-06-23 16:40:49,357 basehttp 63961 140293109888576 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-23 17:01:35,085 autoreload 63961 140293196137088 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-06-23 17:01:35,520 autoreload 71631 139984037782144 Watching for file changes with StatReloader
+INFO 2025-06-23 17:02:49,551 autoreload 72078 140522301133440 Watching for file changes with StatReloader
+INFO 2025-06-23 17:03:18,670 autoreload 72365 140167839007360 Watching for file changes with StatReloader
+INFO 2025-06-23 17:03:44,769 autoreload 72457 139992848425600 Watching for file changes with StatReloader
+INFO 2025-06-23 17:04:28,659 basehttp 72457 139992796792384 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:04:28,663 basehttp 72457 139992714180160 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:04:28,688 basehttp 72457 139992714180160 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:04:28,741 basehttp 72457 139992796792384 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:05:40,454 basehttp 72457 139992705787456 "GET /api/users/ HTTP/1.1" 200 171
+WARNING 2025-06-23 17:05:40,576 log 72457 139992705787456 Not Found: /favicon.ico
+WARNING 2025-06-23 17:05:40,576 basehttp 72457 139992705787456 "GET /favicon.ico HTTP/1.1" 404 2220
+INFO 2025-06-23 17:06:18,464 autoreload 73341 140287113831040 Watching for file changes with StatReloader
+INFO 2025-06-23 17:06:36,160 autoreload 73392 139806813344384 Watching for file changes with StatReloader
+INFO 2025-06-23 17:07:12,252 basehttp 73392 139806688409152 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:07:12,256 basehttp 73392 139806680016448 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:07:12,282 basehttp 73392 139806680016448 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:07:12,329 basehttp 73392 139806688409152 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:11:27,063 autoreload 73392 139806813344384 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-06-23 17:11:27,441 autoreload 74803 140709490827904 Watching for file changes with StatReloader
+INFO 2025-06-23 17:11:38,846 autoreload 75027 140405288915584 Watching for file changes with StatReloader
+INFO 2025-06-23 17:12:20,505 autoreload 75214 140195073892992 Watching for file changes with StatReloader
+INFO 2025-06-23 17:13:06,010 basehttp 75214 140195022272064 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:13:06,015 basehttp 75214 140195013879360 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:13:06,036 basehttp 75214 140195013879360 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:13:06,085 basehttp 75214 140195022272064 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:13:44,563 autoreload 75214 140195073892992 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-06-23 17:13:44,926 autoreload 75561 140464866509440 Watching for file changes with StatReloader
+INFO 2025-06-23 17:14:08,345 autoreload 75830 139646839665280 Watching for file changes with StatReloader
+INFO 2025-06-23 17:14:26,715 autoreload 75896 140497932935808 Watching for file changes with StatReloader
+INFO 2025-06-23 17:15:03,483 basehttp 75896 140497881314880 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:15:03,555 basehttp 75896 140497881314880 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:15:03,586 basehttp 75896 140497881314880 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:15:03,634 basehttp 75896 140497872922176 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:16:53,601 autoreload 76641 139971065803392 Watching for file changes with StatReloader
+INFO 2025-06-23 17:17:20,934 autoreload 76712 140194179449472 Watching for file changes with StatReloader
+INFO 2025-06-23 17:18:07,721 basehttp 76712 140194127836736 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:18:07,726 basehttp 76712 140194119444032 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:18:07,759 basehttp 76712 140194119444032 "GET /api/users/ HTTP/1.1" 200 250
+INFO 2025-06-23 17:18:07,812 basehttp 76712 140194127836736 "GET /api/users/ HTTP/1.1" 200 250
+INFO 2025-06-23 17:20:28,079 basehttp 76712 140194127836736 "OPTIONS /api/users/ HTTP/1.1" 200 0
+INFO 2025-06-23 17:20:28,519 basehttp 76712 140194127836736 "POST /api/users/ HTTP/1.1" 201 188
+INFO 2025-06-23 17:20:28,578 basehttp 76712 140194127836736 "GET /api/users/ HTTP/1.1" 200 439
