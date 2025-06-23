@@ -85,130 +85,46 @@ INFO 2025-06-23 16:40:49,266 basehttp 63961 140293126673984 "GET /api/users/ HTT
 INFO 2025-06-23 16:40:49,281 basehttp 63961 140293126673984 "GET /api/estados-equipo/ HTTP/1.1" 200 312
 INFO 2025-06-23 16:40:49,290 basehttp 63961 140293109888576 "GET /api/faenas/ HTTP/1.1" 200 442
 INFO 2025-06-23 16:40:49,357 basehttp 63961 140293109888576 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:51:55,024 autoreload 40064 21748 Watching for file changes with StatReloader
-INFO 2025-06-23 16:52:29,320 basehttp 40064 32084 "GET /api/mantenimiento-workflow/equipos-criticos/ HTTP/1.1" 200 91
-INFO 2025-06-23 16:52:29,322 basehttp 40064 32084 "GET /api/mantenimiento-workflow/equipos-criticos/ HTTP/1.1" 200 91
-INFO 2025-06-23 16:52:29,337 basehttp 40064 9408 "GET /api/mantenimiento-workflow/dashboard/ HTTP/1.1" 200 626
-INFO 2025-06-23 16:52:29,340 basehttp 40064 9408 "GET /api/mantenimiento-workflow/dashboard/ HTTP/1.1" 200 626
-INFO 2025-06-23 16:52:49,529 basehttp 40064 9408 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 52
-INFO 2025-06-23 16:52:49,529 basehttp 40064 35172 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:52:49,534 basehttp 40064 35172 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 52
-INFO 2025-06-23 16:52:49,536 basehttp 40064 9408 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:52:49,537 basehttp 40064 32084 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:49,541 basehttp 40064 35172 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:52:49,542 basehttp 40064 36188 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:52:49,546 basehttp 40064 9408 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:52:49,549 basehttp 40064 32084 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:49,555 basehttp 40064 36188 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:52:50,450 basehttp 40064 36188 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:50,455 basehttp 40064 36188 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:51,058 basehttp 40064 32084 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:52:51,060 basehttp 40064 36188 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:51,066 basehttp 40064 32084 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:52:51,066 basehttp 40064 9408 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:52:51,069 basehttp 40064 9408 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:52:51,082 basehttp 40064 36188 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:52,126 basehttp 40064 36188 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:52,133 basehttp 40064 36188 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:52,599 basehttp 40064 36188 "GET /api/agendas/ HTTP/1.1" 200 52
-INFO 2025-06-23 16:52:52,602 basehttp 40064 36188 "GET /api/agendas/ HTTP/1.1" 200 52
-INFO 2025-06-23 16:52:53,917 basehttp 40064 36188 "GET /api/roles/ HTTP/1.1" 200 236
-INFO 2025-06-23 16:52:53,919 basehttp 40064 36188 "GET /api/roles/ HTTP/1.1" 200 236
-INFO 2025-06-23 16:52:53,923 basehttp 40064 36188 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:52:53,927 basehttp 40064 36188 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:52:58,216 basehttp 40064 9408 "GET /api/estados-equipo/ HTTP/1.1" 200 312
-INFO 2025-06-23 16:52:58,217 basehttp 40064 32084 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:52:58,218 basehttp 40064 36188 "GET /api/faenas/ HTTP/1.1" 200 442
-INFO 2025-06-23 16:52:58,219 basehttp 40064 35172 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:52:58,221 basehttp 40064 25068 "GET /api/estados-equipo/ HTTP/1.1" 200 312
-INFO 2025-06-23 16:52:58,222 basehttp 40064 32084 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:52:58,225 basehttp 40064 35172 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:52:58,234 basehttp 40064 36188 "GET /api/faenas/ HTTP/1.1" 200 442
-INFO 2025-06-23 16:52:58,252 basehttp 40064 25068 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:58,258 basehttp 40064 25068 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:52:59,212 basehttp 40064 25068 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:52:59,212 basehttp 40064 35172 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:52:59,215 basehttp 40064 25068 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:52:59,215 basehttp 40064 35172 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:52:59,219 basehttp 40064 36188 "GET /api/tareas-estandar/ HTTP/1.1" 200 1821
-INFO 2025-06-23 16:52:59,223 basehttp 40064 36188 "GET /api/tareas-estandar/ HTTP/1.1" 200 1821
-INFO 2025-06-23 16:53:03,074 basehttp 40064 36188 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=1 HTTP/1.1" 200 1804
-INFO 2025-06-23 16:53:03,081 basehttp 40064 36188 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=1 HTTP/1.1" 200 1804
-INFO 2025-06-23 16:53:19,899 basehttp 40064 36188 "OPTIONS /api/detalles-plan-mantenimiento/ HTTP/1.1" 200 0
-INFO 2025-06-23 16:53:19,905 basehttp 40064 36188 "POST /api/detalles-plan-mantenimiento/ HTTP/1.1" 201 216
-INFO 2025-06-23 16:53:19,915 basehttp 40064 36188 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=1 HTTP/1.1" 200 2021
-INFO 2025-06-23 16:53:19,918 basehttp 40064 36188 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:53:19,930 basehttp 40064 36188 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=1 HTTP/1.1" 200 2021
-INFO 2025-06-23 16:53:19,938 basehttp 40064 36188 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=1 HTTP/1.1" 200 2021
-INFO 2025-06-23 16:53:24,657 basehttp 40064 36188 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=1 HTTP/1.1" 200 2021
-INFO 2025-06-23 16:53:24,664 basehttp 40064 36188 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=1 HTTP/1.1" 200 2021
-INFO 2025-06-23 16:53:38,258 basehttp 40064 35756 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:53:38,258 basehttp 40064 40316 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:53:38,263 basehttp 40064 35756 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:53:38,264 basehttp 40064 26328 "GET /api/tareas-estandar/ HTTP/1.1" 200 1821
-INFO 2025-06-23 16:53:38,264 basehttp 40064 40316 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 315
-INFO 2025-06-23 16:53:38,268 basehttp 40064 35756 "GET /api/tareas-estandar/ HTTP/1.1" 200 1821
-INFO 2025-06-23 16:53:52,047 basehttp 40064 23908 "OPTIONS /api/planes-mantenimiento/ HTTP/1.1" 200 0
-INFO 2025-06-23 16:53:52,054 basehttp 40064 23908 "POST /api/planes-mantenimiento/ HTTP/1.1" 201 201
-INFO 2025-06-23 16:53:52,059 basehttp 40064 23908 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 517
-INFO 2025-06-23 16:53:54,851 basehttp 40064 23908 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=2 HTTP/1.1" 200 2021
-INFO 2025-06-23 16:53:54,859 basehttp 40064 23908 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=2 HTTP/1.1" 200 2021
-INFO 2025-06-23 16:54:01,482 basehttp 40064 23908 "OPTIONS /api/detalles-plan-mantenimiento/ HTTP/1.1" 200 0
-INFO 2025-06-23 16:54:01,488 basehttp 40064 23908 "POST /api/detalles-plan-mantenimiento/ HTTP/1.1" 201 207
-INFO 2025-06-23 16:54:01,498 basehttp 40064 23908 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=2 HTTP/1.1" 200 2230
-INFO 2025-06-23 16:54:01,503 basehttp 40064 23908 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 517
-INFO 2025-06-23 16:54:01,514 basehttp 40064 23908 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=2 HTTP/1.1" 200 2230
-INFO 2025-06-23 16:54:01,523 basehttp 40064 23908 "GET /api/detalles-plan-mantenimiento/?idplanmantenimiento=2 HTTP/1.1" 200 2230
-WARNING 2025-06-23 16:54:11,445 log 40064 23908 Method Not Allowed: /api/planes-mantenimiento/2/generar-agenda/
-WARNING 2025-06-23 16:54:11,445 basehttp 40064 23908 "POST /api/planes-mantenimiento/2/generar-agenda/ HTTP/1.1" 405 43
-WARNING 2025-06-23 16:54:13,997 log 40064 23908 Method Not Allowed: /api/planes-mantenimiento/2/generar-agenda/
-WARNING 2025-06-23 16:54:13,997 basehttp 40064 23908 "POST /api/planes-mantenimiento/2/generar-agenda/ HTTP/1.1" 405 43
-INFO 2025-06-23 16:54:29,261 basehttp 40064 23908 "GET /api/roles/ HTTP/1.1" 200 236
-INFO 2025-06-23 16:54:29,265 basehttp 40064 23908 "GET /api/roles/ HTTP/1.1" 200 236
-INFO 2025-06-23 16:54:29,268 basehttp 40064 39488 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:54:29,270 basehttp 40064 39488 "GET /api/users/ HTTP/1.1" 200 241
-INFO 2025-06-23 16:54:47,680 basehttp 40064 39488 "OPTIONS /api/users/ HTTP/1.1" 200 0
-INFO 2025-06-23 16:54:48,034 basehttp 40064 39488 "POST /api/users/ HTTP/1.1" 201 156
-INFO 2025-06-23 16:54:48,040 basehttp 40064 39488 "GET /api/users/ HTTP/1.1" 200 398
-INFO 2025-06-23 16:55:03,562 basehttp 40064 39488 "GET /api/faenas/ HTTP/1.1" 200 442
-INFO 2025-06-23 16:55:03,565 basehttp 40064 39488 "GET /api/faenas/ HTTP/1.1" 200 442
-INFO 2025-06-23 16:55:04,069 basehttp 40064 39488 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:55:04,071 basehttp 40064 39488 "GET /api/tipos-equipo/ HTTP/1.1" 200 297
-INFO 2025-06-23 16:55:04,437 basehttp 40064 39488 "GET /api/tipos-tarea/ HTTP/1.1" 200 650
-INFO 2025-06-23 16:55:04,439 basehttp 40064 39488 "GET /api/tipos-tarea/ HTTP/1.1" 200 650
-INFO 2025-06-23 16:55:32,043 basehttp 40064 39488 "POST /api/logout/ HTTP/1.1" 204 0
-INFO 2025-06-23 16:55:32,452 basehttp 40064 39488 "POST /api/logout/ HTTP/1.1" 204 0
-INFO 2025-06-23 16:55:32,629 basehttp 40064 39488 "POST /api/logout/ HTTP/1.1" 204 0
-INFO 2025-06-23 16:55:32,796 basehttp 40064 39488 "POST /api/logout/ HTTP/1.1" 204 0
-INFO 2025-06-23 16:55:32,962 basehttp 40064 39488 "POST /api/logout/ HTTP/1.1" 204 0
-INFO 2025-06-23 16:56:50,290 autoreload 3104 25388 Watching for file changes with StatReloader
-INFO 2025-06-23 16:56:53,619 basehttp 3104 37588 "GET /api/tipos-tarea/ HTTP/1.1" 200 650
-INFO 2025-06-23 16:56:53,623 basehttp 3104 37588 "GET /api/tipos-tarea/ HTTP/1.1" 200 650
-INFO 2025-06-23 16:56:54,994 basehttp 3104 28468 "GET /api/mantenimiento-workflow/equipos-criticos/ HTTP/1.1" 200 91
-INFO 2025-06-23 16:56:54,998 basehttp 3104 28468 "GET /api/mantenimiento-workflow/equipos-criticos/ HTTP/1.1" 200 91
-INFO 2025-06-23 16:56:55,006 basehttp 3104 37588 "GET /api/mantenimiento-workflow/dashboard/ HTTP/1.1" 200 673
-INFO 2025-06-23 16:56:55,010 basehttp 3104 37588 "GET /api/mantenimiento-workflow/dashboard/ HTTP/1.1" 200 673
-INFO 2025-06-23 16:57:00,150 basehttp 3104 37588 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 52
-INFO 2025-06-23 16:57:00,158 basehttp 3104 28468 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:57:00,158 basehttp 3104 37588 "GET /api/users/ HTTP/1.1" 200 614
-INFO 2025-06-23 16:57:00,163 basehttp 3104 37588 "GET /api/tipos-equipo/ HTTP/1.1" 200 342
-INFO 2025-06-23 16:57:00,165 basehttp 3104 28468 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1003
-INFO 2025-06-23 16:57:00,167 basehttp 3104 37588 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 52
-INFO 2025-06-23 16:57:00,172 basehttp 3104 28468 "GET /api/users/ HTTP/1.1" 200 614
-INFO 2025-06-23 16:57:00,174 basehttp 3104 28468 "GET /api/tipos-equipo/ HTTP/1.1" 200 342
-INFO 2025-06-23 16:57:00,179 basehttp 3104 28468 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1003
-INFO 2025-06-23 16:57:00,188 basehttp 3104 37588 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:57:13,947 basehttp 3104 28468 "GET /api/faenas/ HTTP/1.1" 200 442
-INFO 2025-06-23 16:57:13,947 basehttp 3104 25392 "GET /api/estados-equipo/ HTTP/1.1" 200 365
-INFO 2025-06-23 16:57:13,947 basehttp 3104 37588 "GET /api/tipos-equipo/ HTTP/1.1" 200 342
-INFO 2025-06-23 16:57:13,950 basehttp 3104 28468 "GET /api/faenas/ HTTP/1.1" 200 442
-INFO 2025-06-23 16:57:13,957 basehttp 3104 25392 "GET /api/estados-equipo/ HTTP/1.1" 200 365
-INFO 2025-06-23 16:57:13,957 basehttp 3104 37588 "GET /api/tipos-equipo/ HTTP/1.1" 200 342
-INFO 2025-06-23 16:57:13,973 basehttp 3104 18628 "GET /api/users/ HTTP/1.1" 200 614
-INFO 2025-06-23 16:57:13,978 basehttp 3104 18628 "GET /api/users/ HTTP/1.1" 200 614
-INFO 2025-06-23 16:57:13,982 basehttp 3104 37588 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:57:13,989 basehttp 3104 37588 "GET /api/equipos/ HTTP/1.1" 200 1279
-INFO 2025-06-23 16:57:14,057 basehttp 3104 37588 "GET /api/roles/ HTTP/1.1" 200 236
-INFO 2025-06-23 16:57:14,059 basehttp 3104 37588 "GET /api/roles/ HTTP/1.1" 200 236
-INFO 2025-06-23 16:57:14,062 basehttp 3104 18628 "GET /api/users/ HTTP/1.1" 200 614
-INFO 2025-06-23 16:57:14,067 basehttp 3104 18628 "GET /api/users/ HTTP/1.1" 200 614
+INFO 2025-06-23 17:01:35,085 autoreload 63961 140293196137088 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-06-23 17:01:35,520 autoreload 71631 139984037782144 Watching for file changes with StatReloader
+INFO 2025-06-23 17:02:49,551 autoreload 72078 140522301133440 Watching for file changes with StatReloader
+INFO 2025-06-23 17:03:18,670 autoreload 72365 140167839007360 Watching for file changes with StatReloader
+INFO 2025-06-23 17:03:44,769 autoreload 72457 139992848425600 Watching for file changes with StatReloader
+INFO 2025-06-23 17:04:28,659 basehttp 72457 139992796792384 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:04:28,663 basehttp 72457 139992714180160 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:04:28,688 basehttp 72457 139992714180160 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:04:28,741 basehttp 72457 139992796792384 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:05:40,454 basehttp 72457 139992705787456 "GET /api/users/ HTTP/1.1" 200 171
+WARNING 2025-06-23 17:05:40,576 log 72457 139992705787456 Not Found: /favicon.ico
+WARNING 2025-06-23 17:05:40,576 basehttp 72457 139992705787456 "GET /favicon.ico HTTP/1.1" 404 2220
+INFO 2025-06-23 17:06:18,464 autoreload 73341 140287113831040 Watching for file changes with StatReloader
+INFO 2025-06-23 17:06:36,160 autoreload 73392 139806813344384 Watching for file changes with StatReloader
+INFO 2025-06-23 17:07:12,252 basehttp 73392 139806688409152 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:07:12,256 basehttp 73392 139806680016448 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:07:12,282 basehttp 73392 139806680016448 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:07:12,329 basehttp 73392 139806688409152 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:11:27,063 autoreload 73392 139806813344384 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-06-23 17:11:27,441 autoreload 74803 140709490827904 Watching for file changes with StatReloader
+INFO 2025-06-23 17:11:38,846 autoreload 75027 140405288915584 Watching for file changes with StatReloader
+INFO 2025-06-23 17:12:20,505 autoreload 75214 140195073892992 Watching for file changes with StatReloader
+INFO 2025-06-23 17:13:06,010 basehttp 75214 140195022272064 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:13:06,015 basehttp 75214 140195013879360 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:13:06,036 basehttp 75214 140195013879360 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:13:06,085 basehttp 75214 140195022272064 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:13:44,563 autoreload 75214 140195073892992 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-06-23 17:13:44,926 autoreload 75561 140464866509440 Watching for file changes with StatReloader
+INFO 2025-06-23 17:14:08,345 autoreload 75830 139646839665280 Watching for file changes with StatReloader
+INFO 2025-06-23 17:14:26,715 autoreload 75896 140497932935808 Watching for file changes with StatReloader
+INFO 2025-06-23 17:15:03,483 basehttp 75896 140497881314880 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:15:03,555 basehttp 75896 140497881314880 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:15:03,586 basehttp 75896 140497881314880 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:15:03,634 basehttp 75896 140497872922176 "GET /api/users/ HTTP/1.1" 200 171
+INFO 2025-06-23 17:16:53,601 autoreload 76641 139971065803392 Watching for file changes with StatReloader
+INFO 2025-06-23 17:17:20,934 autoreload 76712 140194179449472 Watching for file changes with StatReloader
+INFO 2025-06-23 17:18:07,721 basehttp 76712 140194127836736 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:18:07,726 basehttp 76712 140194119444032 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-23 17:18:07,759 basehttp 76712 140194119444032 "GET /api/users/ HTTP/1.1" 200 250
+INFO 2025-06-23 17:18:07,812 basehttp 76712 140194127836736 "GET /api/users/ HTTP/1.1" 200 250
+INFO 2025-06-23 17:20:28,079 basehttp 76712 140194127836736 "OPTIONS /api/users/ HTTP/1.1" 200 0
+INFO 2025-06-23 17:20:28,519 basehttp 76712 140194127836736 "POST /api/users/ HTTP/1.1" 201 188
+INFO 2025-06-23 17:20:28,578 basehttp 76712 140194127836736 "GET /api/users/ HTTP/1.1" 200 439
