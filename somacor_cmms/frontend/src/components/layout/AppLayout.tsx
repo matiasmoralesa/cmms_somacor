@@ -1,5 +1,5 @@
 // src/components/layout/AppLayout.tsx
-// ARCHIVO ACTUALIZADO: Se añade el enlace a "Órdenes de Trabajo" en el menú de Control.
+// ARCHIVO ACTUALIZADO: Se añade el enlace a "Checklist" en el menú de Control.
 
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
@@ -10,7 +10,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { 
     LayoutDashboard, ClipboardList, Settings, Activity, Calendar as CalendarIcon, 
     AlertTriangle, Truck as TruckIcon, User as UserIcon, HardHat, LogOut,
-    Wrench, Cog, FileText, ListChecks // Importado ListChecks
+    Wrench, Cog, FileText, ListChecks, CheckSquare
 } from 'lucide-react';
 
 const AppLayout = () => {
@@ -28,8 +28,8 @@ const AppLayout = () => {
                     <NavLink icon={<Activity size={18} />} label="Estado de la Máquina" onClick={() => navigate('/estado-maquina')} />
                     
                     <NavGroup title="Control" icon={<ClipboardList size={18} />}>
-                        {/* AÑADIDO: Enlace a la nueva vista de Órdenes de Trabajo. */}
                         <NavLink icon={<ListChecks size={16}/>} label="Órdenes de Trabajo" onClick={() => navigate('/ordenes-trabajo')} />
+                        <NavLink icon={<CheckSquare size={16}/>} label="Checklist Diario" onClick={() => navigate('/checklist')} />
                         <NavLink icon={<Wrench size={16}/>} label="Crear Manten. Planificado" onClick={() => navigate('/mantenimiento-planificado')} />
                         <NavLink icon={<AlertTriangle size={16} />} label="Reportar Falla" onClick={() => navigate('/mantenimiento-no-planificado')} />
                         <NavLink icon={<CalendarIcon size={16} />} label="Calendario" onClick={() => navigate('/calendario')} />
@@ -67,3 +67,4 @@ const AppLayout = () => {
 };
 
 export default AppLayout;
+
