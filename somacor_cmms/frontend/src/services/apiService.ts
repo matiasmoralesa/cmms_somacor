@@ -29,7 +29,11 @@ import type {
 
 // Servicio base para operaciones CRUD
 class BaseService<T> {
-  constructor(private endpoint: string) {}
+  private endpoint: string;
+
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+  }
 
   async getAll(params?: Record<string, any>): Promise<ApiResponse<T>> {
     const response = await apiClient.get(this.endpoint, { params });
@@ -127,7 +131,11 @@ export const ordenesTrabajoService = {
 };
 
 export const actividadesOTService = {
-  ...new BaseService<ActividadOrdenTrabajo>('actividades-ot/'),
+  getAll: (params?: Record<string, any>) => new BaseService<ActividadOrdenTrabajo>("actividades-ot/").getAll(params),
+  getById: (id: number) => new BaseService<ActividadOrdenTrabajo>("actividades-ot/").getById(id),
+  create: (data: Partial<ActividadOrdenTrabajo>) => new BaseService<ActividadOrdenTrabajo>("actividades-ot/").create(data),
+  update: (id: number, data: Partial<ActividadOrdenTrabajo>) => new BaseService<ActividadOrdenTrabajo>("actividades-ot/").update(id, data),
+  delete: (id: number) => new BaseService<ActividadOrdenTrabajo>("actividades-ot/").delete(id),
   
   async completarActividad(actividadId: number, data: {
     observaciones?: string;
@@ -136,7 +144,7 @@ export const actividadesOTService = {
     medicion_valor?: number;
     unidad_medicion?: string;
   }): Promise<ActividadOrdenTrabajo> {
-    const response = await apiClient.post('mantenimiento-workflow/completar-actividad/', {
+    const response = await apiClient.post("mantenimiento-workflow/completar-actividad/", {
       actividad_id: actividadId,
       ...data
     });

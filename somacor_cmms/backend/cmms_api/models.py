@@ -1,5 +1,3 @@
-# cmms_api/models.py
-
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -8,20 +6,26 @@ class Roles(models.Model):
     idrol = models.AutoField(db_column='IDRol', primary_key=True)
     nombrerol = models.CharField(db_column='NombreRol', unique=True, max_length=50)
     def __str__(self): return self.nombrerol
-    class Meta: db_table = 'roles'
+    class Meta: 
+        db_table = 'roles'
+        ordering = ['nombrerol']
 
 class Usuarios(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, db_column='IDUsuario')
     idrol = models.ForeignKey(Roles, on_delete=models.PROTECT, db_column='IDRol')
     departamento = models.CharField(db_column='Departamento', max_length=100, blank=True, null=True)
     def __str__(self): return self.user.username
-    class Meta: db_table = 'usuarios'
+    class Meta: 
+        db_table = 'usuarios'
+        ordering = ['user__username']
 
 class TiposEquipo(models.Model):
     idtipoequipo = models.AutoField(db_column='IDTipoEquipo', primary_key=True)
     nombretipo = models.CharField(db_column='NombreTipo', unique=True, max_length=100)
     def __str__(self): return self.nombretipo
-    class Meta: db_table = 'tiposequipo'
+    class Meta: 
+        db_table = 'tiposequipo'
+        ordering = ['nombretipo']
 
 class Faenas(models.Model):
     idfaena = models.AutoField(db_column='IDFaena', primary_key=True)
@@ -29,13 +33,17 @@ class Faenas(models.Model):
     ubicacion = models.CharField(db_column='Ubicacion', max_length=255, blank=True, null=True)
     activa = models.BooleanField(db_column='Activa', default=True)
     def __str__(self): return self.nombrefaena
-    class Meta: db_table = 'faenas'
+    class Meta: 
+        db_table = 'faenas'
+        ordering = ['nombrefaena']
 
 class EstadosEquipo(models.Model):
     idestadoequipo = models.AutoField(db_column='IDEstadoEquipo', primary_key=True)
     nombreestado = models.CharField(db_column='NombreEstado', unique=True, max_length=50)
     def __str__(self): return self.nombreestado
-    class Meta: db_table = 'estadosequipo'
+    class Meta: 
+        db_table = 'estadosequipo'
+        ordering = ['nombreestado']
     
 class Equipos(models.Model):
     idequipo = models.AutoField(db_column='IDEquipo', primary_key=True)
@@ -48,10 +56,11 @@ class Equipos(models.Model):
     idtipoequipo = models.ForeignKey(TiposEquipo, on_delete=models.PROTECT, db_column='IDTipoEquipo')
     idfaenaactual = models.ForeignKey(Faenas, on_delete=models.SET_NULL, db_column='IDFaenaActual', blank=True, null=True)
     idestadoactual = models.ForeignKey(EstadosEquipo, on_delete=models.PROTECT, db_column='IDEstadoActual')
-    horometroactual = models.IntegerField(db_column='HorometroActual', default=0)
     activo = models.BooleanField(db_column='Activo', default=True)
     def __str__(self): return f"{self.nombreequipo} ({self.patente or self.codigointerno})"
-    class Meta: db_table = 'equipos'
+    class Meta: 
+        db_table = 'equipos'
+        ordering = ['nombreequipo']
 
 # --- NUEVOS MODELOS PARA EL MÓDULO DE CHECKLISTS ---
 
@@ -67,6 +76,9 @@ class ChecklistTemplate(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+    class Meta:
+        ordering = ['nombre']
 
 class ChecklistCategory(models.Model):
     """
@@ -116,6 +128,9 @@ class ChecklistInstance(models.Model):
 
     def __str__(self):
         return f"Checklist para {self.equipo.nombreequipo} - {self.fecha_inspeccion}"
+    
+    class Meta:
+        ordering = ['-fecha_inspeccion']
 
 class ChecklistAnswer(models.Model):
     """
@@ -135,6 +150,7 @@ class ChecklistAnswer(models.Model):
 
     class Meta:
         unique_together = ('instance', 'item')
+        ordering = ['item__orden']
 
 # --- NUEVOS MODELOS PARA AGENDA DE MANTENIMIENTO PREVENTIVO ---
 
@@ -146,7 +162,9 @@ class TiposTarea(models.Model):
     nombretipotarea = models.CharField(db_column='NombreTipoTarea', unique=True, max_length=100)
     descripcion = models.TextField(db_column='Descripcion', blank=True, null=True)
     def __str__(self): return self.nombretipotarea
-    class Meta: db_table = 'tipostarea'
+    class Meta: 
+        db_table = 'tipostarea'
+        ordering = ['nombretipotarea']
 
 class TareasEstandar(models.Model):
     """
@@ -159,7 +177,9 @@ class TareasEstandar(models.Model):
     tiempoestimadominutos = models.IntegerField(db_column='TiempoEstimadoMinutos', default=0)
     activa = models.BooleanField(db_column='Activa', default=True)
     def __str__(self): return self.nombretarea
-    class Meta: db_table = 'tareasestandar'
+    class Meta: 
+        db_table = 'tareasestandar'
+        ordering = ['nombretarea']
 
 class PlanesMantenimiento(models.Model):
     """
@@ -172,7 +192,9 @@ class PlanesMantenimiento(models.Model):
     activo = models.BooleanField(db_column='Activo', default=True)
     fechacreacion = models.DateTimeField(db_column='FechaCreacion', auto_now_add=True)
     def __str__(self): return self.nombreplan
-    class Meta: db_table = 'planesmantenimiento'
+    class Meta: 
+        db_table = 'planesmantenimiento'
+        ordering = ['nombreplan']
 
 class DetallesPlanMantenimiento(models.Model):
     """
@@ -185,7 +207,9 @@ class DetallesPlanMantenimiento(models.Model):
     escritic = models.BooleanField(db_column='EsCritica', default=False)
     activo = models.BooleanField(db_column='Activo', default=True)
     def __str__(self): return f"{self.idplanmantenimiento.nombreplan} - {self.idtareaestandar.nombretarea} ({self.intervalohorasoperacion}h)"
-    class Meta: db_table = 'detallesplanmantenimiento'
+    class Meta: 
+        db_table = 'detallesplanmantenimiento'
+        ordering = ['intervalohorasoperacion']
 
 class TiposMantenimientoOT(models.Model):
     """
@@ -195,7 +219,9 @@ class TiposMantenimientoOT(models.Model):
     nombretipomantenimientoot = models.CharField(db_column='NombreTipoMantenimientoOT', unique=True, max_length=100)
     descripcion = models.TextField(db_column='Descripcion', blank=True, null=True)
     def __str__(self): return self.nombretipomantenimientoot
-    class Meta: db_table = 'tiposmantenimientoot'
+    class Meta: 
+        db_table = 'tiposmantenimientoot'
+        ordering = ['nombretipomantenimientoot']
 
 class EstadosOrdenTrabajo(models.Model):
     """
@@ -205,7 +231,9 @@ class EstadosOrdenTrabajo(models.Model):
     nombreestadoot = models.CharField(db_column='NombreEstadoOT', unique=True, max_length=50)
     descripcion = models.TextField(db_column='Descripcion', blank=True, null=True)
     def __str__(self): return self.nombreestadoot
-    class Meta: db_table = 'estadosordentrabajo'
+    class Meta: 
+        db_table = 'estadosordentrabajo'
+        ordering = ['nombreestadoot']
 
 # --- NUEVOS MODELOS PARA REGISTRO DE MANTENIMIENTOS ---
 
@@ -243,7 +271,9 @@ class OrdenesTrabajo(models.Model):
     tiempototalminutos = models.IntegerField(db_column='TiempoTotalMinutos', blank=True, null=True)
     
     def __str__(self): return f"{self.numeroot} - {self.idequipo.nombreequipo}"
-    class Meta: db_table = 'ordenestrabajo'
+    class Meta: 
+        db_table = 'ordenestrabajo'
+        ordering = ['-fechacreacionot']
 
 class ActividadesOrdenTrabajo(models.Model):
     """
@@ -272,7 +302,9 @@ class ActividadesOrdenTrabajo(models.Model):
     idtecnicoejecutor = models.ForeignKey(User, on_delete=models.SET_NULL, db_column='IDTecnicoEjecutor', blank=True, null=True)
     
     def __str__(self): return f"{self.idordentrabajo.numeroot} - {self.descripcionactividad[:50]}"
-    class Meta: db_table = 'actividadesordentrabajo'
+    class Meta: 
+        db_table = 'actividadesordentrabajo'
+        ordering = ['secuencia']
 
 class Agendas(models.Model):
     """
@@ -298,5 +330,7 @@ class Agendas(models.Model):
     idusuariocreador = models.ForeignKey(User, on_delete=models.PROTECT, db_column='IDUsuarioCreador', related_name='eventos_creados')
     
     def __str__(self): return f"{self.tituloevento} - {self.fechahorainicio.strftime('%Y-%m-%d %H:%M')}"
-    class Meta: db_table = 'agendas'
+    class Meta: 
+        db_table = 'agendas'
+        ordering = ['fechahorainicio']
 

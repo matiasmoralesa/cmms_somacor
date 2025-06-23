@@ -242,7 +242,7 @@ const PlanesMantenimientoView: React.FC = () => {
       setLoading(true);
       setError(null);
       const response = await planesMantenimientoService.getAll();
-      setPlanes(response.results || response);
+      setPlanes(response.results || []);
     } catch (err: any) {
       setError(err.message || 'Error al cargar los planes de mantenimiento');
       console.error('Error fetching planes de mantenimiento:', err);
@@ -458,7 +458,7 @@ const PlanesMantenimientoView: React.FC = () => {
         isOpen={isDetailModalOpen} 
         onClose={() => setIsDetailModalOpen(false)} 
         title="Detalles del Plan de Mantenimiento"
-        size="lg"
+                    size="large"
       >
         {currentItem && (
           <PlanDetails 

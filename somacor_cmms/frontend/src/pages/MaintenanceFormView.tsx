@@ -18,7 +18,7 @@ interface Plan {
     idplanmantenimiento: number;
     nombreplan: string;
     idtipoequipo: number;
-    detalles: { intervalohorasoperacion: number }[];
+    detalles?: { intervalohorasoperacion: number }[];
 }
 interface User {
     id: number;

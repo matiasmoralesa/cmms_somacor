@@ -239,7 +239,7 @@ export function useOrdenesTrabajoFiltradas(filtros?: {
       setLoading(true);
       setError(null);
       const response = await ordenesTrabajoService.getAll(filtros);
-      setOrdenes(response.results || response);
+      setOrdenes(Array.isArray(response) ? response : response.results || []);
     } catch (err: any) {
       setError(err.message || 'Error al cargar órdenes de trabajo');
       console.error('Error fetching work orders:', err);

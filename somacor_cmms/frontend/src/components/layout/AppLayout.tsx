@@ -18,7 +18,7 @@ const AppLayout = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex h-screen bg-gray-100 font-sans">
+        <div className="flex h-screen bg-gray-100 font-sans" data-testid="app-layout">
             <aside className="w-64 bg-gray-800 text-white flex flex-col flex-shrink-0">
                 <div className="h-20 flex items-center justify-center bg-gray-900 px-4">
                     <h1 className="text-xl font-bold text-center">Somacor CMMS</h1>
