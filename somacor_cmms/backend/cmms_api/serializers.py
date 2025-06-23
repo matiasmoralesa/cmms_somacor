@@ -22,10 +22,66 @@ class UsuariosSerializer(serializers.ModelSerializer):
         fields = ('idrol', 'nombrerol', 'departamento')
         
 class UserSerializer(serializers.ModelSerializer):
-    usuarios = UsuariosSerializer(read_only=True)
+    # Make 'usuarios' writable for creation, but read-only for updates
+    usuarios = UsuariosSerializer(required=False, allow_null=True)
+    idrol = serializers.PrimaryKeyRelatedField(queryset=Roles.objects.all(), write_only=True, required=False, allow_null=True)
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'usuarios')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'usuarios', 'idrol')
+        extra_kwargs = {'password': {'write_only': True, 'required': False}}
+
+    def create(self, validated_data):
+        usuarios_data = validated_data.pop('usuarios', {})
+        idrol = validated_data.pop('idrol', None)
+        password = validated_data.pop('password', None)
+
+        user = User.objects.create(**validated_data)
+        if password:
+            user.set_password(password)
+            user.save()
+
+        # Determine the role to assign
+        assigned_role = None
+        if idrol: # If a role is explicitly provided, use it
+            assigned_role = idrol
+        else: # Otherwise, try to assign a default role
+            try:
+                assigned_role = Roles.objects.get(nombrerol='Operador') # Or choose another default role name
+            except Roles.DoesNotExist:
+                assigned_role = Roles.objects.first() # Fallback to the first role if 'Operador' doesn't exist
+            
+        if assigned_role:
+            Usuarios.objects.create(user=user, idrol=assigned_role, **usuarios_data)
+        else:
+            print("Advertencia: No se pudo asignar un rol al nuevo usuario. No hay roles definidos.")
+
+        return user
+
+    def update(self, instance, validated_data):
+        usuarios_data = validated_data.pop('usuarios', None)
+        idrol = validated_data.pop('idrol', None)
+        password = validated_data.pop('password', None)
+
+        instance.username = validated_data.get('username', instance.username)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.email = validated_data.get('email', instance.email)
+
+        if password:
+            instance.set_password(password)
+        instance.save()
+
+        if usuarios_data is not None or idrol is not None:
+            usuarios_instance, created = Usuarios.objects.get_or_create(user=instance)
+            if idrol:
+                usuarios_instance.idrol = idrol
+            if usuarios_data:
+                for attr, value in usuarios_data.items():
+                    setattr(usuarios_instance, attr, value)
+            usuarios_instance.save()
+
+        return instance
 
 class TipoEquipoSerializer(serializers.ModelSerializer):
     class Meta: model = TiposEquipo; fields = '__all__'
@@ -183,4 +239,6 @@ class AgendaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agendas
         fields = '__all__'
+
+
 

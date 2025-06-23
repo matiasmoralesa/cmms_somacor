@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { PlusCircle, BookOpen, Trash2, X, AlertCircle } from 'lucide-react';
 import Modal from '../components/ui/Modal';
 import GenericForm from '../components/shared/GenericForm';
-import { usePlanesMantenimiento, useTiposEquipo, useTareasEstandar } from '../hooks';
+import { useTiposEquipo, useTareasEstandar } from '../hooks'; // Removed usePlanesMantenimiento
 import { planesMantenimientoService, detallesPlanService } from '../services/apiService';
 import type { PlanMantenimiento, DetallePlanMantenimiento, TareaEstandar } from '../types';
 
@@ -23,7 +23,7 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({ plan, tareasEstandar, onClose
   });
 
   // Cargar detalles del plan
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchDetalles = async () => {
       try {
         setLoading(true);
@@ -39,7 +39,7 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({ plan, tareasEstandar, onClose
     fetchDetalles();
   }, [plan.idplanmantenimiento]);
 
-  const tareasAgrupadas = useMemo(() => {
+  const tareasAgrupadas = React.useMemo(() => {
     return detalles.reduce((acc, detalle) => {
       const key = detalle.intervalohorasoperacion;
       if (!acc[key]) acc[key] = [];
@@ -226,13 +226,34 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({ plan, tareasEstandar, onClose
 
 // --- Vista Principal ---
 const PlanesMantenimientoView: React.FC = () => {
-  const { data: planes, loading, error, refetch } = usePlanesMantenimiento();
+  const [planes, setPlanes] = useState<PlanMantenimiento[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const { data: tiposEquipo } = useTiposEquipo();
   const { data: tareasEstandar } = useTareasEstandar();
   
   const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState<PlanMantenimiento | null>(null);
+
+  const fetchPlanes = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await planesMantenimientoService.getAll();
+      setPlanes(response.results || response);
+    } catch (err: any) {
+      setError(err.message || 'Error al cargar los planes de mantenimiento');
+      console.error('Error fetching planes de mantenimiento:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPlanes();
+  }, [fetchPlanes]);
 
   const handleCreate = () => {
     setCurrentItem(null);
@@ -248,7 +269,7 @@ const PlanesMantenimientoView: React.FC = () => {
     if (window.confirm('¿Está seguro de que desea eliminar este plan y todas sus tareas asociadas?')) {
       try {
         await planesMantenimientoService.delete(id);
-        refetch();
+        fetchPlanes(); // Refetch after delete
       } catch (err) {
         alert('Error al eliminar el plan.');
         console.error(err);
@@ -264,7 +285,7 @@ const PlanesMantenimientoView: React.FC = () => {
         idtipoequipo: formData.idtipoequipo,
         activo: true
       });
-      refetch();
+      fetchPlanes(); // Refetch after create
       setIsPlanModalOpen(false);
     } catch (err) {
       alert('Error al guardar el plan.');
@@ -432,25 +453,26 @@ const PlanesMantenimientoView: React.FC = () => {
           onCancel={() => setIsPlanModalOpen(false)}
         />
       </Modal>
-      
-      {currentItem && (
-        <Modal 
-          isOpen={isDetailModalOpen} 
-          onClose={() => setIsDetailModalOpen(false)} 
-          title="Detalles del Programa de Mantenimiento"
-          size="large"
-        >
-          <PlanDetails
-            plan={currentItem}
+
+      <Modal 
+        isOpen={isDetailModalOpen} 
+        onClose={() => setIsDetailModalOpen(false)} 
+        title="Detalles del Plan de Mantenimiento"
+        size="lg"
+      >
+        {currentItem && (
+          <PlanDetails 
+            plan={currentItem} 
             tareasEstandar={tareasEstandar}
             onClose={() => setIsDetailModalOpen(false)}
-            onDataChange={refetch}
+            onDataChange={fetchPlanes} // Pass refetch to update main list after detail changes
           />
-        </Modal>
-      )}
+        )}
+      </Modal>
     </div>
   );
 };
 
 export default PlanesMantenimientoView;
+
 

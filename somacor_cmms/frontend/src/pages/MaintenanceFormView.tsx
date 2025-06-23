@@ -2,6 +2,7 @@
 // ARCHIVO CORREGIDO: Se añade una lógica de respaldo para el ID del solicitante.
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { equiposService, planesMantenimientoService, userService } from '../services/apiService';
 import apiClient from '../api/apiClient';
 import { useAuth } from '../context/AuthContext';
 import { Wrench, CheckCircle, AlertCircle } from 'lucide-react';
@@ -51,13 +52,13 @@ const MaintenanceFormView = () => {
         const fetchData = async () => {
             try {
                 const [equiposRes, planesRes, usersRes] = await Promise.all([
-                    apiClient.get('equipos/'),
-                    apiClient.get('planes-mantenimiento/'),
-                    apiClient.get('users/')
+                    equiposService.getAll(),
+                    planesMantenimientoService.getAll(),
+                    userService.getAll()
                 ]);
-                setEquipos(equiposRes.data.results || equiposRes.data);
-                setPlanes(planesRes.data.results || planesRes.data);
-                setTecnicos(usersRes.data.results || usersRes.data);
+                setEquipos(equiposRes.results || []);
+                setPlanes(planesRes.results || []);
+                setTecnicos(usersRes.results || []);
             } catch (err) {
                 setError("No se pudieron cargar los datos necesarios. Verifique la API.");
             } finally {
@@ -69,14 +70,16 @@ const MaintenanceFormView = () => {
 
     // --- Lógica de filtrado ---
     const planesDisponibles = useMemo(() => {
+        if (!equipos || !Array.isArray(equipos) || !planes || !Array.isArray(planes)) return [];
         const equipoSeleccionado = equipos.find(eq => eq.idequipo.toString() === selectedEquipoId);
         if (!equipoSeleccionado) return [];
         return planes.filter(p => p.idtipoequipo === equipoSeleccionado.idtipoequipo);
     }, [selectedEquipoId, equipos, planes]);
 
     const intervalosDisponibles = useMemo(() => {
+        if (!planes || !Array.isArray(planes)) return [];
         const planSeleccionado = planes.find(p => p.idplanmantenimiento.toString() === selectedPlanId);
-        if (!planSeleccionado) return [];
+        if (!planSeleccionado || !planSeleccionado.detalles || !Array.isArray(planSeleccionado.detalles)) return [];
         const intervalos = planSeleccionado.detalles.map(d => d.intervalohorasoperacion);
         return [...new Set(intervalos)].sort((a, b) => a - b);
     }, [selectedPlanId, planes]);
@@ -147,7 +150,7 @@ const MaintenanceFormView = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">1. Seleccione el Equipo</label>
                     <select value={selectedEquipoId} onChange={e => { setSelectedEquipoId(e.target.value); setSelectedPlanId(''); setSelectedIntervalo(''); }} className="w-full p-2 border rounded-md" required>
                         <option value="">-- Elija un equipo --</option>
-                        {equipos.map(eq => <option key={eq.idequipo} value={eq.idequipo}>{eq.nombreequipo} ({eq.codigointerno})</option>)}
+                        {Array.isArray(equipos) && equipos.map(eq => <option key={eq.idequipo} value={eq.idequipo}>{eq.nombreequipo} ({eq.codigointerno})</option>)}
                     </select>
                 </div>
 
@@ -156,8 +159,8 @@ const MaintenanceFormView = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">2. Seleccione el Programa de Mantenimiento</label>
                         <select value={selectedPlanId} onChange={e => { setSelectedPlanId(e.target.value); setSelectedIntervalo(''); }} className="w-full p-2 border rounded-md" required disabled={planesDisponibles.length === 0}>
-                            <option value="">{planesDisponibles.length > 0 ? '-- Elija un programa --' : 'No hay programas para este tipo de equipo'}</option>
-                            {planesDisponibles.map(p => <option key={p.idplanmantenimiento} value={p.idplanmantenimiento}>{p.nombreplan}</option>)}
+                            <option value="">{planesDisponibles.length === 0 ? 'No hay programas para este tipo de equipo' : '-- Elija un programa --'}</option>
+                            {Array.isArray(planesDisponibles) && planesDisponibles.map(p => <option key={p.idplanmantenimiento} value={p.idplanmantenimiento}>{p.nombreplan}</option>)}
                         </select>
                     </div>
                 )}
@@ -168,7 +171,7 @@ const MaintenanceFormView = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">3. Seleccione la Pauta a Ejecutar (Horómetro)</label>
                         <select value={selectedIntervalo} onChange={e => setSelectedIntervalo(e.target.value)} className="w-full p-2 border rounded-md" required>
                             <option value="">-- Elija un intervalo de horas --</option>
-                            {intervalosDisponibles.map(intervalo => <option key={intervalo} value={intervalo}>PM ({intervalo} HRS)</option>)}
+                            {Array.isArray(intervalosDisponibles) && intervalosDisponibles.map(intervalo => <option key={intervalo} value={intervalo}>PM ({intervalo} HRS)</option>)}
                         </select>
                     </div>
                 )}
@@ -179,7 +182,7 @@ const MaintenanceFormView = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">4. Asignar Técnico Principal</label>
                         <select value={selectedTecnicoId} onChange={e => setSelectedTecnicoId(e.target.value)} className="w-full p-2 border rounded-md" required>
                             <option value="">-- Elija un técnico --</option>
-                            {tecnicos.map(t => <option key={t.id} value={t.id}>{t.first_name} {t.last_name || `(${t.username})`}</option>)}
+                            {Array.isArray(tecnicos) && tecnicos.map(t => <option key={t.id} value={t.id}>{t.first_name} {t.last_name || `(${t.username})`}</option>)}
                         </select>
                     </div>
                      <div>
