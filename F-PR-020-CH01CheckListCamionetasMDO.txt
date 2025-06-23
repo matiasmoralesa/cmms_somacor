@@ -1,0 +1,237 @@
+Código
+Elaborado/Aprobado
+Fecha de Emisión
+Página
+
+SISTEMA DE GESTION S&SO-MDO
+
+Check List Camionetas
+(DIARIO)
+
+F-PR-020-CH01
+P. Aguilera / S. Pereira
+22/05/2019
+1 de 1
+
+GERENCIA
+
+EMPRESA
+
+KILOMETRAJE INICIAL
+
+AREA
+
+FECHA
+
+PATENTE
+
+Conductor 1
+
+Conductor 2
+
+Conductor 3
+
+Conductor 4
+
+Hora
+
+Hora
+
+Hora
+
+Hora
+
+Nombre
+Kilometraje inicial
+Hora Inicio
+Hora Término
+Firma del conductor
+
+I - AUTO EVALUACION DEL OPERADOR
+N°
+
+ITEM A REVISAR
+
+1
+
+Cumplo con descanso suficiente y condiciones para manejo
+seguro.
+
+2
+
+Cumplo con condiciones físicas adecuadas y no tengo dolencias
+o enfermedades que me impidan conducir.
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+Estoy conciente de mi responsabilidad al conducir, sin poner en
+3 riesgo mi integridad ni la de mis compañeros o de patrimonio de
+la empresa
+Si alguna de las respuestas anteriores fueron NO, favor contacte a su supervisor para analizar situacion y tomar la mejor decision antes de operar equipo.
+
+II - DOCUMENTACION DEL OPERADOR
+N°
+
+ITEM A REVISAR
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+SI
+
+NO
+
+N/A
+
+4 Licencia Municipal
+5 Licencia interna de Faena
+CHEQUEAR EL ESTADO DE OPERATIVIDAD
+III - REQUISITOS
+N°
+
+ITEM A REVISAR
+
+1 Aire acondicionado/ calefacción
+2 Baliza y pertiga (funcionando y en condiciones)
+3 Bocina en buen estado
+4 Cinturones de Seguridad en buen estado
+5 Cuñas de seguridad disponibles (2)
+6 Espejos interior y exterior en condiciones y limpios
+7 Frenos (incluye freno de mano) en condiciones operativas
+8 Neumáticos en buen estado (incluye dos repuestos)
+9 Luces (Altas, Bajas, Frenos, intermitentes, retroceso)
+10 Sello caja de operación invierno en buenas condiciones
+IV - CONDICIONES PARA REQUISITOS COMPLEMENTARIOS
+N°
+
+ITEM A REVISAR
+
+1 Orden y Aseo (interior vehículo y pick up)
+2 Estado de carroceria, parachoques, portalón
+3 Gata y llave de rueda disponible
+4 Vidrios y parabrisas limpios
+5 Limpiaparabrisas funciona correctamente
+6 Radio Base funciona en todos los canales
+V - DOCUMENTACION
+N°
+
+ITEM A REVISAR
+
+1 Permiso de Circulación
+2 Revisión Técnica
+3 Seguro Obligatorio
+Observaciones:
+
+Cualquier desperfecto y/o elemento o accesorio en mal estado, debe ser reportado inmediatamente s la Supervisión.
+La Supervisión debe tomar acción inmediata y si se trata de un item crítico que se encuentra en mal estado, el vehículo debe quedar fuera de servicios hasta su reparación.
+
+

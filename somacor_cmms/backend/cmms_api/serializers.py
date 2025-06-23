@@ -1,17 +1,20 @@
 # cmms_api/serializers.py
-# ARCHIVO ACTUALIZADO: Se añaden serializers para el nuevo módulo de Checklist.
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.db import transaction
-# Se importan los nuevos modelos
 from .models import (
     Roles, Usuarios, TiposEquipo, Faenas, EstadosEquipo, Equipos,
     ChecklistTemplate, ChecklistCategory, ChecklistItem,
-    ChecklistInstance, ChecklistAnswer
+    ChecklistInstance, ChecklistAnswer, TiposTarea, TareasEstandar,
+    PlanesMantenimiento, DetallesPlanMantenimiento, TiposMantenimientoOT,
+    EstadosOrdenTrabajo, OrdenesTrabajo, ActividadesOrdenTrabajo, Agendas
 )
 
-# --- Serializers Anteriores (solo se muestran los necesarios para el contexto) ---
+# --- Serializers Anteriores ---
+class RolSerializer(serializers.ModelSerializer):
+    class Meta: model = Roles; fields = '__all__'
+
 class UsuariosSerializer(serializers.ModelSerializer):
     nombrerol = serializers.CharField(source='idrol.nombrerol', read_only=True)
     class Meta:
@@ -26,6 +29,21 @@ class UserSerializer(serializers.ModelSerializer):
 
 class TipoEquipoSerializer(serializers.ModelSerializer):
     class Meta: model = TiposEquipo; fields = '__all__'
+
+class FaenaSerializer(serializers.ModelSerializer):
+    class Meta: model = Faenas; fields = '__all__'
+
+class EstadoEquipoSerializer(serializers.ModelSerializer):
+    class Meta: model = EstadosEquipo; fields = '__all__'
+
+class EquipoSerializer(serializers.ModelSerializer):
+    tipo_equipo_nombre = serializers.CharField(source='idtipoequipo.nombretipo', read_only=True)
+    faena_nombre = serializers.CharField(source='idfaenaactual.nombrefaena', read_only=True)
+    estado_nombre = serializers.CharField(source='idestadoactual.nombreestado', read_only=True)
+    
+    class Meta:
+        model = Equipos
+        fields = '__all__'
 
 # --- NUEVOS SERIALIZERS PARA EL MÓDULO DE CHECKLISTS ---
 
@@ -52,9 +70,6 @@ class ChecklistTemplateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChecklistTemplate
         fields = ['id_template', 'nombre', 'tipo_equipo', 'tipo_equipo_nombre', 'activo', 'categories']
-
-
-# --- Serializers para la creación y visualización de un checklist completado ---
 
 class ChecklistAnswerSerializer(serializers.ModelSerializer):
     """ Serializer para enviar las respuestas de un checklist. """
@@ -101,3 +116,71 @@ class ChecklistInstanceSerializer(serializers.ModelSerializer):
                 item = ChecklistItem.objects.get(id_item=item_id)
                 ChecklistAnswer.objects.create(instance=instance, item=item, **answer_data)
         return instance
+
+# --- NUEVOS SERIALIZERS PARA AGENDA DE MANTENIMIENTO PREVENTIVO ---
+
+class TipoTareaSerializer(serializers.ModelSerializer):
+    class Meta: model = TiposTarea; fields = '__all__'
+
+class TareaEstandarSerializer(serializers.ModelSerializer):
+    tipo_tarea_nombre = serializers.CharField(source='idtipotarea.nombretipotarea', read_only=True)
+    class Meta:
+        model = TareasEstandar
+        fields = '__all__'
+
+class PlanMantenimientoSerializer(serializers.ModelSerializer):
+    tipo_equipo_nombre = serializers.CharField(source='idtipoequipo.nombretipo', read_only=True)
+    class Meta:
+        model = PlanesMantenimiento
+        fields = '__all__'
+
+class DetallesPlanMantenimientoSerializer(serializers.ModelSerializer):
+    plan_nombre = serializers.CharField(source='idplanmantenimiento.nombreplan', read_only=True)
+    tarea_nombre = serializers.CharField(source='idtareaestandar.nombretarea', read_only=True)
+    class Meta:
+        model = DetallesPlanMantenimiento
+        fields = '__all__'
+
+class TipoMantenimientoOTSerializer(serializers.ModelSerializer):
+    class Meta: model = TiposMantenimientoOT; fields = '__all__'
+
+class EstadoOrdenTrabajoSerializer(serializers.ModelSerializer):
+    class Meta: model = EstadosOrdenTrabajo; fields = '__all__'
+
+# --- NUEVOS SERIALIZERS PARA REGISTRO DE MANTENIMIENTOS ---
+
+class ActividadOrdenTrabajoSerializer(serializers.ModelSerializer):
+    orden_trabajo_numero = serializers.CharField(source='idordentrabajo.numeroot', read_only=True)
+    tarea_nombre = serializers.CharField(source='idtareaestandar.nombretarea', read_only=True)
+    tecnico_nombre = serializers.CharField(source='idtecnicoejecutor.get_full_name', read_only=True)
+    
+    class Meta:
+        model = ActividadesOrdenTrabajo
+        fields = '__all__'
+
+class OrdenTrabajoSerializer(serializers.ModelSerializer):
+    equipo_nombre = serializers.CharField(source='idequipo.nombreequipo', read_only=True)
+    plan_nombre = serializers.CharField(source='idplanorigen.nombreplan', read_only=True)
+    tipo_mantenimiento_nombre = serializers.CharField(source='idtipomantenimientoot.nombretipomantenimientoot', read_only=True)
+    estado_nombre = serializers.CharField(source='idestadoot.nombreestadoot', read_only=True)
+    solicitante_nombre = serializers.CharField(source='idsolicitante.get_full_name', read_only=True)
+    tecnico_nombre = serializers.CharField(source='idtecnicoasignado.get_full_name', read_only=True)
+    
+    # Incluir actividades relacionadas
+    actividades = ActividadOrdenTrabajoSerializer(source='actividadesordentrabajo_set', many=True, read_only=True)
+    
+    class Meta:
+        model = OrdenesTrabajo
+        fields = '__all__'
+
+class AgendaSerializer(serializers.ModelSerializer):
+    equipo_nombre = serializers.CharField(source='idequipo.nombreequipo', read_only=True)
+    orden_trabajo_numero = serializers.CharField(source='idordentrabajo.numeroot', read_only=True)
+    plan_nombre = serializers.CharField(source='idplanmantenimiento.nombreplan', read_only=True)
+    usuario_asignado_nombre = serializers.CharField(source='idusuarioasignado.get_full_name', read_only=True)
+    usuario_creador_nombre = serializers.CharField(source='idusuariocreador.get_full_name', read_only=True)
+    
+    class Meta:
+        model = Agendas
+        fields = '__all__'
+

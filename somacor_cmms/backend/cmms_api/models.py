@@ -1,5 +1,4 @@
 # cmms_api/models.py
-# ARCHIVO ACTUALIZADO: Se añaden los nuevos modelos para el módulo de Checklist.
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -136,3 +135,168 @@ class ChecklistAnswer(models.Model):
 
     class Meta:
         unique_together = ('instance', 'item')
+
+# --- NUEVOS MODELOS PARA AGENDA DE MANTENIMIENTO PREVENTIVO ---
+
+class TiposTarea(models.Model):
+    """
+    Tipos de tareas de mantenimiento (Inspección, Lubricación, Reemplazo, etc.)
+    """
+    idtipotarea = models.AutoField(db_column='IDTipoTarea', primary_key=True)
+    nombretipotarea = models.CharField(db_column='NombreTipoTarea', unique=True, max_length=100)
+    descripcion = models.TextField(db_column='Descripcion', blank=True, null=True)
+    def __str__(self): return self.nombretipotarea
+    class Meta: db_table = 'tipostarea'
+
+class TareasEstandar(models.Model):
+    """
+    Tareas estándar que se pueden asignar a planes de mantenimiento
+    """
+    idtareaestandar = models.AutoField(db_column='IDTareaEstandar', primary_key=True)
+    nombretarea = models.CharField(db_column='NombreTarea', max_length=255)
+    descripciontarea = models.TextField(db_column='DescripcionTarea', blank=True, null=True)
+    idtipotarea = models.ForeignKey(TiposTarea, on_delete=models.PROTECT, db_column='IDTipoTarea')
+    tiempoestimadominutos = models.IntegerField(db_column='TiempoEstimadoMinutos', default=0)
+    activa = models.BooleanField(db_column='Activa', default=True)
+    def __str__(self): return self.nombretarea
+    class Meta: db_table = 'tareasestandar'
+
+class PlanesMantenimiento(models.Model):
+    """
+    Planes de mantenimiento preventivo por tipo de equipo
+    """
+    idplanmantenimiento = models.AutoField(db_column='IDPlanMantenimiento', primary_key=True)
+    nombreplan = models.CharField(db_column='NombrePlan', max_length=255)
+    descripcionplan = models.TextField(db_column='DescripcionPlan', blank=True, null=True)
+    idtipoequipo = models.ForeignKey(TiposEquipo, on_delete=models.PROTECT, db_column='IDTipoEquipo')
+    activo = models.BooleanField(db_column='Activo', default=True)
+    fechacreacion = models.DateTimeField(db_column='FechaCreacion', auto_now_add=True)
+    def __str__(self): return self.nombreplan
+    class Meta: db_table = 'planesmantenimiento'
+
+class DetallesPlanMantenimiento(models.Model):
+    """
+    Detalles de las tareas incluidas en un plan de mantenimiento con sus intervalos
+    """
+    iddetalleplan = models.AutoField(db_column='IDDetallePlan', primary_key=True)
+    idplanmantenimiento = models.ForeignKey(PlanesMantenimiento, on_delete=models.CASCADE, db_column='IDPlanMantenimiento')
+    idtareaestandar = models.ForeignKey(TareasEstandar, on_delete=models.PROTECT, db_column='IDTareaEstandar')
+    intervalohorasoperacion = models.IntegerField(db_column='IntervaloHorasOperacion', help_text="Cada cuántas horas se debe realizar esta tarea")
+    escritic = models.BooleanField(db_column='EsCritica', default=False)
+    activo = models.BooleanField(db_column='Activo', default=True)
+    def __str__(self): return f"{self.idplanmantenimiento.nombreplan} - {self.idtareaestandar.nombretarea} ({self.intervalohorasoperacion}h)"
+    class Meta: db_table = 'detallesplanmantenimiento'
+
+class TiposMantenimientoOT(models.Model):
+    """
+    Tipos de mantenimiento para órdenes de trabajo (Preventivo, Correctivo, Predictivo)
+    """
+    idtipomantenimientoot = models.AutoField(db_column='IDTipoMantenimientoOT', primary_key=True)
+    nombretipomantenimientoot = models.CharField(db_column='NombreTipoMantenimientoOT', unique=True, max_length=100)
+    descripcion = models.TextField(db_column='Descripcion', blank=True, null=True)
+    def __str__(self): return self.nombretipomantenimientoot
+    class Meta: db_table = 'tiposmantenimientoot'
+
+class EstadosOrdenTrabajo(models.Model):
+    """
+    Estados de las órdenes de trabajo (Abierta, En Progreso, Completada, Cancelada)
+    """
+    idestadoot = models.AutoField(db_column='IDEstadoOT', primary_key=True)
+    nombreestadoot = models.CharField(db_column='NombreEstadoOT', unique=True, max_length=50)
+    descripcion = models.TextField(db_column='Descripcion', blank=True, null=True)
+    def __str__(self): return self.nombreestadoot
+    class Meta: db_table = 'estadosordentrabajo'
+
+# --- NUEVOS MODELOS PARA REGISTRO DE MANTENIMIENTOS ---
+
+class OrdenesTrabajo(models.Model):
+    """
+    Órdenes de trabajo de mantenimiento
+    """
+    idordentrabajo = models.AutoField(db_column='IDOrdenTrabajo', primary_key=True)
+    numeroot = models.CharField(db_column='NumeroOT', unique=True, max_length=50)
+    idequipo = models.ForeignKey(Equipos, on_delete=models.PROTECT, db_column='IDEquipo')
+    idplanorigen = models.ForeignKey(PlanesMantenimiento, on_delete=models.SET_NULL, db_column='IDPlanOrigen', blank=True, null=True)
+    idtipomantenimientoot = models.ForeignKey(TiposMantenimientoOT, on_delete=models.PROTECT, db_column='IDTipoMantenimientoOT')
+    idestadoot = models.ForeignKey(EstadosOrdenTrabajo, on_delete=models.PROTECT, db_column='IDEstadoOT')
+    
+    # Información de programación
+    fechacreacionot = models.DateTimeField(db_column='FechaCreacionOT', auto_now_add=True)
+    fechaemision = models.DateField(db_column='FechaEmision', blank=True, null=True)
+    fechaejecucion = models.DateField(db_column='FechaEjecucion', blank=True, null=True)
+    fechacompletado = models.DateTimeField(db_column='FechaCompletado', blank=True, null=True)
+    
+    # Información de personal
+    idsolicitante = models.ForeignKey(User, on_delete=models.PROTECT, db_column='IDSolicitante', related_name='ots_solicitadas')
+    idtecnicoasignado = models.ForeignKey(User, on_delete=models.SET_NULL, db_column='IDTecnicoAsignado', related_name='ots_asignadas', blank=True, null=True)
+    
+    # Información de mantenimiento
+    horometro = models.IntegerField(db_column='Horometro', blank=True, null=True)
+    prioridad = models.CharField(db_column='Prioridad', max_length=20, choices=[('Baja', 'Baja'), ('Media', 'Media'), ('Alta', 'Alta'), ('Crítica', 'Crítica')], default='Media')
+    
+    # Información de fallas (para mantenimiento correctivo)
+    descripcionproblemareportado = models.TextField(db_column='DescripcionProblemaReportado', blank=True, null=True)
+    fechareportefalla = models.DateTimeField(db_column='FechaReporteFalla', blank=True, null=True)
+    
+    # Información de cierre
+    observacionesfinales = models.TextField(db_column='ObservacionesFinales', blank=True, null=True)
+    tiempototalminutos = models.IntegerField(db_column='TiempoTotalMinutos', blank=True, null=True)
+    
+    def __str__(self): return f"{self.numeroot} - {self.idequipo.nombreequipo}"
+    class Meta: db_table = 'ordenestrabajo'
+
+class ActividadesOrdenTrabajo(models.Model):
+    """
+    Actividades específicas dentro de una orden de trabajo
+    """
+    idactividadot = models.AutoField(db_column='IDActividadOT', primary_key=True)
+    idordentrabajo = models.ForeignKey(OrdenesTrabajo, on_delete=models.CASCADE, db_column='IDOrdenTrabajo')
+    idtareaestandar = models.ForeignKey(TareasEstandar, on_delete=models.PROTECT, db_column='IDTareaEstandar', blank=True, null=True)
+    secuencia = models.IntegerField(db_column='Secuencia', blank=True, null=True)
+    descripcionactividad = models.TextField(db_column='DescripcionActividad')
+    
+    # Información de ejecución
+    fechainicioactividad = models.DateTimeField(db_column='FechaInicioActividad', blank=True, null=True)
+    fechafinactividad = models.DateTimeField(db_column='FechaFinActividad', blank=True, null=True)
+    tiempoestimadominutos = models.IntegerField(db_column='TiempoEstimadoMinutos', blank=True, null=True)
+    tiemporealminutos = models.IntegerField(db_column='TiempoRealMinutos', blank=True, null=True)
+    
+    # Información de resultados
+    observacionesactividad = models.TextField(db_column='ObservacionesActividad', blank=True, null=True)
+    completada = models.BooleanField(db_column='Completada', default=False)
+    resultadoinspeccion = models.CharField(db_column='ResultadoInspeccion', max_length=50, blank=True, null=True)
+    medicionvalor = models.DecimalField(db_column='MedicionValor', max_digits=10, decimal_places=2, blank=True, null=True)
+    unidadmedicion = models.CharField(db_column='UnidadMedicion', max_length=20, blank=True, null=True)
+    
+    # Personal ejecutor
+    idtecnicoejecutor = models.ForeignKey(User, on_delete=models.SET_NULL, db_column='IDTecnicoEjecutor', blank=True, null=True)
+    
+    def __str__(self): return f"{self.idordentrabajo.numeroot} - {self.descripcionactividad[:50]}"
+    class Meta: db_table = 'actividadesordentrabajo'
+
+class Agendas(models.Model):
+    """
+    Agenda de eventos y mantenimientos programados
+    """
+    idagenda = models.AutoField(db_column='IDAgenda', primary_key=True)
+    tituloevento = models.CharField(db_column='TituloEvento', max_length=255)
+    fechahorainicio = models.DateTimeField(db_column='FechaHoraInicio')
+    fechahorafin = models.DateTimeField(db_column='FechaHoraFin')
+    descripcionevento = models.TextField(db_column='DescripcionEvento', blank=True, null=True)
+    tipoevento = models.CharField(db_column='TipoEvento', max_length=50, blank=True, null=True)
+    colorevento = models.CharField(db_column='ColorEvento', max_length=7, blank=True, null=True)
+    esdiacompleto = models.BooleanField(db_column='EsDiaCompleto', default=False)
+    recursivo = models.BooleanField(db_column='Recursivo', default=False)
+    reglarecursividad = models.CharField(db_column='ReglaRecursividad', max_length=255, blank=True, null=True)
+    fechacreacionevento = models.DateTimeField(db_column='FechaCreacionEvento', auto_now_add=True)
+    
+    # Relaciones
+    idequipo = models.ForeignKey(Equipos, on_delete=models.CASCADE, db_column='IDEquipo', blank=True, null=True)
+    idordentrabajo = models.ForeignKey(OrdenesTrabajo, on_delete=models.CASCADE, db_column='IDOrdenTrabajo', blank=True, null=True)
+    idplanmantenimiento = models.ForeignKey(PlanesMantenimiento, on_delete=models.CASCADE, db_column='IDPlanMantenimiento', blank=True, null=True)
+    idusuarioasignado = models.ForeignKey(User, on_delete=models.SET_NULL, db_column='IDUsuarioAsignado', related_name='eventos_asignados', blank=True, null=True)
+    idusuariocreador = models.ForeignKey(User, on_delete=models.PROTECT, db_column='IDUsuarioCreador', related_name='eventos_creados')
+    
+    def __str__(self): return f"{self.tituloevento} - {self.fechahorainicio.strftime('%Y-%m-%d %H:%M')}"
+    class Meta: db_table = 'agendas'
+

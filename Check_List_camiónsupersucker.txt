@@ -1,0 +1,118 @@
+Check-List Estado de Vehículo
+CHEQUEO DE
+
+VEHÍCULOS
+
+Faena :
+
+PATENTE
+
+Vehículo Tipo:
+
+FECHA
+
+Número Interno :
+
+KILOMETRAJE
+
+Tipo de licencia Conductor
+
+PROX. MANTENCION
+ESTADO
+
+ÍTEM
+
+BUENO
+
+LUCES
+
+MALO
+
+ESTADO
+OBSERVACIÓN
+
+ÍTEM
+
+BUENO
+
+MALO
+
+OBSERVACIÓN
+
+DOCUMENTOS
+
+Luz baja
+Luz Alta
+Luz Marcha Atrás
+Luz Interior
+Luz de Freno
+Tercera Luz de Freno
+Intermitentes
+Luz Patente
+
+Permiso de Circulación
+Revisión Técnica
+Tarjeta de mantención
+Seguro Obligatorio
+Tarjeta o llave combustible
+G.P.S.
+ASPIRADO
+Bomba aspiradora
+
+Baliza y conexión eléctrica
+Pértiga y conexión eléctrica
+
+Inspección ducto de succión
+Inspección mangueras de
+succión
+Sistema control descarga
+hidráulico
+
+Accesorios
+
+NEUMÁTICOS
+Delanteros
+Traseros
+Repuestos
+evisión de Tuercas
+
+Barra interna /certificado
+Extintor, Botiquín, Triángulos
+Cinturón de Seguridad
+Chapas de Puertas
+Bocina
+Parabrisas
+Vidrios laterales
+Bolso Herramientas
+Manillas Alza vidrios
+Batería
+Nivel de Agua
+Nivel de Aceite
+
+Espejos Retrovisores
+Logotipo
+Cuñas
+Gata. y manivela
+Llave rueda
+Plumillas Limpia Vidrios
+ALTA MONTAÑA
+Saco
+Cadenas para nieve
+Tensores de cadenas
+Pala
+
+Correas de accesorios
+
+Estrobos remolque
+
+Verificar gases de escape
+
+Linterna
+Frazadas
+OBSERVACIONES ANEXAS
+
+ENTREGA:
+
+RECIBE CONFORME:
+
+
