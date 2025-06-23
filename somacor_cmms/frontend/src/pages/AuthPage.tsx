@@ -1,34 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import apiClient from '../api/apiClient';
-import { useAuth } from '../context/AuthContext';
+// src/pages/AuthPage.tsx
+// MODIFICADO: Se ha eliminado completamente el formulario y la lógica de registro.
+// La página ahora solo sirve para iniciar sesión, según lo solicitado.
 
-const LoginForm = () => {
+import React, { useState, useContext, useEffect } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+const AuthPage: React.FC = () => {
+    // Se mantienen solo los estados necesarios para el login.
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login } = useAuth();
-    const handleLogin = async (e) => { e.preventDefault(); setError(''); try { await login(username, password); } catch (err) { setError('Usuario o contraseña incorrectos.'); } };
-    return (<form className="space-y-6" onSubmit={handleLogin}><input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Usuario" className="w-full px-4 py-2 border rounded-md" required /><input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Contraseña" className="w-full px-4 py-2 border rounded-md" required />{error && <p className="text-red-500 text-sm text-center">{error}</p>}<button type="submit" className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">Ingresar</button></form>);
-};
 
-const RegisterForm = () => {
-    const [formData, setFormData] = useState({ username: '', password: '', nombre_completo: '', email: '', rol_id: '' });
-    const [roles, setRoles] = useState([]);
-    const [error, setError] = useState('');
-    useEffect(() => { apiClient.get('/roles/').then(res => setRoles(res.data)).catch(err => console.error(err)); }, []);
-    const handleChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    const handleRegister = async (e) => { e.preventDefault(); setError(''); try { await apiClient.post('/register/', formData); alert('¡Usuario creado con éxito! Por favor, inicia sesión.'); } catch (err) { setError('Error al crear el usuario.'); } };
-    return (<form className="space-y-4" onSubmit={handleRegister}><input name="username" onChange={handleChange} placeholder="Nombre de Usuario" className="w-full px-4 py-2 border rounded-md" required /><input type="password" name="password" onChange={handleChange} placeholder="Contraseña" className="w-full px-4 py-2 border rounded-md" required /><input name="nombre_completo" onChange={handleChange} placeholder="Nombre Completo" className="w-full px-4 py-2 border rounded-md" required /><input type="email" name="email" onChange={handleChange} placeholder="Email" className="w-full px-4 py-2 border rounded-md" required/><select name="rol_id" onChange={handleChange} className="w-full px-4 py-2 border rounded-md" required><option value="">-- Seleccione un Rol --</option>{roles.map(r => <option key={r.idrol} value={r.idrol}>{r.nombrerol}</option>)}</select>{error && <p className="text-red-500 text-sm text-center">{error}</p>}<button type="submit" className="w-full px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700">Crear Cuenta</button></form>);
-};
+    const auth = useContext(AuthContext);
+    const navigate = useNavigate();
 
-const AuthPage = () => {
-    const [isLoginView, setIsLoginView] = useState(true);
+    // Redirige al dashboard si el usuario ya está autenticado.
+    // Aunque el flujo de la app ahora lo evita, es una buena práctica mantenerlo.
+    useEffect(() => {
+        if (auth?.token) {
+            navigate('/dashboard');
+        }
+    }, [auth, navigate]);
+
+    // Maneja el envío del formulario de inicio de sesión.
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        try {
+            // Llama a la función de login del contexto.
+            await auth!.login(username, password);
+            // Redirige al dashboard en caso de éxito.
+            navigate('/dashboard'); 
+        } catch (err: any) {
+            setError('Error al iniciar sesión. Verifique sus credenciales.');
+            console.error("Login error:", err);
+        }
+    };
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
-                <div className="text-center"><h2 className="text-2xl font-bold text-gray-800">{isLoginView ? 'Iniciar Sesión' : 'Crear Cuenta'} - Somacor CMMS</h2></div>
-                {isLoginView ? <LoginForm /> : <RegisterForm />}
-                <div className="text-center"><button onClick={() => setIsLoginView(!isLoginView)} className="text-sm text-blue-600 hover:underline">{isLoginView ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes una cuenta? Inicia Sesión'}</button></div>
+            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+                <h2 className="text-2xl font-bold text-center text-gray-800">
+                    Iniciar Sesión - Somacor CMMS
+                </h2>
+
+                <form onSubmit={handleLogin}>
+                    {/* Muestra un mensaje de error si ocurre uno. */}
+                    {error && <p className="text-sm text-center text-red-500 bg-red-100 p-2 rounded">{error}</p>}
+                    
+                    <div className="space-y-4">
+                        {/* Campo para el nombre de usuario. */}
+                        <input 
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                            type="text" 
+                            placeholder="Nombre de usuario" 
+                            value={username} 
+                            onChange={(e) => setUsername(e.target.value)} 
+                            required 
+                        />
+                        {/* Campo para la contraseña. */}
+                        <input 
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                            type="password" 
+                            placeholder="Contraseña" 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            required 
+                        />
+                    </div>
+                    
+                    {/* Botón para enviar el formulario. */}
+                    <button type="submit" className="w-full px-4 py-2 mt-6 font-semibold text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300">
+                        Entrar
+                    </button>
+                </form>
+
+                {/* Se eliminó el texto y el botón para cambiar a la vista de registro. */}
             </div>
         </div>
     );
