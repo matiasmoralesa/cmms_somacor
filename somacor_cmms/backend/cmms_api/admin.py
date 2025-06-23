@@ -1,15 +1,12 @@
 # cmms_api/admin.py
-# ARCHIVO CORREGIDO: Se eliminan las referencias a modelos que ya no existen.
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-# Se actualiza la lista de importación para que coincida con el models.py actual.
 from .models import (
-    Roles, Especialidades, Faenas, TiposEquipo, EstadosEquipo, TiposTarea,
-    TiposMantenimientoOT, EstadosOrdenTrabajo, Usuarios, Equipos,
-    TareasEstandar, PlanesMantenimiento, DetallesPlanMantenimiento,
-    OrdenesTrabajo, ActividadesOrdenTrabajo, Agendas
+    Roles, Usuarios, TiposEquipo, Faenas, EstadosEquipo,
+    Equipos, ChecklistTemplate, ChecklistCategory, ChecklistItem,
+    ChecklistInstance, ChecklistAnswer
 )
 
 # --- Personalización del Panel de Administración ---
@@ -18,8 +15,7 @@ class UsuariosInline(admin.StackedInline):
     model = Usuarios
     can_delete = False
     verbose_name_plural = 'Perfil de Usuario CMMS'
-    # Se añaden los nuevos campos para que sean visibles en el admin.
-    fields = ('idrol', 'idespecialidad', 'telefono', 'cargo', 'departamento')
+    fields = ('idrol', 'departamento') # Removed 'idespecialidad', 'telefono', 'cargo' as they are not in the current Usuarios model
 
 class UserAdmin(BaseUserAdmin):
     inlines = (UsuariosInline,)
@@ -44,32 +40,41 @@ class EquiposAdmin(admin.ModelAdmin):
     list_filter = ('idtipoequipo', 'idfaenaactual', 'idestadoactual', 'activo')
     search_fields = ('nombreequipo', 'codigointerno', 'marca', 'modelo')
 
-@admin.register(OrdenesTrabajo)
-class OrdenesTrabajoAdmin(admin.ModelAdmin):
-    list_display = ('numeroot', 'idequipo', 'idtipomantenimientoot', 'idestadoot', 'fechacreacionot')
-    list_filter = ('idestadoot', 'idtipomantenimientoot', 'fechacreacionot')
-    search_fields = ('numeroot', 'idequipo__nombreequipo')
-    date_hierarchy = 'fechacreacionot'
-
-@admin.register(PlanesMantenimiento)
-class PlanesMantenimientoAdmin(admin.ModelAdmin):
-    list_display = ('nombreplan', 'idtipoequipo', 'activo')
-    list_filter = ('activo', 'idtipoequipo__nombretipo')
-    search_fields = ('nombreplan', 'idtipoequipo__nombretipo')
-
 # --- Registros Simples para los Demás Modelos ---
-# Se eliminaron los registros de los modelos que ya no existen.
 admin.site.register(Roles)
-admin.site.register(Especialidades)
 admin.site.register(Faenas)
 admin.site.register(TiposEquipo)
 admin.site.register(EstadosEquipo)
-admin.site.register(TiposTarea)
-admin.site.register(TiposMantenimientoOT)
-admin.site.register(EstadosOrdenTrabajo)
-admin.site.register(TareasEstandar)
-admin.site.register(DetallesPlanMantenimiento)
-admin.site.register(ActividadesOrdenTrabajo)
-admin.site.register(Agendas)
 
-# El modelo 'Usuarios' no se registra aquí porque se maneja 'inline' con el 'UserAdmin'.
+# Registering new Checklist models
+@admin.register(ChecklistTemplate)
+class ChecklistTemplateAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'tipo_equipo', 'activo')
+    list_filter = ('tipo_equipo', 'activo')
+    search_fields = ('nombre',)
+
+@admin.register(ChecklistCategory)
+class ChecklistCategoryAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'template', 'orden')
+    list_filter = ('template',)
+    search_fields = ('nombre',)
+
+@admin.register(ChecklistItem)
+class ChecklistItemAdmin(admin.ModelAdmin):
+    list_display = ('texto', 'category', 'es_critico', 'orden')
+    list_filter = ('category', 'es_critico')
+    search_fields = ('texto',)
+
+@admin.register(ChecklistInstance)
+class ChecklistInstanceAdmin(admin.ModelAdmin):
+    list_display = ('template', 'equipo', 'operador', 'fecha_inspeccion', 'horometro_inspeccion')
+    list_filter = ('template', 'equipo', 'operador', 'fecha_inspeccion')
+    search_fields = ('equipo__nombreequipo', 'operador__username')
+
+@admin.register(ChecklistAnswer)
+class ChecklistAnswerAdmin(admin.ModelAdmin):
+    list_display = ('instance', 'item', 'estado')
+    list_filter = ('instance__template', 'item__category', 'estado')
+    search_fields = ('instance__equipo__nombreequipo', 'item__texto')
+
+

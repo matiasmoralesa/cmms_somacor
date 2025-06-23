@@ -1,0 +1,177 @@
+SISTEMA DE GESTIÓN DE S&SO MDO
+
+CHECK LIST MINICARGADOR
+(DIARIO)
+
+Código
+Elaborado/Aprobado
+Fecha de Emisión
+
+F-PR-040-CH01
+P. Aguilera / S. Pereira
+18/12/2019
+
+Página
+
+LUGAR DE LA INSPECCIÓN
+
+1 de 1
+FECHA
+
+NOMBRE OPERADOR QUE INSPECCIONA
+TIPO DE LICENCIA MUNICIPAL
+
+FECHA VIGENCIA LICENCIA MUNICIPAL
+
+TIPO DE LICENCIA INTERNA
+
+FECHA DE VIGENCIA LICENCIA INTERNA
+
+MARCA DE VEHÍCULO / MODELO / AÑO
+
+EMPRESA
+
+N° DE PATENTE / N° INTERNO
+
+KILOMETRAJE ACTUAL / HOROMETRO INICIAL
+CHEQUEAR EL ESTADO DE OPERATIVIDAD (B=BUENO / M=MALO / NA= NO APLICA)
+
+N°
+ITEM A REVISAR
+1. MOTOR
+1.1 Nivel de Agua
+1.2 Nivel de Aceite
+1.3 Nivel de Líquido de Freno
+1.4 Combustible
+1.5 Batería
+1.6 Correas
+1.7 Filtraciones
+1.8 Alternador
+1.9 Partida en Frío
+1.10 Radiador / Anticongelante
+1.11 Motor Arranque
+2. LUCES
+2.1 Luces Altas
+2.2 Luces Bajas
+2.3 Luces Intermitentes
+2.4 Luz Marcha Atrás
+2.5 Focos Faeneros
+2.6 Luz Patente
+2.7 Luz Tablero
+2.8 Luz Baliza
+2.9 Luz Pértiga
+2.10 Luces de Freno
+2.11 Estado de Micas
+3. DOCUMENTOS
+3.1 Permiso de Circulación
+3.2 Revisión Técnica
+3.3 Seguro Obligatorio
+4. ACCESORIOS
+4.1 Botiquín
+4.2 Extintor (8-10 kilos) (A-B-C) /Sistema AFEX
+4.3 Llave de Rueda
+4.4 Triángulos / Conos
+4.5 Cinturón de Seguridad
+4.6 Marcadores
+4.7 Señaléticas en Español
+4.8 Manual de operación en Español
+4.9 Instrumentos en bues estado
+4.10 Sistema Corta corriente
+4.11 revisión de tres puntos de apoyo
+
+ESTADO
+B
+
+M
+
+B
+
+M
+
+B
+
+M
+
+B
+
+M
+
+N°
+ITEM A REVISAR
+4.12 Puerta en buen estado
+4.13 Chapas de Puertas
+4.14 Manillas de Puertas
+4.15 Limpia parabrisas
+4.16 Cinta reflectante
+4.17 Vidrios
+4.18 Protección contra volcamiento
+4.19 Asiento con regulador y certificado
+4.20 Espejo Retrovisor
+4.21 Espejos Laterales
+4.22 Estado de Carrocería en General
+4.23 Bocina / Alarma de Retroceso
+4.24 Aire Acondicionado
+4.25 Cuñas
+4.26 Estado de neumáticos
+4.27 Seguros en tuercas
+4.28 Dirección (Mecánica o Hidráulica)
+4.29 Tubo de Escape
+4.30 Parada de Emergencia Exterior Equipo
+Se ha sobrecargado el sistema eléctrico original del
+4.31
+equipo?
+5. ESTADO MECÁNICO
+5.1 Avanzar
+5.2 Retroceder
+6. FRENOS
+6.1 Freno de Servicio
+6.2 Freno de Parqueo
+7. CARGADOR
+7.1 Balde
+7.2 Cuchillo de balde
+7.3 Porte cuchilla balde
+7.4 Seguros manuales de balde
+7.5 conexión inferior
+7.6 Sistema hidráulico
+7.7 Mangueras hidráulicas
+7.8 Conexiones hidráulicas
+7.9 Sistema Corta Corriente
+7.10 Desgaste dientes
+7.11 Estado de los mandos del balde
+
+B
+
+M
+
+B
+
+M
+
+B
+
+M
+
+B
+
+M
+
+Nota 1: Si durante el chequeo al Minicargador, se evidencia un solo elemento (CRÍTICO) identificado a continuación: 1.2 / 1.3 / 2.1 / 2.2 / 4.5 / 4.6 / 4.10 / 4.19 / 4.26 / 4.28 /
+4.31 / 5.1 / 5.2 / 6.1 / 6.2 / 7.11, como no operativo o en malas condiciones, el conductor no podrá utilizar la Máquina y deberá informar a su línea de mando directa.
+Observaciones:
+
+Nota 2: Los puntos donde el elemento (NO CRÍTICO) inspeccionado este en Malas condiciones, debe ser detallado en el ítem Observaciones:
+Observaciones:
+
+INSPECCIONADO POR
+NOMBRE:
+CARGO:
+FECHA:
+FIRMA:
+
+TOMA DE CONOCIMIENTO DE CONTROL
+NOMBRE:
+CARGO:
+FECHA:
+FIRMA:
+
+

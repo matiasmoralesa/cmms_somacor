@@ -1,0 +1,320 @@
+Fábrica 4.0 INACAP
+Levantamiento de requerimientos para el
+desarrollo de un CMMS con asistencia IA
+Onmicanal
+Estado del Arte
+
+Enero 2025
+
+INTRODUCCIÓN
+En el marco de la colaboración estratégica entre SOMACOR e INACAP, presentamos este documento como parte del
+levantamiento inicial de requerimientos para el desarrollo de un Sistema de Gestión de Mantenimiento Computarizado
+(CMMS) innovador, orientado a satisfacer las necesidades operativas y estratégicas de la empresa. Este proyecto se
+inscribe en el contexto del programa "Fábrica 4.0", cuyo objetivo principal es impulsar la digitalización de procesos críticos
+en la gestión de maquinaria pesada, optimizando la eficiencia y garantizando la trazabilidad en las faenas mineras.
+El CMMS que se plantea desarrollar integrará asistencia basada en inteligencia artificial (IA) omnicanal, posicionando a
+SOMACOR a la vanguardia tecnológica de su industria. Este enfoque no solo permitirá gestionar de manera más eficiente
+las operaciones de mantenimiento, sino que también ofrecerá una experiencia de usuario mejorada para los equipos
+involucrados, facilitando la comunicación y el acceso a información relevante desde diversas plataformas.
+Este documento recoge un análisis inicial detallado de los requerimientos, identificando las necesidades funcionales y no
+funcionales que servirán como cimientos para el diseño y desarrollo del sistema. Asimismo, refleja la estrecha colaboración
+entre SOMACOR e INACAP, basada en un compromiso mutuo con la innovación, la calidad y el cumplimiento de los
+objetivos estratégicos del proyecto.
+Estamos convencidos de que este esfuerzo conjunto dará como resultado un CMMS que no solo responderá a las
+exigencias actuales de SOMACOR, sino que también será una herramienta clave para enfrentar los desafíos del futuro en
+el ámbito del mantenimiento industrial.
+Quedamos atentos a sus comentarios y aportes para asegurar que este levantamiento de requerimientos sea un reflejo fiel
+de sus expectativas y necesidades.
+Atentamente,
+Marco Arévalo Zambrano
+Docente Líder Proyecto Tecnológico
+INACAP Copiapó
+
+PLAN ABORDADO
+RECOPILACION DE
+ANTECEDENTES
+
+DISEÑO DEL MODELO
+DE DATOS
+
+02
+
+04
+
+R1
+
+R2
+
+01
+
+R3
+
+R4
+
+03
+
+DESCRIPCION DEL MODELAMIENTO DEL
+PROBLEMA Y
+PROCESO DE NEGOCIO
+ALCANCES
+(BPM)
+
+ENTREGA DEL ESTADO
+DEL LEVANTAMIENTO
+
+R5
+
+R6
+
+R7
+
+05
+INICIO MOCKUPS Y
+ALCANCES DEL
+DESARROLLO
+
+R8
+
+DESCRIPCION DEL PROBLEMA
+
+El problema central que se intenta abordar es la gestión eficiente del mantenimiento preventivo y correctivo de
+maquinaria y vehículos en una faena minera. Esto incluye:
+Optimización de recursos: Asignación precisa de choferes, técnicos y agendas de mantenimiento.
+Reducción de tiempos de inactividad: Priorizando las reparaciones en faena siempre que sea posible.
+
+Documentación: Registro completo de mantenimientos y fallas para análisis futuro.
+Automatización: Uso de herramientas que programen mantenimientos preventivos, agilicen decisiones y aseguren el
+cumplimiento de agendas.
+
+RECOPILACION DE ANTECEDENTES
+La imagen presenta un programa estructurado
+de mantenimiento preventivo, detallando las
+actividades esenciales que deben realizarse
+según intervalos específicos de horas de
+operación. Este plan asegura el correcto
+funcionamiento y la longevidad de la maquinaria,
+alineando tareas diarias con mantenimientos
+programados en puntos clave como las 250, 500,
+1000, y hasta 12,000 horas de uso.
+El programa incluye acciones como lubricación,
+inspección de líquidos, pruebas de frenos,
+análisis de aceites, y reemplazo de componentes
+entre otras tareas, proporcionando una guía clara
+para mantener la operatividad del equipo en
+condiciones óptimas, minimizando fallas
+inesperadas y mejorando la eficiencia en
+operaciones exigentes.
+Este enfoque organizado permite planificar y
+priorizar las actividades de mantenimiento,
+asegurando una gestión eficiente de los recursos
+y la continuidad operativa en entornos de alta
+demanda, como faenas industriales o mineras.
+
+RECOPILACION DE ANTECEDENTES
+
+El documento proporcionado, hace referencia al programa
+de mantenimiento detallado para las maquinarias,
+correspondiente a un ciclo específico de horas de uso.
+Describe las actividades de mantenimiento preventivo
+necesarias para garantizar el óptimo desempeño del equipo,
+alineando las tareas con estándares operativos establecidos.
+Descripción general:
+Propósito: Asegurar la continuidad operativa de la
+maquinaria mediante un mantenimiento regular, reduciendo
+el riesgo de fallas y maximizando la vida útil del equipo.
+Actividades: Incluiría tareas como lubricación de
+componentes clave, inspección de niveles de líquidos,
+análisis de aceites y revisión de sistemas críticos como
+frenos y transmisión.
+Frecuencia: Las tareas se programan de acuerdo con el
+tiempo de operación acumulado, ajustándose a intervalos
+específicos para prevenir desgaste excesivo y minimizar
+tiempos de inactividad.
+Este documento es clave para la planificación y ejecución de
+estrategias de mantenimiento que optimizan la eficiencia y
+seguridad en operaciones de alto rendimiento como las
+mineras o industriales.
+
+MODELO BPM - VISION GENERAL
+Este diagrama proporciona una visión general de los
+servicios ofrecidos por SOMACOR en la faena
+minera, que se agrupan en tres procesos principales:
+Servicios de Aseo Industrial:
+Estos servicios aseguran condiciones higiénicas
+adecuadas en las instalaciones.
+Prestar Servicio Minero en Maquinaria Pesada:
+Incluye la operación y mantenimiento de
+maquinaria pesada para la extracción y
+transporte de material.
+Prestar Servicio Minero en Vehículo:
+Se enfoca en vehículos de soporte utilizados
+para trasladar materiales, equipos y personal.
+Proceso de Mantenimiento de Maquinaria y
+Vehículos:
+Este proceso conecta con el flujo detallado en el
+primer diagrama, asegurando que el equipo
+utilizado esté en óptimas condiciones.
+
+MODELO BPM - PROCESO DE MANTENIMIENTO DE MAQUINARIA Y VEHÍCULOS
+Este diagrama describe el proceso de mantenimiento de
+maquinaria y vehículos, tanto en flujos normales
+(mantenimiento preventivo) como en casos de fallas no
+previstas (mantenimiento correctivo). Se divide en las
+siguientes etapas principales:
+Flujo normal (Mantenimiento Preventivo):
+Generar Inventario de Máquinas y Vehículos: El
+proceso comienza con la creación de un inventario
+actualizado.
+Asociar Choferes a los Equipos: Se asignan
+operadores a cada máquina o vehículo.
+Registro de Agenda Preventiva: Se programan
+mantenimientos periódicos según las necesidades del
+equipo.
+Agendamiento Automático de Mantenimientos
+Preventivos: El sistema organiza de manera
+automática las fechas de intervención.
+Validar Estado de la Maquinaria: Se verifica el
+estado general para confirmar que todo opera dentro
+de parámetros normales.
+
+MODELO BPM - PROCESO DE MANTENIMIENTO DE MAQUINARIA Y VEHÍCULOS
+Flujo alterno (Falla no prevista):
+Identificar Tipo de Falla: Cuando ocurre una falla, se
+clasifica para decidir el procedimiento.
+Asignación de un Técnico: Si es necesaria
+intervención, se asigna un técnico.
+Corregir Falla en Faena: Si la reparación es posible
+en el sitio, se procede con la corrección.
+Registrar Detalles de Mantenimiento y Falla: Se
+documenta toda la información relevante de la
+intervención.
+Registrar la Salida de la Máquina: En caso de
+necesitar traslado, se envía la máquina al taller
+correspondiente.
+Reagendar Mantenimientos: Se ajustan las agendas
+preventivas considerando el evento correctivo.
+
+DISEÑO DEL MODELO DE DATOS V1
+Descripción del Modelo DBML: Este modelo de
+base de datos (DBML) ha sido diseñado para
+soportar las operaciones del Sistema de Gestión de
+Mantenimiento Computarizado (CMMS). Incluye
+entidades clave como procesos, flujos, vehículos,
+fallas, personal técnico, y agendas, estableciendo
+relaciones robustas para asegurar la trazabilidad y
+eficiencia en la gestión de mantenimientos
+preventivos y correctivos. Este diseño permite la
+integración de información crítica, optimizando los
+recursos y procesos de mantenimiento, mientras se
+asegura una operación continua en entornos
+exigentes como faenas industriales y mineras.
+
+INICIO MOCKUPS Y ALCANCES DEL DESARROLLO
+Se desarrollaron una serie de mockups para dar alcance al desarrollo en 2 etapas, bajo la mirada de un PMV (Producto
+Mínimo Viable):
+Etapa1: Construir los lineamientos iniciales del software, que soporten el registro de información y el soporte de tablas
+paramétricas y generales que alimentan las pantallas.
+Etapa 2: la incorporación de un bot IA que sirva de interfaz entre operarios, técnicos y administración, facilitando la gestión
+de las tareas de mantenimiento de manera mas automatizada.
+
+Estos mockups representan lineamientos iniciales, que pueden cambiar en la fase de desarrollo
+
+INICIO MOCKUPS Y
+ALCANCES DEL
+DESARROLLO
+
+• LOGIN:
+• Pantalla de control de acceso y roles al software
+
+INICIO MOCKUPS Y
+ALCANCES DEL
+DESARROLLO
+
+• Pantalla Principal:
+• Pantalla de accesos a menus asignados por roles a cada
+function.
+
+INICIO MOCKUPS Y
+ALCANCES DEL
+DESARROLLO
+
+• Dashboard:
+• Pantalla que contiene informacion resumida de acceso
+directo al usuario.
+
+INICIO MOCKUPS Y
+ALCANCES DEL
+DESARROLLO
+
+• Pantallas de Mantenimiento:
+Pantallas que registras las distintas tareas de mantenimiento.
+
+INICIO MOCKUPS Y
+ALCANCES DEL
+DESARROLLO
+
+• Estado de la maquina atendida:
+• Pantalla que permite identificar el estado de una maquina
+en operacion para realizer un seguimiento.
+
+INICIO MOCKUPS Y
+ALCANCES DEL
+DESARROLLO
+
+• Interfaz bot IA OmniCanal:
+• Pantalla que permite identificar el proceso bot IA sobre un
+Sistema de mensajeria (Whatsapp). Etapa 2
+
+PLAN DE TRABAJO 2025
+Se incluye como plan de trabajo , el desarrollo de la solución ETAPA 1 (Semestre Otoño 2025) y Etapa 2 (Semestre
+Primavera 2025)
+Tareas
+INICIO
+
+OTOÑO 2025
+INICIO SEM 1
+
+ETAPA I
+Análisis +
+Diseño
+Desarrollo +
+Testing
+
+FIN SEM 1
+
+Entrega
+
+Tareas
+INICIO
+
+PRIMAVERA 2025
+INICIO SEM 2
+
+ETAPA II
+Análisis +
+Diseño
+Desarrollo +
+Testing
+Entrega
+
+FN SEM 2
+
+CONCLUSIONES
+
+La etapa de levantamiento de requerimientos para el desarrollo del Sistema de Gestión
+de Mantenimiento Computarizado (CMMS) en colaboración con SOMACOR marca un
+hito importante en el proyecto conjunto entre INACAP y la empresa. Este proceso ha
+permitido identificar y documentar de manera detallada las necesidades operativas,
+técnicas y estratégicas, asegurando una base sólida para las fases futuras de diseño e
+implementación.La participación activa de docentes y alumnos de INACAP en este
+proyecto no solo fomenta un valioso aprendizaje práctico en un contexto industrial real,
+sino que también aporta perspectivas innovadoras al desarrollo de soluciones
+tecnológicas aplicadas. Este esfuerzo conjunto refuerza el compromiso de ambas
+instituciones con la excelencia y la innovación tecnológica.Con este levantamiento de
+requerimientos, estamos mejor preparados para construir un CMMS que no solo
+responda a las expectativas de SOMACOR, sino que también sirva como un modelo de
+integración académica e industrial, contribuyendo al avance de la Fábrica 4.0 en Chile. A
+medida que avanzamos hacia la siguiente etapa, la colaboración continua será clave para
+garantizar el éxito del proyecto en este 2025.
+
+
