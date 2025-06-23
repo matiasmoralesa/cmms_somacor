@@ -12,7 +12,7 @@ import {
   checklistService,
   dashboardService,
   tareasEstandarService,
-  usuariosService
+  userService
 } from '../services/apiService';
 import type {
   Equipo,
@@ -129,7 +129,7 @@ export function useTareasEstandar() {
 }
 
 export function useUsuarios() {
-  return useApiData<User>(usuariosService);
+  return useApiData<User>(userService);
 }
 
 // Hook para dashboard

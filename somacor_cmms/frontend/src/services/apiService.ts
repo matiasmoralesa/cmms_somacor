@@ -58,15 +58,19 @@ class BaseService<T> {
 
 // Servicios específicos para cada módulo
 export const equiposService = {
-  ...new BaseService<Equipo>('equipos/'),
+  getAll: (params?: Record<string, any>) => new BaseService<Equipo>("equipos/").getAll(params),
+  getById: (id: number) => new BaseService<Equipo>("equipos/").getById(id),
+  create: (data: Partial<Equipo>) => new BaseService<Equipo>("equipos/").create(data),
+  update: (id: number, data: Partial<Equipo>) => new BaseService<Equipo>("equipos/").update(id, data),
+  delete: (id: number) => new BaseService<Equipo>("equipos/").delete(id),
   
   async getEquiposCriticos(): Promise<Equipo[]> {
-    const response = await apiClient.get('mantenimiento-workflow/equipos-criticos/');
+    const response = await apiClient.get("mantenimiento-workflow/equipos-criticos/");
     return response.data;
   },
 
   async actualizarHorometro(equipoId: number, horometro: number, observaciones?: string): Promise<void> {
-    await apiClient.post('mantenimiento-workflow/actualizar-horometro/', {
+    await apiClient.post("mantenimiento-workflow/actualizar-horometro/", {
       equipo_id: equipoId,
       horometro,
       observaciones
@@ -79,7 +83,11 @@ export const estadosEquipoService = new BaseService<EstadoEquipo>('estados-equip
 export const faenasService = new BaseService<Faena>('faenas/');
 
 export const planesMantenimientoService = {
-  ...new BaseService<PlanMantenimiento>('planes-mantenimiento/'),
+  getAll: (params?: Record<string, any>) => new BaseService<PlanMantenimiento>("planes-mantenimiento/").getAll(params),
+  getById: (id: number) => new BaseService<PlanMantenimiento>("planes-mantenimiento/").getById(id),
+  create: (data: Partial<PlanMantenimiento>) => new BaseService<PlanMantenimiento>("planes-mantenimiento/").create(data),
+  update: (id: number, data: Partial<PlanMantenimiento>) => new BaseService<PlanMantenimiento>("planes-mantenimiento/").update(id, data),
+  delete: (id: number) => new BaseService<PlanMantenimiento>("planes-mantenimiento/").delete(id),
   
   async generarAgenda(planId: number): Promise<void> {
     await apiClient.post(`planes-mantenimiento/${planId}/generar-agenda/`);
@@ -96,32 +104,14 @@ export const tareasEstandarService = new BaseService<TareaEstandar>('tareas-esta
 export const tiposTareaService = new BaseService<TipoTarea>('tipos-tarea/');
 
 export const ordenesTrabajoService = {
-  async getAll(params?: Record<string, any>): Promise<ApiResponse<OrdenTrabajo>> {
-    const response = await apiClient.get('ordenes-trabajo/', { params });
-    return response.data;
-  },
-
-  async getById(id: number): Promise<OrdenTrabajo> {
-    const response = await apiClient.get(`ordenes-trabajo/${id}/`);
-    return response.data;
-  },
-
-  async create(data: Partial<OrdenTrabajo>): Promise<OrdenTrabajo> {
-    const response = await apiClient.post('ordenes-trabajo/', data);
-    return response.data;
-  },
-
-  async update(id: number, data: Partial<OrdenTrabajo>): Promise<OrdenTrabajo> {
-    const response = await apiClient.put(`ordenes-trabajo/${id}/`, data);
-    return response.data;
-  },
-
-  async delete(id: number): Promise<void> {
-    await apiClient.delete(`ordenes-trabajo/${id}/`);
-  },
+  getAll: (params?: Record<string, any>) => new BaseService<OrdenTrabajo>("ordenes-trabajo/").getAll(params),
+  getById: (id: number) => new BaseService<OrdenTrabajo>("ordenes-trabajo/").getById(id),
+  create: (data: Partial<OrdenTrabajo>) => new BaseService<OrdenTrabajo>("ordenes-trabajo/").create(data),
+  update: (id: number, data: Partial<OrdenTrabajo>) => new BaseService<OrdenTrabajo>("ordenes-trabajo/").update(id, data),
+  delete: (id: number) => new BaseService<OrdenTrabajo>("ordenes-trabajo/").delete(id),
   
   async crearDesdeplan(data: OrdenTrabajoFormData): Promise<OrdenTrabajo> {
-    const response = await apiClient.post('ordenes-trabajo/crear-desde-plan/', data);
+    const response = await apiClient.post("ordenes-trabajo/crear-desde-plan/", data);
     return response.data;
   },
 
@@ -131,7 +121,7 @@ export const ordenesTrabajoService = {
     descripcionproblemareportado: string;
     prioridad: string;
   }): Promise<OrdenTrabajo> {
-    const response = await apiClient.post('ordenes-trabajo/reportar-falla/', data);
+    const response = await apiClient.post("ordenes-trabajo/reportar-falla/", data);
     return response.data;
   }
 };
@@ -158,7 +148,11 @@ export const tiposMantenimientoOTService = new BaseService<TipoMantenimientoOT>(
 export const estadosOrdenTrabajoService = new BaseService<EstadoOrdenTrabajo>('estados-orden-trabajo/');
 
 export const agendaService = {
-  ...new BaseService<Agenda>('agendas/'),
+  getAll: (params?: Record<string, any>) => new BaseService<Agenda>("agendas/").getAll(params),
+  getById: (id: number) => new BaseService<Agenda>("agendas/").getById(id),
+  create: (data: Partial<Agenda>) => new BaseService<Agenda>("agendas/").create(data),
+  update: (id: number, data: Partial<Agenda>) => new BaseService<Agenda>("agendas/").update(id, data),
+  delete: (id: number) => new BaseService<Agenda>("agendas/").delete(id),
   
   async getCalendario(start: string, end: string): Promise<Agenda[]> {
     const response = await apiClient.get(`agendas/calendario/?start=${start}&end=${end}`);
@@ -237,5 +231,5 @@ export const authService = {
 };
 
 // Servicio para usuarios
-export const usuariosService = new BaseService<User>('users/');
+export const userService = new BaseService<User>("users/");
 
