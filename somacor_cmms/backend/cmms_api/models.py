@@ -125,8 +125,7 @@ class ChecklistInstance(models.Model):
     lugar_inspeccion = models.CharField(max_length=200, blank=True, null=True)
     observaciones_generales = models.TextField(blank=True, null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    imagen_evidencia = models.ImageField(upload_to='checklist_evidencias/', blank=True, null=True)
-
+    imagen_evidencia = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"Checklist para {self.equipo.nombreequipo} - {self.fecha_inspeccion}"

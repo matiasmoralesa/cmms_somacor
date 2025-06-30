@@ -65,12 +65,7 @@ class ChecklistWorkflowViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             try:
                 with transaction.atomic():
-                    # Obtenemos el archivo de imagen desde request.FILES
-                    imagen = request.FILES.get('imagen_evidencia', None)
-                    
-                    # Guardamos la instancia, pasando el archivo de imagen explícitamente.
-                    instance = serializer.save(imagen_evidencia=imagen)
-                    
+                    instance = serializer.save()                  
                     # La lógica de análisis de respuestas y creación de OT sigue igual.
                     alertas = self._analizar_respuestas_criticas(instance)
                     
