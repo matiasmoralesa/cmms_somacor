@@ -12,7 +12,7 @@ const LoginView: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const API_URL = 'https://8000-iy1ndwd6rwjciifvad9i7-14fa1d09.manusvm.computer/api';
+  const API_URL = 'http://localhost:8000/api';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,10 +53,14 @@ const LoginView: React.FC = () => {
         const rolNombre = data.rol.nombre;
         switch (rolNombre) {
           case 'Admin':
+          case 'Administrador':
           case 'Supervisor':
             navigate('/dashboard');
             break;
           case 'Operador':
+            navigate('/estado-maquina');
+            break;
+          case 'Técnico':
             navigate('/estado-maquina');
             break;
           default:

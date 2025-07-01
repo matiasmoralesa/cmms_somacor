@@ -101,17 +101,22 @@ export const canAccessRoute = (routePath: string): boolean => {
 
   // Definir qué rutas puede acceder cada rol
   const routePermissions: Record<string, string[]> = {
-    '/dashboard': ['Admin', 'Supervisor'],
-    '/estado-maquina': ['Admin', 'Supervisor', 'Operador'],
-    '/control/ordenes-trabajo': ['Admin', 'Supervisor', 'Operador'],
-    '/control/checklist-diario': ['Admin', 'Supervisor', 'Operador'],
-    '/control/crear-mantenimiento': ['Admin', 'Supervisor'],
-    '/control/reportar-falla': ['Admin', 'Supervisor', 'Operador'],
-    '/control/calendario': ['Admin', 'Supervisor'],
-    '/administracion': ['Admin', 'Supervisor'],
-    '/administracion/perfiles': ['Admin', 'Supervisor'],
-    '/administracion/equipos-moviles': ['Admin', 'Supervisor'],
-    '/administracion/programas-mantenimiento': ['Admin', 'Supervisor']
+    '/dashboard': ['Admin', 'Administrador', 'Supervisor'],
+    '/estado-maquina': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
+    '/checklist': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
+    '/ordenes-trabajo': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
+    '/calendario': ['Admin', 'Administrador', 'Supervisor'],
+    '/mantenimiento-planificado': ['Admin', 'Administrador', 'Supervisor'],
+    '/mantenimiento-no-planificado': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
+    '/control/ordenes-trabajo': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
+    '/control/checklist-diario': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
+    '/control/crear-mantenimiento': ['Admin', 'Administrador', 'Supervisor'],
+    '/control/reportar-falla': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
+    '/control/calendario': ['Admin', 'Administrador', 'Supervisor'],
+    '/administracion': ['Admin', 'Administrador', 'Supervisor'],
+    '/administracion/perfiles': ['Admin', 'Administrador', 'Supervisor'],
+    '/administracion/equipos-moviles': ['Admin', 'Administrador', 'Supervisor'],
+    '/administracion/programas-mantenimiento': ['Admin', 'Administrador', 'Supervisor']
   };
 
   const allowedRoles = routePermissions[routePath];
@@ -127,9 +132,11 @@ export const getDefaultRoute = (): string => {
 
   switch (role.nombre) {
     case 'Admin':
+    case 'Administrador':
     case 'Supervisor':
       return '/dashboard';
     case 'Operador':
+    case 'Técnico':
       return '/estado-maquina';
     default:
       return '/dashboard';
