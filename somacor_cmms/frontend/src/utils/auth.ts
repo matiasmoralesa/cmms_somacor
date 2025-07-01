@@ -90,33 +90,34 @@ export const getAuthHeaders = (): Record<string, string> => {
 
 // Verificar permisos para acceder a una ruta específica
 export const canAccessRoute = (routePath: string): boolean => {
-  if (!isAuthenticated()) {
-    return false;
-  }
-
   const role = getUserRole();
   if (!role) {
     return false;
   }
 
-  // Definir qué rutas puede acceder cada rol
+  // El administrador tiene acceso completo a todo el sistema
+  if (role.nombre === 'Administrador' || role.nombre === 'Admin') {
+    return true;
+  }
+
+  // Definir qué rutas puede acceder cada rol (excluyendo administrador que ya tiene acceso total)
   const routePermissions: Record<string, string[]> = {
-    '/dashboard': ['Admin', 'Administrador', 'Supervisor'],
-    '/estado-maquina': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
-    '/checklist': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
-    '/ordenes-trabajo': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
-    '/calendario': ['Admin', 'Administrador', 'Supervisor'],
-    '/mantenimiento-planificado': ['Admin', 'Administrador', 'Supervisor'],
-    '/mantenimiento-no-planificado': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
-    '/control/ordenes-trabajo': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
-    '/control/checklist-diario': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
-    '/control/crear-mantenimiento': ['Admin', 'Administrador', 'Supervisor'],
-    '/control/reportar-falla': ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico'],
-    '/control/calendario': ['Admin', 'Administrador', 'Supervisor'],
-    '/administracion': ['Admin', 'Administrador', 'Supervisor'],
-    '/administracion/perfiles': ['Admin', 'Administrador', 'Supervisor'],
-    '/administracion/equipos-moviles': ['Admin', 'Administrador', 'Supervisor'],
-    '/administracion/programas-mantenimiento': ['Admin', 'Administrador', 'Supervisor']
+    '/dashboard': ['Supervisor'],
+    '/estado-maquina': ['Supervisor', 'Operador', 'Técnico'],
+    '/checklist': ['Supervisor', 'Operador', 'Técnico'],
+    '/ordenes-trabajo': ['Supervisor', 'Operador', 'Técnico'],
+    '/calendario': ['Supervisor'],
+    '/mantenimiento-planificado': ['Supervisor'],
+    '/mantenimiento-no-planificado': ['Supervisor', 'Operador', 'Técnico'],
+    '/control/ordenes-trabajo': ['Supervisor', 'Operador', 'Técnico'],
+    '/control/checklist-diario': ['Supervisor', 'Operador', 'Técnico'],
+    '/control/crear-mantenimiento': ['Supervisor'],
+    '/control/reportar-falla': ['Supervisor', 'Operador', 'Técnico'],
+    '/control/calendario': ['Supervisor'],
+    '/administracion': ['Supervisor'],
+    '/administracion/perfiles': ['Supervisor'],
+    '/administracion/equipos-moviles': ['Supervisor'],
+    '/administracion/programas-mantenimiento': ['Supervisor']
   };
 
   const allowedRoles = routePermissions[routePath];

@@ -5,7 +5,7 @@ from .models import Usuarios
 
 class IsAdminRole(permissions.BasePermission):
     """
-    Permiso personalizado para permitir acceso solo a usuarios con rol de Admin.
+    Permiso personalizado para permitir acceso solo a usuarios con rol de Admin o Administrador.
     """
     def has_permission(self, request, view):
         if not request.user or not request.user.is_authenticated:
@@ -13,7 +13,7 @@ class IsAdminRole(permissions.BasePermission):
         
         try:
             usuario = Usuarios.objects.get(user=request.user)
-            return usuario.idrol.nombrerol == 'Admin'
+            return usuario.idrol.nombrerol in ['Admin', 'Administrador']
         except Usuarios.DoesNotExist:
             return False
 
@@ -47,7 +47,7 @@ class IsOperadorRole(permissions.BasePermission):
 
 class IsAdminOrSupervisorRole(permissions.BasePermission):
     """
-    Permiso personalizado para permitir acceso a usuarios con rol de Admin o Supervisor.
+    Permiso personalizado para permitir acceso a usuarios con rol de Admin, Administrador o Supervisor.
     """
     def has_permission(self, request, view):
         if not request.user or not request.user.is_authenticated:
@@ -55,7 +55,7 @@ class IsAdminOrSupervisorRole(permissions.BasePermission):
         
         try:
             usuario = Usuarios.objects.get(user=request.user)
-            return usuario.idrol.nombrerol in ['Admin', 'Supervisor']
+            return usuario.idrol.nombrerol in ['Admin', 'Administrador', 'Supervisor']
         except Usuarios.DoesNotExist:
             return False
 
@@ -69,7 +69,7 @@ class IsAnyRole(permissions.BasePermission):
         
         try:
             usuario = Usuarios.objects.get(user=request.user)
-            return usuario.idrol.nombrerol in ['Admin', 'Supervisor', 'Operador']
+            return usuario.idrol.nombrerol in ['Admin', 'Administrador', 'Supervisor', 'Operador', 'Técnico']
         except Usuarios.DoesNotExist:
             return False
 
