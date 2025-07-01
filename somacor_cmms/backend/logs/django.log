@@ -2089,3 +2089,7 @@ INFO 2025-07-01 01:31:13,199 autoreload 33342 139669540860544 /home/ubuntu/cmms_
 INFO 2025-07-01 01:31:13,794 autoreload 34780 140154769990272 Watching for file changes with StatReloader
 INFO 2025-07-01 01:31:51,309 autoreload 34780 140154769990272 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
 INFO 2025-07-01 01:31:51,650 autoreload 34842 139847421530752 Watching for file changes with StatReloader
+INFO 2025-07-01 12:06:06,956 autoreload 34842 139847421530752 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-07-01 12:06:07,895 autoreload 40378 140019153031808 Watching for file changes with StatReloader
+INFO 2025-07-01 12:06:19,182 autoreload 40378 140019153031808 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-07-01 12:06:19,578 autoreload 40446 139854816203392 Watching for file changes with StatReloader

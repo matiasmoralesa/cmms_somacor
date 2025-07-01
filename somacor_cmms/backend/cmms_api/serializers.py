@@ -159,7 +159,9 @@ class ChecklistInstanceSerializer(serializers.ModelSerializer):
     template_nombre = serializers.CharField(source='template.nombre', read_only=True)
     
     # Campo para la imagen de evidencia
-    imagen_evidencia = serializers.CharField(allow_null=True, allow_blank=True, required=False)    class Meta:
+    imagen_evidencia = serializers.CharField(allow_null=True, allow_blank=True, required=False)
+
+    class Meta:
         model = ChecklistInstance
         # --- INICIO DE LA CORRECCIÓN ---
         # Se elimina 'operador' de la lista de campos.
