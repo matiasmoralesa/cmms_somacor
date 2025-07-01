@@ -1921,4 +1921,41 @@ WARNING 2025-06-30 17:53:17,450 log 1931 140227740284480 Not Found: /
 WARNING 2025-06-30 17:53:17,450 basehttp 1931 140227740284480 "GET / HTTP/1.1" 404 2333
 WARNING 2025-06-30 17:53:18,187 log 1931 140227740284480 Not Found: /favicon.ico
 WARNING 2025-06-30 17:53:18,187 basehttp 1931 140227740284480 "GET /favicon.ico HTTP/1.1" 404 2384
-INFO 2025-06-30 18:48:13,949 autoreload 1931 140227791921792 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views.py changed, reloading.
+INFO 2025-06-30 18:00:05,037 autoreload 27504 8944 Watching for file changes with StatReloader
+INFO 2025-06-30 18:00:24,229 basehttp 27504 18552 "GET /api/mantenimiento-workflow/dashboard/ HTTP/1.1" 200 673
+INFO 2025-06-30 18:00:24,234 basehttp 27504 18552 "GET /api/mantenimiento-workflow/dashboard/ HTTP/1.1" 200 673
+INFO 2025-06-30 18:00:28,149 basehttp 27504 18552 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:00:28,155 basehttp 27504 18552 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:00:30,940 basehttp 27504 34600 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:00:30,947 basehttp 27504 34600 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:00:30,951 basehttp 27504 5496 "GET /api/users/ HTTP/1.1" 200 748
+INFO 2025-06-30 18:00:30,958 basehttp 27504 5496 "GET /api/users/ HTTP/1.1" 200 748
+INFO 2025-06-30 18:00:30,974 basehttp 27504 39800 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 22219
+INFO 2025-06-30 18:00:30,978 basehttp 27504 12452 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 801
+INFO 2025-06-30 18:00:30,985 basehttp 27504 12452 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 801
+INFO 2025-06-30 18:00:31,007 basehttp 27504 5496 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 22219
+INFO 2025-06-30 18:00:32,696 basehttp 27504 18552 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:00:32,702 basehttp 27504 18552 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:00:34,576 basehttp 27504 18552 "GET /api/checklist-workflow/templates-por-equipo/1/ HTTP/1.1" 200 5098
+INFO 2025-06-30 18:00:49,728 basehttp 27504 18552 "OPTIONS /api/checklist-workflow/completar-checklist/ HTTP/1.1" 200 0
+ERROR 2025-06-30 18:00:49,751 log 27504 18552 Internal Server Error: /api/checklist-workflow/completar-checklist/
+ERROR 2025-06-30 18:00:49,752 basehttp 27504 18552 "POST /api/checklist-workflow/completar-checklist/ HTTP/1.1" 500 50
+ERROR 2025-06-30 18:00:50,996 log 27504 18552 Internal Server Error: /api/checklist-workflow/completar-checklist/
+ERROR 2025-06-30 18:00:50,996 basehttp 27504 18552 "POST /api/checklist-workflow/completar-checklist/ HTTP/1.1" 500 50
+ERROR 2025-06-30 18:00:51,543 log 27504 18552 Internal Server Error: /api/checklist-workflow/completar-checklist/
+ERROR 2025-06-30 18:00:51,544 basehttp 27504 18552 "POST /api/checklist-workflow/completar-checklist/ HTTP/1.1" 500 50
+ERROR 2025-06-30 18:00:51,854 log 27504 18552 Internal Server Error: /api/checklist-workflow/completar-checklist/
+ERROR 2025-06-30 18:00:51,854 basehttp 27504 18552 "POST /api/checklist-workflow/completar-checklist/ HTTP/1.1" 500 50
+ERROR 2025-06-30 18:00:52,189 log 27504 18552 Internal Server Error: /api/checklist-workflow/completar-checklist/
+ERROR 2025-06-30 18:00:52,190 basehttp 27504 18552 "POST /api/checklist-workflow/completar-checklist/ HTTP/1.1" 500 50
+ERROR 2025-06-30 18:00:57,275 log 27504 18552 Internal Server Error: /api/checklist-workflow/completar-checklist/
+ERROR 2025-06-30 18:00:57,275 basehttp 27504 18552 "POST /api/checklist-workflow/completar-checklist/ HTTP/1.1" 500 50
+INFO 2025-06-30 18:01:14,270 basehttp 27504 36744 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:01:14,276 basehttp 27504 1652 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:01:16,737 basehttp 27504 1652 "GET /api/checklist-workflow/templates-por-equipo/1/ HTTP/1.1" 200 5098
+INFO 2025-06-30 18:18:00,767 basehttp 27504 35984 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:18:00,774 basehttp 27504 35984 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-06-30 18:18:06,532 basehttp 27504 37460 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-30 18:18:06,535 basehttp 27504 37460 "GET /api/roles/ HTTP/1.1" 200 236
+INFO 2025-06-30 18:18:06,542 basehttp 27504 37460 "GET /api/users/ HTTP/1.1" 200 748
+INFO 2025-06-30 18:18:06,547 basehttp 27504 37460 "GET /api/users/ HTTP/1.1" 200 748
