@@ -49,14 +49,13 @@ export const hasRole = (roleName: string): boolean => {
   return role?.nombre === roleName;
 };
 
-// Verificar si el usuario es Admin
 export const isAdmin = (): boolean => {
-  return hasRole('Admin');
+  return hasRole("Administrador");
 };
 
 // Verificar si el usuario es Supervisor
 export const isSupervisor = (): boolean => {
-  return hasRole('Supervisor');
+  return hasRole("Supervisor");
 };
 
 // Verificar si el usuario es Operador
