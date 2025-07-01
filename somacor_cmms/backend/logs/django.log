@@ -2093,3 +2093,37 @@ INFO 2025-07-01 12:06:06,956 autoreload 34842 139847421530752 /home/ubuntu/cmms_
 INFO 2025-07-01 12:06:07,895 autoreload 40378 140019153031808 Watching for file changes with StatReloader
 INFO 2025-07-01 12:06:19,182 autoreload 40378 140019153031808 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
 INFO 2025-07-01 12:06:19,578 autoreload 40446 139854816203392 Watching for file changes with StatReloader
+INFO 2025-07-01 12:13:02,370 basehttp 40446 139854764602944 "GET /api/mantenimiento-workflow/dashboard/ HTTP/1.1" 200 673
+INFO 2025-07-01 12:13:02,522 basehttp 40446 139854764602944 "GET /api/mantenimiento-workflow/dashboard/ HTTP/1.1" 200 673
+INFO 2025-07-01 12:13:06,620 basehttp 40446 139854746768960 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 801
+INFO 2025-07-01 12:13:06,627 basehttp 40446 139854537029184 "GET /api/users/ HTTP/1.1" 200 748
+INFO 2025-07-01 12:13:06,632 basehttp 40446 139854755161664 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-01 12:13:06,669 basehttp 40446 139854764602944 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 22396
+INFO 2025-07-01 12:13:06,766 basehttp 40446 139854764602944 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 801
+INFO 2025-07-01 12:13:06,778 basehttp 40446 139854755161664 "GET /api/users/ HTTP/1.1" 200 748
+INFO 2025-07-01 12:13:06,784 basehttp 40446 139854764602944 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-01 12:13:06,952 basehttp 40446 139854764602944 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 22396
+INFO 2025-07-01 12:13:09,980 basehttp 40446 139854746768960 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 801
+INFO 2025-07-01 12:13:09,983 basehttp 40446 139854537029184 "GET /api/users/ HTTP/1.1" 200 748
+INFO 2025-07-01 12:13:09,991 basehttp 40446 139854764602944 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-01 12:13:10,027 basehttp 40446 139854755161664 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 22396
+INFO 2025-07-01 12:13:10,132 basehttp 40446 139854755161664 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 801
+INFO 2025-07-01 12:13:10,136 basehttp 40446 139854764602944 "GET /api/users/ HTTP/1.1" 200 748
+INFO 2025-07-01 12:13:10,143 basehttp 40446 139854537029184 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-01 12:13:10,212 basehttp 40446 139854537029184 "GET /api/ordenes-trabajo/?fechaInicio=&fechaFin= HTTP/1.1" 200 22396
+INFO 2025-07-01 12:13:10,776 basehttp 40446 139854537029184 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-01 12:13:10,927 basehttp 40446 139854537029184 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-01 12:13:12,467 basehttp 40446 139854537029184 "GET /api/checklist-workflow/templates-por-equipo/1/ HTTP/1.1" 200 5098
+INFO 2025-07-01 12:13:25,164 basehttp 40446 139854537029184 "OPTIONS /api/checklist-workflow/completar-checklist/ HTTP/1.1" 200 0
+ERROR 2025-07-01 12:13:25,884 log 40446 139854537029184 Internal Server Error: /api/checklist-workflow/completar-checklist/
+ERROR 2025-07-01 12:13:25,884 basehttp 40446 139854537029184 "POST /api/checklist-workflow/completar-checklist/ HTTP/1.1" 500 131
+INFO 2025-07-01 12:19:02,331 autoreload 40446 139854816203392 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views.py changed, reloading.
+INFO 2025-07-01 12:19:02,797 autoreload 44358 140447652549248 Watching for file changes with StatReloader
+INFO 2025-07-01 12:19:41,509 autoreload 44358 140447652549248 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views.py changed, reloading.
+INFO 2025-07-01 12:19:41,904 autoreload 44411 140590769693312 Watching for file changes with StatReloader
+INFO 2025-07-01 12:19:47,310 autoreload 44411 140590769693312 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views.py changed, reloading.
+INFO 2025-07-01 12:19:47,693 autoreload 44430 139975474180736 Watching for file changes with StatReloader
+INFO 2025-07-01 12:20:00,126 autoreload 44430 139975474180736 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views.py changed, reloading.
+INFO 2025-07-01 12:20:00,487 autoreload 44451 139833836278400 Watching for file changes with StatReloader
+INFO 2025-07-01 12:24:01,699 basehttp 44451 139833784661568 "OPTIONS /api/login/ HTTP/1.1" 200 0
+INFO 2025-07-01 12:24:02,109 basehttp 44451 139833784661568 "POST /api/login/ HTTP/1.1" 200 274
