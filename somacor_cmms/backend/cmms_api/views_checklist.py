@@ -59,8 +59,7 @@ class ChecklistWorkflowViewSet(viewsets.ViewSet):
                 return Response({'error': 'Formato de "answers" inválido.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Pasamos los datos modificados al serializador.
-        serializer = ChecklistInstanceSerializer(data=data)
-        # --- FIN DE LA CORRECCIÓN ---
+        serializer = ChecklistInstanceSerializer(data=data, context={'request': request})
 
         if serializer.is_valid():
             try:

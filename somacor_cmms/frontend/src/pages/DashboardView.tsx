@@ -10,7 +10,7 @@ import { Truck, Wrench, AlertTriangle, CalendarCheck, BarChart2 } from 'lucide-r
 // =================================================================================
 
 // --- Dependencia: apiClient ---
-const API_URL = 'http://127.0.0.1:8000/api'; // URL del backend de Django
+const API_URL = 'https://8000-iy1ndwd6rwjciifvad9i7-14fa1d09.manusvm.computer/api';
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: {

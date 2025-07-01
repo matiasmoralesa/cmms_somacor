@@ -159,8 +159,7 @@ class ChecklistInstanceSerializer(serializers.ModelSerializer):
     template_nombre = serializers.CharField(source='template.nombre', read_only=True)
     
     # Campo para la imagen de evidencia
-    imagen_evidencia = serializers.CharField(allow_null=True, allow_blank=True)
-    class Meta:
+    imagen_evidencia = serializers.CharField(allow_null=True, allow_blank=True, required=False)    class Meta:
         model = ChecklistInstance
         # --- INICIO DE LA CORRECCIÓN ---
         # Se elimina 'operador' de la lista de campos.
@@ -183,7 +182,13 @@ class ChecklistInstanceSerializer(serializers.ModelSerializer):
         
         # Asignamos el usuario de la solicitud actual como el operador.
         # Esto es posible porque pasamos el contexto desde la vista.
-        validated_data['operador'] = self.context['request'].user
+        user = self.context["request"].user
+        if user and user.is_authenticated:
+            validated_data["operador"] = user
+        else:
+            # Manejar el caso de usuario no autenticado o no disponible
+            # Podrías lanzar un error de validación o asignar un valor por defecto
+            raise serializers.ValidationError("Usuario no autenticado para asignar como operador.")
         
         with transaction.atomic():
             instance = ChecklistInstance.objects.create(**validated_data)
