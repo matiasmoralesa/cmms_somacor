@@ -173,7 +173,6 @@ const OrdenesTrabajoView: React.FC = () => {
 
   const formFieldsReportFalla = [
     { name: 'idequipo', label: 'Equipo', type: 'select', required: true, options: equipos.map(e => ({ value: e.idequipo, label: `${e.codigointerno} - ${e.nombreequipo}` })) },
-    { name: 'idsolicitante', label: 'Solicitante', type: 'select', required: true, options: usuarios.map(u => ({ value: u.id, label: `${u.first_name} ${u.last_name}` })) },
     { name: 'descripcionproblemareportado', label: 'Descripción del Problema', type: 'textarea', required: true },
     { name: 'prioridad', label: 'Prioridad', type: 'select', required: true, options: [ { value: 'Baja', label: 'Baja' }, { value: 'Media', label: 'Media' }, { value: 'Alta', label: 'Alta' }, { value: 'Crítica', label: 'Crítica' } ] }
   ];

@@ -9,7 +9,8 @@ from .models import (
     ChecklistTemplate, ChecklistCategory, ChecklistItem,
     ChecklistInstance, ChecklistAnswer, TiposTarea, TareasEstandar,
     PlanesMantenimiento, DetallesPlanMantenimiento, TiposMantenimientoOT,
-    EstadosOrdenTrabajo, OrdenesTrabajo, ActividadesOrdenTrabajo, Agendas
+    EstadosOrdenTrabajo, OrdenesTrabajo, ActividadesOrdenTrabajo, Agendas,
+    EvidenciaOT
 )
 
 # --- Serializers Anteriores ---
@@ -262,3 +263,19 @@ class AgendaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agendas
         fields = '__all__'
+
+# --- SERIALIZER PARA EVIDENCIAS FOTOGRÁFICAS ---
+
+class EvidenciaOTSerializer(serializers.ModelSerializer):
+    usuario_subida_nombre = serializers.CharField(source='usuario_subida.get_full_name', read_only=True)
+    orden_trabajo_numero = serializers.CharField(source='idordentrabajo.numeroot', read_only=True)
+    
+    class Meta:
+        model = EvidenciaOT
+        fields = '__all__'
+        
+    def create(self, validated_data):
+        # Asignar automáticamente el usuario actual como quien sube la evidencia
+        validated_data['usuario_subida'] = self.context['request'].user
+        return super().create(validated_data)
+

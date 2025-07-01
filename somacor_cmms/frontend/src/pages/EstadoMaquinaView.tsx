@@ -94,7 +94,7 @@ const EstadoMaquinaView: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showOnlyActive, setShowOnlyActive] = useState(true);
+  const [showOnlyActive, setShowOnlyActive] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
 
   useEffect(() => {
@@ -123,6 +123,7 @@ const EstadoMaquinaView: React.FC = () => {
     if (showOnlyActive) {
       filteredEquipos = filteredEquipos.filter(equipo => equipo.activo);
     }
+    // Si showOnlyActive es false, mostramos todos los equipos (activos e inactivos)
 
     // Filtrar por término de búsqueda
     if (searchTerm) {
@@ -195,7 +196,7 @@ const EstadoMaquinaView: React.FC = () => {
                 id="active-toggle"
               />
               <label htmlFor="active-toggle" className="text-sm font-medium text-gray-700">
-                Mostrar solo activos
+                Solo equipos activos
               </label>
             </div>
           </div>
