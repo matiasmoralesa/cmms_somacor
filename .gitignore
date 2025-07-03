@@ -56,3 +56,4 @@ Thumbs.db
 .env.test.local
 .env.production.local
 
+somacor_cmms/backend/logs/django.log
