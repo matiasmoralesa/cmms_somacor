@@ -2438,3 +2438,11 @@ ERROR 2025-07-03 13:08:43,166 basehttp 131049 140155198797376 "POST /api/manteni
 INFO 2025-07-03 13:09:18,446 autoreload 131049 140155250410112 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views_maintenance.py changed, reloading.
 INFO 2025-07-03 13:09:18,809 autoreload 131114 140657741521536 Watching for file changes with StatReloader
 INFO 2025-07-03 13:09:33,851 basehttp 131114 140657622513216 "POST /api/mantenimiento-workflow/crear-ot-planificada/ HTTP/1.1" 201 1424
+INFO 2025-07-03 13:22:53,702 autoreload 31316 37632 Watching for file changes with StatReloader
+INFO 2025-07-03 13:23:05,333 basehttp 31316 39160 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-03 13:23:05,339 basehttp 31316 39984 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1131
+INFO 2025-07-03 13:23:05,351 basehttp 31316 40560 "GET /api/users/ HTTP/1.1" 200 827
+INFO 2025-07-03 13:23:05,353 basehttp 31316 39160 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-03 13:23:05,361 basehttp 31316 39984 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1131
+INFO 2025-07-03 13:23:05,364 basehttp 31316 40560 "GET /api/users/ HTTP/1.1" 200 827
+INFO 2025-07-03 13:23:16,331 basehttp 31316 40560 "POST /api/mantenimiento-workflow/crear-ot-planificada/ HTTP/1.1" 201 1415
