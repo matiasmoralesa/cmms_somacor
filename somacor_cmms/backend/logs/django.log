@@ -2406,3 +2406,35 @@ INFO 2025-07-03 00:45:58,884 basehttp 72044 139984700012096 "GET /api/planes-man
 INFO 2025-07-03 00:45:58,885 basehttp 72044 139984691619392 "GET /api/users/ HTTP/1.1" 200 827
 INFO 2025-07-03 00:45:58,899 basehttp 72044 139984683226688 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1131
 INFO 2025-07-03 00:45:58,938 basehttp 72044 139984683226688 "GET /api/users/ HTTP/1.1" 200 827
+INFO 2025-07-03 13:02:49,094 autoreload 130309 139690499490432 Watching for file changes with StatReloader
+INFO 2025-07-03 13:03:12,689 autoreload 130309 139690499490432 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views_maintenance.py changed, reloading.
+INFO 2025-07-03 13:03:13,052 autoreload 130358 140191640457856 Watching for file changes with StatReloader
+INFO 2025-07-03 13:04:51,482 basehttp 130358 140191580448320 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1131
+INFO 2025-07-03 13:04:51,485 basehttp 130358 140191588841024 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-03 13:04:51,489 basehttp 130358 140191356417600 "GET /api/users/ HTTP/1.1" 200 827
+INFO 2025-07-03 13:04:51,497 basehttp 130358 140191572055616 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1131
+INFO 2025-07-03 13:04:51,510 basehttp 130358 140191588841024 "GET /api/users/ HTTP/1.1" 200 827
+INFO 2025-07-03 13:04:51,513 basehttp 130358 140191580448320 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-03 13:05:40,760 basehttp 130358 140191572055616 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1131
+INFO 2025-07-03 13:05:40,785 basehttp 130358 140191588841024 "GET /api/users/ HTTP/1.1" 200 827
+INFO 2025-07-03 13:05:40,787 basehttp 130358 140191580448320 "GET /api/equipos/ HTTP/1.1" 200 1279
+INFO 2025-07-03 13:05:40,794 basehttp 130358 140191356417600 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1131
+INFO 2025-07-03 13:05:40,813 basehttp 130358 140191572055616 "GET /api/users/ HTTP/1.1" 200 827
+INFO 2025-07-03 13:05:40,814 basehttp 130358 140191348024896 "GET /api/equipos/ HTTP/1.1" 200 1279
+ERROR 2025-07-03 13:06:18,345 log 130358 140191339632192 Internal Server Error: /api/mantenimiento-workflow/crear-ot-planificada/
+ERROR 2025-07-03 13:06:18,345 basehttp 130358 140191339632192 "POST /api/mantenimiento-workflow/crear-ot-planificada/ HTTP/1.1" 500 91
+INFO 2025-07-03 13:06:51,525 autoreload 130358 140191640457856 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views_maintenance.py changed, reloading.
+INFO 2025-07-03 13:06:52,001 autoreload 130888 140394820997760 Watching for file changes with StatReloader
+ERROR 2025-07-03 13:07:00,509 log 130888 140394696275520 Internal Server Error: /api/mantenimiento-workflow/crear-ot-planificada/
+ERROR 2025-07-03 13:07:00,510 basehttp 130888 140394696275520 "POST /api/mantenimiento-workflow/crear-ot-planificada/ HTTP/1.1" 500 268
+INFO 2025-07-03 13:07:37,863 autoreload 130888 140394820997760 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views_maintenance.py changed, reloading.
+INFO 2025-07-03 13:07:38,295 autoreload 130954 140239505007232 Watching for file changes with StatReloader
+ERROR 2025-07-03 13:07:55,841 log 130954 140239453398592 Internal Server Error: /api/mantenimiento-workflow/crear-ot-planificada/
+ERROR 2025-07-03 13:07:55,841 basehttp 130954 140239453398592 "POST /api/mantenimiento-workflow/crear-ot-planificada/ HTTP/1.1" 500 131
+INFO 2025-07-03 13:08:33,171 autoreload 130954 140239505007232 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views_maintenance.py changed, reloading.
+INFO 2025-07-03 13:08:33,640 autoreload 131049 140155250410112 Watching for file changes with StatReloader
+ERROR 2025-07-03 13:08:43,166 log 131049 140155198797376 Internal Server Error: /api/mantenimiento-workflow/crear-ot-planificada/
+ERROR 2025-07-03 13:08:43,166 basehttp 131049 140155198797376 "POST /api/mantenimiento-workflow/crear-ot-planificada/ HTTP/1.1" 500 92
+INFO 2025-07-03 13:09:18,446 autoreload 131049 140155250410112 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views_maintenance.py changed, reloading.
+INFO 2025-07-03 13:09:18,809 autoreload 131114 140657741521536 Watching for file changes with StatReloader
+INFO 2025-07-03 13:09:33,851 basehttp 131114 140657622513216 "POST /api/mantenimiento-workflow/crear-ot-planificada/ HTTP/1.1" 201 1424
