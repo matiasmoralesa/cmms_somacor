@@ -356,3 +356,24 @@ class EvidenciaOT(models.Model):
         db_table = 'evidenciaot'
         ordering = ['-fecha_subida']
 
+
+# --- MODELO PARA MÚLTIPLES IMÁGENES EN CHECKLISTS ---
+
+class ChecklistImage(models.Model):
+    """
+    Evidencias fotográficas asociadas a checklists completados
+    """
+    id_imagen = models.AutoField(primary_key=True)
+    instance = models.ForeignKey(ChecklistInstance, on_delete=models.CASCADE, related_name='imagenes')
+    descripcion = models.CharField(max_length=255, blank=True, null=True, help_text="Descripción opcional de la imagen")
+    imagen_base64 = models.TextField(help_text="Imagen almacenada en formato Base64")
+    fecha_subida = models.DateTimeField(auto_now_add=True)
+    usuario_subida = models.ForeignKey(User, on_delete=models.PROTECT)
+    
+    def __str__(self):
+        return f"Imagen {self.id_imagen} - Checklist {self.instance.id_instance}"
+    
+    class Meta:
+        db_table = 'checklistimage'
+        ordering = ['-fecha_subida']
+
