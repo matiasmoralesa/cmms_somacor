@@ -325,15 +325,30 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
         """
         Crea una orden de trabajo correctiva por falla reportada
         """
-        id_equipo = request.data.get('idequipo')
-        descripcion = request.data.get('descripcionproblemareportado')
-
-        if not all([id_equipo, descripcion]):
-            return Response({'error': 'Faltan datos requeridos.'}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
-            equipo = Equipos.objects.get(pk=id_equipo)
-            # Asignar automáticamente el usuario actual como solicitante
+            # Validar datos requeridos
+            id_equipo = request.data.get('idequipo')
+            descripcion = request.data.get('descripcionproblemareportado')
+
+            if not all([id_equipo, descripcion]):
+                return Response({
+                    'error': 'Faltan datos requeridos: idequipo y descripcionproblemareportado son obligatorios.'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            # Validar que el equipo existe
+            try:
+                equipo = Equipos.objects.get(pk=id_equipo)
+            except Equipos.DoesNotExist:
+                return Response({
+                    'error': f'El equipo con ID {id_equipo} no existe.'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            # Validar usuario autenticado
+            if not request.user or not request.user.is_authenticated:
+                return Response({
+                    'error': 'Usuario no autenticado.'
+                }, status=status.HTTP_401_UNAUTHORIZED)
+
             solicitante = request.user
 
             # Obtener o crear el estado y tipo de OT
@@ -353,6 +368,20 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
                     descripcion='Mantenimiento por falla no planificada.'
                 )
 
+            # Preparar datos para la OT
+            horometro = request.data.get('horometro')
+            if horometro:
+                try:
+                    horometro = int(horometro)
+                except (ValueError, TypeError):
+                    horometro = None
+
+            prioridad = request.data.get('prioridad', 'Alta')
+            if prioridad not in ['Baja', 'Media', 'Alta', 'Crítica']:
+                prioridad = 'Alta'
+
+            observaciones = request.data.get('observacionesfinales') or request.data.get('observacionesadicionales') or ''
+
             with transaction.atomic():
                 nueva_ot = OrdenesTrabajo.objects.create(
                     numeroot=generar_numero_ot_unico(equipo, 'CORR'),
@@ -363,17 +392,20 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
                     fechareportefalla=timezone.now(),
                     idsolicitante=solicitante,
                     idtecnicoasignado=solicitante,
-                    prioridad=request.data.get('prioridad', 'Alta'),
-                    horometro=request.data.get('horometro'),
-                    observacionesfinales=request.data.get('observacionesfinales', request.data.get('observacionesadicionales'))
+                    prioridad=prioridad,
+                    horometro=horometro,
+                    observacionesfinales=observaciones
                 )
             
             serializer = self.get_serializer(nueva_ot)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         except Exception as e:
+            import traceback
+            error_detail = traceback.format_exc()
+            print(f"Error en reportar_falla: {error_detail}")  # Para debugging
             return Response({
-                'error': f'Ocurrió un error inesperado: {str(e)}'
+                'error': f'Error interno del servidor: {str(e)}'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ActividadOrdenTrabajoViewSet(viewsets.ModelViewSet):
