@@ -154,7 +154,7 @@ class PlanMantenimientoViewSet(viewsets.ModelViewSet):
     serializer_class = PlanMantenimientoSerializer
     permission_classes = [permissions.AllowAny]
 
-    @action(detail=True, methods=['get'], url_path='generar-agenda')
+    @action(detail=True, methods=['get', 'post'], url_path='generar-agenda')
     def generar_agenda(self, request, pk=None):
         """
         Genera eventos de agenda basados en el plan de mantenimiento y los equipos asociados
@@ -170,8 +170,22 @@ class PlanMantenimientoViewSet(viewsets.ModelViewSet):
             ).select_related('idtareaestandar').order_by('intervalohorasoperacion')
             
             for detalle in detalles:
-                # Calcular próxima fecha de mantenimiento basada en horometro actual
-                horas_restantes = detalle.intervalohorasoperacion - (equipo.horometroactual % detalle.intervalohorasoperacion)
+                # Calcular próxima fecha de mantenimiento basada en horometro estimado
+                # Como el modelo Equipos no tiene un campo de horómetro, usamos un valor predeterminado
+                # o podríamos obtenerlo de la última orden de trabajo
+                horometro_estimado = 0  # Valor predeterminado
+                
+                # Intentar obtener el último horómetro registrado en órdenes de trabajo
+                ultima_ot = OrdenesTrabajo.objects.filter(
+                    idequipo=equipo,
+                    horometro__isnull=False
+                ).order_by('-fechacreacionot').first()
+                
+                if ultima_ot and ultima_ot.horometro:
+                    horometro_estimado = ultima_ot.horometro
+                
+                # Calcular horas restantes
+                horas_restantes = detalle.intervalohorasoperacion - (horometro_estimado % detalle.intervalohorasoperacion)
                 if horas_restantes == detalle.intervalohorasoperacion:
                     horas_restantes = 0  # Ya es tiempo de mantenimiento
                 
@@ -191,11 +205,26 @@ class PlanMantenimientoViewSet(viewsets.ModelViewSet):
                     idplanmantenimiento=plan,
                     idusuariocreador=request.user if request.user.is_authenticated else User.objects.first()
                 )
-                eventos_creados.append(AgendaSerializer(evento).data)
+                eventos_creados.append({
+                    'id': evento.idagenda,
+                    'tituloevento': evento.tituloevento,
+                    'fechahorainicio': evento.fechahorainicio,
+                    'fechahorafin': evento.fechahorafin,
+                    'tipoevento': evento.tipoevento,
+                    'equipo': equipo.nombreequipo,
+                    'tarea': detalle.idtareaestandar.nombretarea,
+                    'intervalo': detalle.intervalohorasoperacion
+                })
         
         return Response({
             'message': f'Se crearon {len(eventos_creados)} eventos de agenda',
-            'eventos': eventos_creados
+            'eventos': eventos_creados,
+            'plan': {
+                'id': plan.idplanmantenimiento,
+                'nombre': plan.nombreplan,
+                'tipo_equipo': plan.idtipoequipo.nombretipo if plan.idtipoequipo else 'N/A'
+            },
+            'equipos_afectados': len(set([e['equipo'] for e in eventos_creados])) if eventos_creados else 0
         })
 
     @action(detail=True, methods=['get'], url_path='detalles')

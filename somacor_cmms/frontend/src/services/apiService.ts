@@ -93,8 +93,9 @@ export const planesMantenimientoService = {
   update: (id: number, data: Partial<PlanMantenimiento>) => new BaseService<PlanMantenimiento>("planes-mantenimiento/").update(id, data),
   delete: (id: number) => new BaseService<PlanMantenimiento>("planes-mantenimiento/").delete(id),
   
-  async generarAgenda(planId: number): Promise<void> {
-    await apiClient.post(`planes-mantenimiento/${planId}/generar-agenda/`);
+  async generarAgenda(planId: number): Promise<any> {
+    const response = await apiClient.get(`planes-mantenimiento/${planId}/generar-agenda/`);
+    return response.data;
   },
 
   async getDetalles(planId: number): Promise<DetallePlanMantenimiento[]> {
