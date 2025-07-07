@@ -98,8 +98,8 @@ export const planesMantenimientoService = {
   },
 
   async getDetalles(planId: number): Promise<DetallePlanMantenimiento[]> {
-    const response = await apiClient.get(`detalles-plan-mantenimiento/?idplanmantenimiento=${planId}`);
-    return response.data.results || response.data;
+    const response = await apiClient.get(`planes-mantenimiento/${planId}/detalles/`);
+    return response.data;
   }
 };
 

@@ -198,6 +198,23 @@ class PlanMantenimientoViewSet(viewsets.ModelViewSet):
             'eventos': eventos_creados
         })
 
+    @action(detail=True, methods=['get'], url_path='detalles')
+    def get_detalles(self, request, pk=None):
+        """
+        Obtiene los detalles de un plan con todas las relaciones incluidas
+        """
+        plan = self.get_object()
+        detalles = DetallesPlanMantenimiento.objects.filter(
+            idplanmantenimiento=plan,
+            activo=True
+        ).select_related(
+            'idtareaestandar',
+            'idtareaestandar__idtipotarea'
+        ).order_by('intervalohorasoperacion')
+        
+        serializer = DetallesPlanMantenimientoSerializer(detalles, many=True)
+        return Response(serializer.data)
+
 class DetallesPlanMantenimientoViewSet(viewsets.ModelViewSet):
     queryset = DetallesPlanMantenimiento.objects.select_related('idtareaestandar', 'idplanmantenimiento').all()
     serializer_class = DetallesPlanMantenimientoSerializer
