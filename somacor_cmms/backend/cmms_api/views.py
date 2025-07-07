@@ -452,6 +452,174 @@ class AgendaViewSet(viewsets.ModelViewSet):
         
         return Response(eventos)
 
+    @action(detail=False, methods=['post'], url_path='sincronizar-mantenciones')
+    def sincronizar_mantenciones(self, request):
+        """
+        Sincroniza las mantenciones programadas con el calendario
+        """
+        try:
+            eventos_creados = []
+            
+            # Obtener órdenes de trabajo programadas que no tienen evento en agenda
+            ordenes_programadas = OrdenesTrabajo.objects.filter(
+                fechaejecucion__isnull=False,
+                idestadoot__nombreestadoot__in=['Abierta', 'En Progreso'],
+                idordentrabajo__isnull=True  # No tienen evento en agenda
+            ).exclude(
+                idordentrabajo__in=Agendas.objects.values_list('idordentrabajo', flat=True)
+            )
+            
+            for orden in ordenes_programadas:
+                # Determinar el tipo de evento basado en el tipo de mantenimiento
+                tipo_evento = 'preventivo'
+                color_evento = '#3B82F6'  # Azul para preventivo
+                
+                if orden.idtipomantenimientoot.nombretipomantenimientoot == 'Correctivo':
+                    tipo_evento = 'correctivo'
+                    color_evento = '#F59E0B'  # Naranja para correctivo
+                elif orden.idtipomantenimientoot.nombretipomantenimientoot == 'Predictivo':
+                    tipo_evento = 'predictivo'
+                    color_evento = '#10B981'  # Verde para predictivo
+                
+                # Crear título descriptivo
+                titulo = f"Mantenimiento {orden.idtipomantenimientoot.nombretipomantenimientoot} - {orden.idequipo.nombreequipo}"
+                
+                # Crear descripción
+                descripcion = f"OT: {orden.numeroot}\n"
+                descripcion += f"Equipo: {orden.idequipo.nombreequipo}\n"
+                descripcion += f"Tipo: {orden.idtipomantenimientoot.nombretipomantenimientoot}\n"
+                descripcion += f"Prioridad: {orden.prioridad}\n"
+                if orden.descripcionproblemareportado:
+                    descripcion += f"Problema: {orden.descripcionproblemareportado}\n"
+                if orden.horometro:
+                    descripcion += f"Horómetro: {orden.horometro}h\n"
+                
+                # Calcular fechas de inicio y fin (asumiendo 4 horas de duración por defecto)
+                fecha_inicio = timezone.datetime.combine(
+                    orden.fechaejecucion, 
+                    timezone.datetime.min.time().replace(hour=8)  # 8:00 AM por defecto
+                )
+                fecha_fin = fecha_inicio + timezone.timedelta(hours=4)
+                
+                # Crear evento en agenda
+                evento = Agendas.objects.create(
+                    tituloevento=titulo,
+                    fechahorainicio=fecha_inicio,
+                    fechahorafin=fecha_fin,
+                    descripcionevento=descripcion,
+                    tipoevento=tipo_evento,
+                    colorevento=color_evento,
+                    esdiacompleto=False,
+                    idequipo=orden.idequipo,
+                    idordentrabajo=orden,
+                    idusuarioasignado=orden.idtecnicoasignado
+                )
+                
+                eventos_creados.append({
+                    'id': evento.idagenda,
+                    'titulo': evento.tituloevento,
+                    'fecha': evento.fechahorainicio.isoformat(),
+                    'orden_trabajo': orden.numeroot,
+                    'equipo': orden.idequipo.nombreequipo
+                })
+            
+            # Sincronizar planes de mantenimiento próximos a vencer
+            self._sincronizar_planes_mantenimiento(eventos_creados)
+            
+            return Response({
+                'message': f'Se crearon {len(eventos_creados)} eventos de agenda',
+                'eventos': eventos_creados
+            })
+            
+        except Exception as e:
+            return Response({
+                'error': f'Error al sincronizar mantenciones: {str(e)}'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    def _sincronizar_planes_mantenimiento(self, eventos_creados):
+        """
+        Método auxiliar para sincronizar planes de mantenimiento próximos a vencer
+        """
+        try:
+            from datetime import datetime, timedelta
+            
+            # Obtener equipos con planes de mantenimiento activos
+            equipos_con_planes = Equipos.objects.filter(
+                planesmantenimiento__activo=True
+            ).distinct()
+            
+            for equipo in equipos_con_planes:
+                planes = PlanesMantenimiento.objects.filter(
+                    idequipo=equipo,
+                    activo=True
+                )
+                
+                for plan in planes:
+                    # Obtener detalles del plan ordenados por intervalo
+                    detalles = DetallesPlanMantenimiento.objects.filter(
+                        idplanmantenimiento=plan,
+                        activo=True
+                    ).order_by('intervalohorasoperacion')
+                    
+                    for detalle in detalles:
+                        # Calcular próxima fecha de mantenimiento basada en horómetro actual
+                        # (Esta es una lógica simplificada, se puede mejorar)
+                        horometro_actual = equipo.horometro if hasattr(equipo, 'horometro') else 0
+                        horas_hasta_mantenimiento = detalle.intervalohorasoperacion - (horometro_actual % detalle.intervalohorasoperacion)
+                        
+                        # Estimar fecha basada en uso promedio (asumiendo 8 horas/día)
+                        dias_hasta_mantenimiento = horas_hasta_mantenimiento / 8
+                        fecha_estimada = timezone.now().date() + timedelta(days=dias_hasta_mantenimiento)
+                        
+                        # Solo crear eventos para mantenciones en los próximos 30 días
+                        if dias_hasta_mantenimiento <= 30:
+                            # Verificar si ya existe un evento para esta tarea
+                            evento_existente = Agendas.objects.filter(
+                                idequipo=equipo,
+                                idplanmantenimiento=plan,
+                                tituloevento__icontains=detalle.idtareaestandar.nombretarea,
+                                fechahorainicio__date=fecha_estimada
+                            ).exists()
+                            
+                            if not evento_existente:
+                                titulo = f"Mantenimiento Preventivo - {equipo.nombreequipo} - {detalle.idtareaestandar.nombretarea}"
+                                descripcion = f"Plan: {plan.nombreplan}\n"
+                                descripcion += f"Tarea: {detalle.idtareaestandar.nombretarea}\n"
+                                descripcion += f"Intervalo: {detalle.intervalohorasoperacion}h\n"
+                                descripcion += f"Equipo: {equipo.nombreequipo}\n"
+                                descripcion += f"Horómetro estimado: {horometro_actual + horas_hasta_mantenimiento}h"
+                                
+                                fecha_inicio = timezone.datetime.combine(
+                                    fecha_estimada,
+                                    timezone.datetime.min.time().replace(hour=9)  # 9:00 AM
+                                )
+                                fecha_fin = fecha_inicio + timezone.timedelta(
+                                    minutes=detalle.idtareaestandar.tiempoestimadominutos or 120
+                                )
+                                
+                                evento = Agendas.objects.create(
+                                    tituloevento=titulo,
+                                    fechahorainicio=fecha_inicio,
+                                    fechahorafin=fecha_fin,
+                                    descripcionevento=descripcion,
+                                    tipoevento='preventivo',
+                                    colorevento='#3B82F6',  # Azul
+                                    esdiacompleto=False,
+                                    idequipo=equipo,
+                                    idplanmantenimiento=plan
+                                )
+                                
+                                eventos_creados.append({
+                                    'id': evento.idagenda,
+                                    'titulo': evento.tituloevento,
+                                    'fecha': evento.fechahorainicio.isoformat(),
+                                    'plan': plan.nombreplan,
+                                    'equipo': equipo.nombreequipo
+                                })
+                                
+        except Exception as e:
+            print(f"Error en sincronización de planes: {str(e)}")  # Para debugging
+
 
 # --- VIEWSET PARA EVIDENCIAS FOTOGRÁFICAS ---
 
