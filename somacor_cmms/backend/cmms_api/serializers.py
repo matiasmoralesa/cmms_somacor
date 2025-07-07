@@ -243,6 +243,8 @@ class PlanMantenimientoSerializer(serializers.ModelSerializer):
 class DetallesPlanMantenimientoSerializer(serializers.ModelSerializer):
     plan_nombre = serializers.CharField(source='idplanmantenimiento.nombreplan', read_only=True)
     tarea_nombre = serializers.CharField(source='idtareaestandar.nombretarea', read_only=True)
+    tarea_estandar = TareaEstandarSerializer(source='idtareaestandar', read_only=True)
+    
     class Meta:
         model = DetallesPlanMantenimiento
         fields = '__all__'

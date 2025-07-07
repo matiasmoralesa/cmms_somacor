@@ -167,7 +167,7 @@ class PlanMantenimientoViewSet(viewsets.ModelViewSet):
             detalles = DetallesPlanMantenimiento.objects.filter(
                 idplanmantenimiento=plan, 
                 activo=True
-            ).order_by('intervalohorasoperacion')
+            ).select_related('idtareaestandar').order_by('intervalohorasoperacion')
             
             for detalle in detalles:
                 # Calcular próxima fecha de mantenimiento basada en horometro actual
@@ -199,7 +199,7 @@ class PlanMantenimientoViewSet(viewsets.ModelViewSet):
         })
 
 class DetallesPlanMantenimientoViewSet(viewsets.ModelViewSet):
-    queryset = DetallesPlanMantenimiento.objects.all()
+    queryset = DetallesPlanMantenimiento.objects.select_related('idtareaestandar', 'idplanmantenimiento').all()
     serializer_class = DetallesPlanMantenimientoSerializer
     permission_classes = [permissions.AllowAny]
 

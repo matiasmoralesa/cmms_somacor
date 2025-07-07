@@ -2446,3 +2446,19 @@ INFO 2025-07-03 13:23:05,353 basehttp 31316 39160 "GET /api/equipos/ HTTP/1.1" 2
 INFO 2025-07-03 13:23:05,361 basehttp 31316 39984 "GET /api/planes-mantenimiento/ HTTP/1.1" 200 1131
 INFO 2025-07-03 13:23:05,364 basehttp 31316 40560 "GET /api/users/ HTTP/1.1" 200 827
 INFO 2025-07-03 13:23:16,331 basehttp 31316 40560 "POST /api/mantenimiento-workflow/crear-ot-planificada/ HTTP/1.1" 201 1415
+INFO 2025-07-07 11:29:26,747 autoreload 13635 139683550249600 Watching for file changes with StatReloader
+INFO 2025-07-07 11:30:03,760 basehttp 13635 139683497555520 "OPTIONS /api/login/ HTTP/1.1" 200 0
+WARNING 2025-07-07 11:30:04,168 log 13635 139683497555520 Bad Request: /api/login/
+WARNING 2025-07-07 11:30:04,169 basehttp 13635 139683497555520 "POST /api/login/ HTTP/1.1" 400 86
+WARNING 2025-07-07 11:30:36,286 log 13635 139683497555520 Bad Request: /api/login/
+WARNING 2025-07-07 11:30:36,286 basehttp 13635 139683497555520 "POST /api/login/ HTTP/1.1" 400 86
+INFO 2025-07-07 11:31:22,285 basehttp 13635 139683497555520 "POST /api/login/ HTTP/1.1" 200 272
+INFO 2025-07-07 11:37:55,080 autoreload 13635 139683550249600 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/serializers.py changed, reloading.
+INFO 2025-07-07 11:37:55,409 autoreload 14589 139926119834240 Watching for file changes with StatReloader
+INFO 2025-07-07 11:38:04,783 autoreload 14589 139926119834240 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views.py changed, reloading.
+INFO 2025-07-07 11:38:05,146 autoreload 14606 140370944725632 Watching for file changes with StatReloader
+INFO 2025-07-07 11:38:14,587 autoreload 14606 140370944725632 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views.py changed, reloading.
+INFO 2025-07-07 11:38:14,964 autoreload 14623 140271628132992 Watching for file changes with StatReloader
+INFO 2025-07-07 11:38:37,529 autoreload 14833 140214286512768 Watching for file changes with StatReloader
+WARNING 2025-07-07 11:40:06,479 log 14833 140214167139904 Bad Request: /api/login/
+WARNING 2025-07-07 11:40:06,479 basehttp 14833 140214167139904 "POST /api/login/ HTTP/1.1" 400 86
