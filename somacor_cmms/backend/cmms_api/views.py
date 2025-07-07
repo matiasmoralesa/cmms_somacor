@@ -8,9 +8,35 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db import models, transaction
+import uuid
+import random
 from .models import *
 from .serializers import *
 from .permissions import IsAdminRole, IsSupervisorRole, IsOperadorRole, IsAdminOrSupervisorRole, IsAnyRole
+
+# --- Funciones Auxiliares ---
+def generar_numero_ot_unico(equipo, tipo_mantenimiento='CORR'):
+    """
+    Genera un número de OT único para evitar conflictos de constraint UNIQUE
+    """
+    max_intentos = 10
+    for intento in range(max_intentos):
+        # Generar timestamp con microsegundos para mayor unicidad
+        timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+        
+        # Agregar componente aleatorio para evitar colisiones
+        componente_aleatorio = random.randint(100, 999)
+        
+        # Generar número de OT
+        numero_ot = f"OT-{tipo_mantenimiento}-{equipo.codigointerno or equipo.idequipo}-{timestamp}-{componente_aleatorio}"
+        
+        # Verificar si ya existe
+        if not OrdenesTrabajo.objects.filter(numeroot=numero_ot).exists():
+            return numero_ot
+    
+    # Si después de 10 intentos no se puede generar un número único, usar UUID
+    uuid_suffix = str(uuid.uuid4())[:8].upper()
+    return f"OT-{tipo_mantenimiento}-{equipo.codigointerno or equipo.idequipo}-{timezone.now().strftime('%Y%m%d%H%M%S')}-{uuid_suffix}"
 
 # --- Vistas de Autenticación ---
 class CustomAuthToken(ObtainAuthToken):
@@ -312,7 +338,7 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
 
             with transaction.atomic():
                 nueva_ot = OrdenesTrabajo.objects.create(
-                    numeroot=f"OT-CORR-{equipo.codigointerno or equipo.idequipo}-{timezone.now().strftime('%Y%m%d%H%M')}",
+                    numeroot=generar_numero_ot_unico(equipo, 'CORR'),
                     idequipo=equipo,
                     idtipomantenimientoot=tipo_ot,
                     idestadoot=estado_inicial,
@@ -320,7 +346,9 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
                     fechareportefalla=timezone.now(),
                     idsolicitante=solicitante,
                     idtecnicoasignado=solicitante,
-                    prioridad=request.data.get('prioridad', 'Alta')
+                    prioridad=request.data.get('prioridad', 'Alta'),
+                    horometro=request.data.get('horometro'),
+                    observacionesfinales=request.data.get('observacionesfinales', request.data.get('observacionesadicionales'))
                 )
             
             serializer = self.get_serializer(nueva_ot)
