@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { AlertTriangle, CheckCircle, Send } from 'lucide-react';
 import MultipleImageUpload from '../components/MultipleImageUpload';
@@ -153,11 +153,15 @@ const UnplannedMaintenanceView: React.FC = () => {
                 observacionesfinales: formData.observacionesadicionales,
             };
 
+            console.log("Enviando datos:", otPayload);
             const otResponse = await apiClient.post('ordenes-trabajo/reportar-falla/', otPayload);
+            console.log("Respuesta recibida:", otResponse.data);
+            
             const ordenTrabajoId = otResponse.data.idordentrabajo;
 
             // Subir imágenes si existen
             if (images.length > 0) {
+                console.log(`Subiendo ${images.length} imágenes para OT ${ordenTrabajoId}`);
                 const imagePromises = images.map(image => 
                     apiClient.post('evidencia-ot/', {
                         idordentrabajo: ordenTrabajoId,
@@ -167,16 +171,26 @@ const UnplannedMaintenanceView: React.FC = () => {
                 );
 
                 await Promise.all(imagePromises);
+                console.log("Todas las imágenes subidas correctamente");
             }
 
             setSuccess(`¡Reporte de falla creado exitosamente! Número de OT: ${otResponse.data.numeroot}`);
             resetForm();
             
         } catch (err: any) {
-            console.error("Error al crear la Orden de Trabajo:", err.response?.data);
-            const errorMessage = err.response?.data?.error || 
-                               err.response?.data?.detail || 
-                               'Error al guardar el reporte. Revise los datos e intente de nuevo.';
+            console.error("Error al crear la Orden de Trabajo:", err);
+            console.error("Detalles del error:", err.response?.data);
+            
+            let errorMessage = 'Error al guardar el reporte. Revise los datos e intente de nuevo.';
+            
+            if (err.response?.data?.error) {
+                errorMessage = err.response.data.error;
+            } else if (err.response?.data?.detail) {
+                errorMessage = err.response.data.detail;
+            } else if (err.message) {
+                errorMessage = `Error: ${err.message}`;
+            }
+            
             setError(errorMessage);
         } finally {
             setLoading(false);

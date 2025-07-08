@@ -372,13 +372,21 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
                     'error': f'El equipo con ID {id_equipo} no existe.'
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-            # Validar usuario autenticado
-            if not request.user or not request.user.is_authenticated:
-                return Response({
-                    'error': 'Usuario no autenticado.'
-                }, status=status.HTTP_401_UNAUTHORIZED)
-
-            solicitante = request.user
+            # Obtener o crear usuario por defecto para reportes
+            if request.user and request.user.is_authenticated:
+                solicitante = request.user
+            else:
+                # Crear o usar usuario por defecto para reportes de falla
+                from django.contrib.auth.models import User
+                solicitante, created = User.objects.get_or_create(
+                    username='operador_reportes',
+                    defaults={
+                        'first_name': 'Operador',
+                        'last_name': 'Reportes',
+                        'email': 'operador@somacor.cl',
+                        'is_active': True
+                    }
+                )
 
             # Obtener o crear el estado y tipo de OT
             try:
@@ -411,23 +419,28 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
 
             observaciones = request.data.get('observacionesfinales') or request.data.get('observacionesadicionales') or ''
 
-            with transaction.atomic():
-                nueva_ot = OrdenesTrabajo.objects.create(
-                    numeroot=generar_numero_ot_unico(equipo, 'CORR'),
-                    idequipo=equipo,
-                    idtipomantenimientoot=tipo_ot,
-                    idestadoot=estado_inicial,
-                    descripcionproblemareportado=descripcion,
-                    fechareportefalla=timezone.now(),
-                    idsolicitante=solicitante,
-                    idtecnicoasignado=solicitante,
-                    prioridad=prioridad,
-                    horometro=horometro,
-                    observacionesfinales=observaciones
-                )
-            
-            serializer = self.get_serializer(nueva_ot)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                with transaction.atomic():
+                    nueva_ot = OrdenesTrabajo.objects.create(
+                        numeroot=generar_numero_ot_unico(equipo, 'CORR'),
+                        idequipo=equipo,
+                        idtipomantenimientoot=tipo_ot,
+                        idestadoot=estado_inicial,
+                        descripcionproblemareportado=descripcion,
+                        fechareportefalla=timezone.now(),
+                        idsolicitante=solicitante,
+                        idtecnicoasignado=solicitante,
+                        prioridad=prioridad,
+                        horometro=horometro,
+                        observacionesfinales=observaciones
+                    )
+                
+                serializer = self.get_serializer(nueva_ot)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({
+                    'error': f'Error al crear la orden de trabajo: {str(e)}'
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
         except Exception as e:
             import traceback
