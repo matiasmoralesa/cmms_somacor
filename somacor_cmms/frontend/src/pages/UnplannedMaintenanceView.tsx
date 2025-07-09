@@ -1,27 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import { AlertTriangle, CheckCircle, Send } from 'lucide-react';
 import MultipleImageUpload from '../components/MultipleImageUpload';
+import { equiposService, ordenesTrabajoService } from '../services/apiService';
+import apiClient from '../api/apiClient';
 
 // =================================================================================
 // INICIO DE DEPENDENCIAS LOCALES
 // =================================================================================
-
-const API_URL = 'http://localhost:8000/api';
-const apiClient = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-apiClient.interceptors.request.use(config => {
-    const token = localStorage.getItem('authToken'); 
-    if (token) {
-        config.headers.Authorization = `Token ${token}`;
-    }
-    return config;
-});
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
   <div ref={ref} className={`rounded-lg border bg-white text-gray-900 shadow-sm ${className}`} {...props} />
@@ -96,8 +81,8 @@ const UnplannedMaintenanceView: React.FC = () => {
     useEffect(() => {
         const fetchEquipos = async () => {
             try {
-                const response = await apiClient.get('equipos/');
-                setEquipos(response.data.results || response.data);
+                const response = await equiposService.getAll();
+                setEquipos(response.results || response);
             } catch (error) {
                 console.error("Error cargando equipos:", error);
                 setError("No se pudieron cargar los equipos.");
@@ -144,7 +129,7 @@ const UnplannedMaintenanceView: React.FC = () => {
         }
 
         try {
-            // Crear la orden de trabajo
+            // Crear la orden de trabajo usando el servicio centralizado
             const otPayload = {
                 idequipo: parseInt(formData.idequipo, 10),
                 prioridad: formData.prioridad,

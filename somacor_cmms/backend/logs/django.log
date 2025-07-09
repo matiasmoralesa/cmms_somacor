@@ -2577,3 +2577,7 @@ WARNING 2025-07-07 18:17:34,348 basehttp 35112 140164701361728 "POST /api/ordene
 INFO 2025-07-08 00:45:11,334 autoreload 35112 140164752982656 /home/ubuntu/cmms_somacor/somacor_cmms/backend/cmms_api/views.py changed, reloading.
 INFO 2025-07-08 00:45:43,120 autoreload 36821 139691408003712 Watching for file changes with StatReloader
 INFO 2025-07-08 00:45:52,961 basehttp 36821 139691356358208 "POST /api/ordenes-trabajo/reportar-falla/ HTTP/1.1" 201 705
+WARNING 2025-07-08 02:48:58,276 log 36821 139691356358208 Method Not Allowed: /api/ordenes-trabajo/reportar-falla/
+WARNING 2025-07-08 02:48:58,276 basehttp 36821 139691356358208 "HEAD /api/ordenes-trabajo/reportar-falla/ HTTP/1.1" 405 0
+INFO 2025-07-08 02:49:05,306 basehttp 36821 139691356358208 "POST /api/ordenes-trabajo/reportar-falla/ HTTP/1.1" 201 684
+INFO 2025-07-09 00:11:34,947 basehttp 36821 139691356358208 "POST /api/ordenes-trabajo/reportar-falla/ HTTP/1.1" 201 699
