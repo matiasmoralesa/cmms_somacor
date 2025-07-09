@@ -347,7 +347,7 @@ class EvidenciaOT(models.Model):
     descripcion = models.CharField(db_column='Descripcion', max_length=255, blank=True, null=True)
     imagen_base64 = models.TextField(db_column='ImagenBase64', help_text="Imagen almacenada en formato Base64")
     fecha_subida = models.DateTimeField(db_column='FechaSubida', auto_now_add=True)
-    usuario_subida = models.ForeignKey(User, on_delete=models.PROTECT, db_column='UsuarioSubida')
+    usuario_subida = models.ForeignKey(User, on_delete=models.PROTECT, db_column='UsuarioSubida', null=True, blank=True)
     
     def __str__(self):
         return f"Evidencia {self.idevidencia} - OT {self.idordentrabajo.numeroot}"
