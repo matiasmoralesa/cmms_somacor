@@ -305,7 +305,21 @@ class EvidenciaOTSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def create(self, validated_data):
-        # Asignar automáticamente el usuario actual como quien sube la evidencia
-        validated_data['usuario_subida'] = self.context['request'].user
+        # Obtener o crear usuario por defecto si no hay autenticación
+        request = self.context.get('request')
+        if request and hasattr(request, 'user') and request.user.is_authenticated:
+            validated_data['usuario_subida'] = request.user
+        else:
+            # Crear o usar usuario por defecto para evidencias
+            usuario_defecto, created = User.objects.get_or_create(
+                username='operador_evidencias',
+                defaults={
+                    'first_name': 'Operador',
+                    'last_name': 'Evidencias',
+                    'email': 'evidencias@somacor.com'
+                }
+            )
+            validated_data['usuario_subida'] = usuario_defecto
+        
         return super().create(validated_data)
 

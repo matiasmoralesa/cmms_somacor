@@ -148,7 +148,7 @@ const UnplannedMaintenanceView: React.FC = () => {
             if (images.length > 0) {
                 console.log(`Subiendo ${images.length} imágenes para OT ${ordenTrabajoId}`);
                 const imagePromises = images.map(image => 
-                    apiClient.post('evidencia-ot/', {
+                    apiClient.post('evidencias-ot/', {
                         idordentrabajo: ordenTrabajoId,
                         descripcion: image.descripcion || 'Evidencia de falla reportada',
                         imagen_base64: image.imagen_base64,
