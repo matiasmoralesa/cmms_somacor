@@ -421,13 +421,22 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
 
             try:
                 with transaction.atomic():
+                    # Establecer fechas automáticamente
+                    fecha_actual = timezone.now()
+                    fecha_emision = fecha_actual.date()  # Solo fecha para fechaemision
+                    
+                    # Para mantenimiento correctivo, programar ejecución para el mismo día
+                    fecha_ejecucion = fecha_emision
+                    
                     nueva_ot = OrdenesTrabajo.objects.create(
                         numeroot=generar_numero_ot_unico(equipo, 'CORR'),
                         idequipo=equipo,
                         idtipomantenimientoot=tipo_ot,
                         idestadoot=estado_inicial,
                         descripcionproblemareportado=descripcion,
-                        fechareportefalla=timezone.now(),
+                        fechareportefalla=fecha_actual,
+                        fechaemision=fecha_emision,
+                        fechaejecucion=fecha_ejecucion,
                         idsolicitante=solicitante,
                         idtecnicoasignado=solicitante,
                         prioridad=prioridad,
@@ -448,6 +457,62 @@ class OrdenTrabajoViewSet(viewsets.ModelViewSet):
             print(f"Error en reportar_falla: {error_detail}")  # Para debugging
             return Response({
                 'error': f'Error interno del servidor: {str(e)}'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=True, methods=['post'], url_path='completar')
+    def completar_orden(self, request, pk=None):
+        """
+        Completa una orden de trabajo estableciendo fechacompletado automáticamente
+        """
+        try:
+            orden = self.get_object()
+            
+            # Verificar que la orden no esté ya completada
+            if orden.fechacompletado:
+                return Response({
+                    'error': 'Esta orden de trabajo ya está completada.'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Obtener o crear estado "Completada"
+            try:
+                estado_completada = EstadosOrdenTrabajo.objects.get(nombreestadoot='Completada')
+            except EstadosOrdenTrabajo.DoesNotExist:
+                estado_completada = EstadosOrdenTrabajo.objects.create(
+                    nombreestadoot='Completada',
+                    descripcion='Orden de trabajo completada exitosamente.'
+                )
+            
+            # Actualizar la orden con fecha de completado y estado
+            orden.fechacompletado = timezone.now()
+            orden.idestadoot = estado_completada
+            
+            # Agregar observaciones finales si se proporcionan
+            observaciones_finales = request.data.get('observacionesfinales', '')
+            if observaciones_finales:
+                if orden.observacionesfinales:
+                    orden.observacionesfinales += f"\n\nCompletado: {observaciones_finales}"
+                else:
+                    orden.observacionesfinales = observaciones_finales
+            
+            # Calcular tiempo total si hay actividades
+            tiempo_total = request.data.get('tiempototalminutos')
+            if tiempo_total:
+                try:
+                    orden.tiempototalminutos = int(tiempo_total)
+                except (ValueError, TypeError):
+                    pass
+            
+            orden.save()
+            
+            serializer = self.get_serializer(orden)
+            return Response({
+                'message': 'Orden de trabajo completada exitosamente.',
+                'orden': serializer.data
+            }, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            return Response({
+                'error': f'Error al completar la orden de trabajo: {str(e)}'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ActividadOrdenTrabajoViewSet(viewsets.ModelViewSet):
