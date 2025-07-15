@@ -135,12 +135,12 @@ export const getDefaultRoute = (): string => {
     case 'Admin':
     case 'Administrador':
     case 'Supervisor':
-      return '/dashboard';
+      return '/dashboard'; // Administradores y Supervisores van al Dashboard
     case 'Operador':
     case 'Técnico':
-      return '/estado-maquina';
+      return '/estado-maquina'; // Operadores y Técnicos van al Estado de la Máquina
     default:
-      return '/dashboard';
+      return '/estado-maquina'; // Por defecto, ir al Estado de la Máquina
   }
 };
 
